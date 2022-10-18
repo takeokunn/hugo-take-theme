@@ -1,21 +1,15 @@
 # theme.toml template for a Hugo theme
 # See https://github.com/gohugoio/hugoThemes#themetoml for an example
 
-name = "Hugo Take Theme"
+name = "hugo take theme"
 license = "MIT"
-licenselink = "https://github.com/takeokunn/blog/blob/master/LICENSE"
+licenselink = "https://github.com/takeokunn/hugo-take-theme/blob/master/LICENSE"
 description = ""
-homepage = "http://example.com/"
+homepage = "https://github.com/takeokunn/hugo-take-theme"
 tags = []
 features = []
 min_version = "0.41.0"
 
 [author]
-  name = ""
-  homepage = ""
-
-# If porting an existing theme
-[original]
-  name = ""
-  homepage = ""
-  repo = ""
+  name = "takeokunn"
+  homepage = "https://github.com/takeokunn/hugo-take-theme"
