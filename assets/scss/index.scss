@@ -2,6 +2,9 @@
 @import "./variable";
 @import "./common";
 
+// 404
+@import "./not_found";
+
 // partials
 @import "./partials/header";
 @import "./partials/footer";
@@ -10,4 +13,3 @@
 @import "./default/list";
 @import "./default/single";
 @import "./default/terms";
-
