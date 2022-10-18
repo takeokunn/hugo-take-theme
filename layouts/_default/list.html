@@ -10,10 +10,10 @@
         </section>
     {{ end }}
 
-    {{ if and .Title (eq .Type "tags") }}
+    {{ if .Title }}
         <section class="hero">
             <div class="hero-body has-text-centered">
-                <h1 class="title">#{{ .Title }}</h1>
+                <h1 class="title">{{ if (eq .Type "tags") }}#{{ end }}{{ .Title }}</h1>
             </div>
         </section>
     {{ end }}
