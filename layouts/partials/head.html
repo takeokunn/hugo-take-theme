@@ -58,7 +58,7 @@
     <link rel="preconnect" href="https://www.googletagmanager.com">
 
     <!-- sitemap -->
-    {{ range .AlternativeOutputFormats }}
+    {{ with .Site.Home.AlternativeOutputFormats.Get "RSS" }}
         <link
             rel="{{ .Rel }}"
             type="{{ .MediaType.Type }}"

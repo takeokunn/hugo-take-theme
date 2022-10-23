@@ -6,12 +6,7 @@ header {
         .navbar-brand {
             img {
                 border-radius: 50%;
-                @media (max-width: 768px) {
-                    max-height: 2rem;
-                }
-                @media (min-width: 768px) {
-                    max-height: 2.4rem;
-                }
+                max-height: 2.4rem;
             }
             .navbar-sp {
                 padding: .5rem .75rem;
@@ -20,10 +15,11 @@ header {
                 @media (min-width: 768px) {
                     display: none;
                 }
-                .button {
-                    border: 0px;
-                    span {
-                        font-size: 1.5rem;
+                .buttons {
+                    .button {
+                        border: 0px;
+                        margin-bottom: 0;
+                        font-size: 1rem;
                     }
                 }
             }

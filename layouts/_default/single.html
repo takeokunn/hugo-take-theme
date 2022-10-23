@@ -12,8 +12,8 @@
                     {{ end }}
                 </li>
                 <li>
-                    <span class="icon"><i class="fas fa-hashtag"></i></span>
                     {{ if .Params.tags }}
+                        <span class="icon"><i class="fas fa-hashtag"></i></span>
                         {{ range .Params.tags }}
                             {{ $href := print (absURL "tags/") (urlize .) }}
                             <a href="{{ $href }}">{{ . }}</a>
