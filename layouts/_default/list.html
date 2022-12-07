@@ -8,7 +8,7 @@
                 <h2 class="subtitle">poem driven development</h2>
             </div>
         </section>
-    {{ else if and .Title (eq .Type "tags") }}
+    {{ else if or .Title (eq .Type "tags") }}
         <section class="hero">
             <div class="hero-body has-text-centered">
                 <h1 class="title">{{ if (eq .Type "tags") }}#{{ end }}{{ .Title }}</h1>
