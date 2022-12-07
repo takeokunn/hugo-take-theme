@@ -1,0 +1,7 @@
+* hugo-take-theme
+
+hugo theme for [[https://takeokunn.org][takeokunn.org]]
+
+** LICENSE
+
+GPL v3
