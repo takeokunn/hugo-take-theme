@@ -21,6 +21,9 @@ footer {
     > p {
         text-align: center;
         color: white;
+        &:first-of-type {
+            margin-bottom: 20px;
+        }
         > a {
             text-decoration: underline;
         }
