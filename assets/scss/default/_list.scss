@@ -39,8 +39,15 @@ main.list {
                 display: flex;
                 align-items: center;
                 margin-bottom: 0.5rem;
+                @media (max-width: 500px) {
+                    flex-direction: column;
+                }
                 > li {
                     margin-right: 0.5rem;
+                    @media (max-width: 500px) {
+                        margin-right: 0;
+                        margin-bottom: 0.5rem;
+                    }
                     > a {
                         font-weight: bold;
                         &:after {
