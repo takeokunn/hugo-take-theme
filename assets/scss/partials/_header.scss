@@ -12,7 +12,7 @@ header {
                 padding: .5rem .75rem;
                 justify-content: flex-end;
                 margin-left: auto;
-                @media (min-width: 768px) {
+                @media (min-width: 1023px) {
                     display: none;
                 }
                 .buttons {
