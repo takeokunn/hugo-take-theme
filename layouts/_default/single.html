@@ -5,12 +5,12 @@
         <article class="column is-half is-offset-one-quarter">
             <h1 class="title">{{ .Title }}</h1>
             <ul class="info">
+                {{ if .Date }}
                 <li>
                     <span class="icon"><i class="far fa-calendar-alt"></i></span>
-                    {{ if .Date }}
-                        <span><time>{{ .Date | time.Format ":date_medium" }}</time></span>
-                    {{ end }}
+                    <span><time>{{ .Date | time.Format ":date_medium" }}</time></span>
                 </li>
+                {{ end }}
                 <li>
                     {{ if .Params.tags }}
                         <span class="icon"><i class="fas fa-hashtag"></i></span>
