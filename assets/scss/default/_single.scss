@@ -14,9 +14,17 @@ main.single {
         ul.info {
             display: flex;
             margin-bottom: .5rem;
+            @media (max-width: 500px) {
+                flex-direction: column;
+                align-items: flex-start;
+            }
             > li {
                 &:first-of-type {
-                    margin-right: 10px;
+                    margin-right: 0.5rem;
+                    @media (max-width: 500px) {
+                        margin-right: 0;
+                        margin-bottom: 0.5rem;
+                    }
                 }
                 svg {
                     position: relative;

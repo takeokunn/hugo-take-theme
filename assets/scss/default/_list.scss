@@ -41,6 +41,7 @@ main.list {
                 margin-bottom: 0.5rem;
                 @media (max-width: 500px) {
                     flex-direction: column;
+                    align-items: flex-start;
                 }
                 > li {
                     margin-right: 0.5rem;
