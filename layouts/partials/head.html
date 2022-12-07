@@ -4,7 +4,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     {{ hugo.Generator }}
 
-    {{ if .Title }}
+    {{ if .IsHome }}
+        <title>{{ .Site.Title }}</title>
+    {{ else if .Title }}
         <title>{{ .Title }} - {{ .Site.Title }}</title>
     {{ else }}
         <title>{{ .Site.Title }}</title>
@@ -56,6 +58,7 @@
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="preconnect" href="https://www.google-analytics.com">
     <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://raw.githubusercontent.com">
 
     <!-- sitemap -->
     {{ with .Site.Home.AlternativeOutputFormats.Get "RSS" }}
