@@ -7,13 +7,13 @@
             <ul class="info">
                 {{ if .Date }}
                 <li>
-                    <span class="icon"><i class="far fa-calendar-alt"></i></span>
+                    <span><i class="far fa-calendar-alt"></i></span>
                     <span><time>{{ .Date | time.Format ":date_medium" }}</time></span>
                 </li>
                 {{ end }}
                 <li>
                     {{ if .Params.tags }}
-                        <span class="icon"><i class="fas fa-hashtag"></i></span>
+                        <span><i class="fas fa-hashtag"></i></span>
                         {{ range .Params.tags }}
                             {{ $href := print (absURL "tags/") (urlize .) }}
                             <a href="{{ $href }}">{{ . }}</a>
