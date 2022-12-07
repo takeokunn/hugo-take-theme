@@ -13,3 +13,8 @@
 @import "./default/list";
 @import "./default/single";
 @import "./default/terms";
+
+// for prisma
+main.single article>.content code {
+    color: white !important;
+}
