@@ -15,6 +15,6 @@
 @import "./default/terms";
 
 // for prisma
-main.single article>.content code {
+pre code {
     color: white !important;
 }
