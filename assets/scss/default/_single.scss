@@ -4,10 +4,8 @@ main.single {
     @media screen and (max-width: 1023px) {
         padding: 2.5rem 1.5rem;
     }
-    .google-slide {
-        > iframe {
-            width: 100%;
-        }
+    iframe {
+        width: 100%;
     }
     article {
         h1 {
