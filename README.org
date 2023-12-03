@@ -1,6 +1,10 @@
+#+STARTUP: content
+#+STARTUP: fold
 * hugo-take-theme
 
-hugo theme for [[https://takeokunn.org][takeokunn.org]]
+This project is hugo theme for [[https://github.com/takeokunn/blog][takeokunn/blog]].
+
+https://takeokunn.org/
 
 ** LICENSE
 
