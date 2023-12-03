@@ -1,7 +1,7 @@
 header {
     > nav {
         &.nav-shadow {
-            box-shadow: 0 4px 12px 0 rgba(0, 0, 0, .05)
+            box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.05);
         }
         .navbar-brand {
             img {
@@ -9,7 +9,7 @@ header {
                 max-height: 3rem;
             }
             .navbar-sp {
-                padding: .5rem .75rem;
+                padding: 0.5rem 0.75rem;
                 justify-content: flex-end;
                 margin-left: auto;
                 @media (min-width: 1023px) {

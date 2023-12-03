@@ -1,11 +1,17 @@
 html {
-    @media(max-width: 450px) {
+    @media (max-width: 450px) {
         font-size: 75%;
     }
 }
 
 body {
-    font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;
+    font-family:
+        Circular,
+        -apple-system,
+        BlinkMacSystemFont,
+        Roboto,
+        Helvetica Neue,
+        sans-serif;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     color: $font-color;
