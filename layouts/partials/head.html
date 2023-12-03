@@ -40,7 +40,7 @@
     <meta property="og:url" content="{{ .Permalink }}">
     <meta property="og:site_name" content="{{ .Site.Title }}">
     {{if eq .Section "posts"}}
-        <meta property="og:image" content="{{ .Site.BaseURL }}ogp/{{ .ContentBaseName }}.png">
+        <meta property="og:image" content="{{ .Site.BaseURL }}ogp/{{ .File.ContentBaseName }}.png">
     {{ else }}
         <meta property="og:image" content="{{ .Site.Params.ogpImage | absURL }}">
     {{ end }}
