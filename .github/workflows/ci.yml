@@ -19,4 +19,4 @@ jobs:
       - name: Run textlint
         run: npm run lint:stylelint
       - name: Run secretlint
-        run: npm run lint:secret
+        run: npm run lint:secretlint
