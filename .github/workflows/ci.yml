@@ -16,7 +16,7 @@ jobs:
           cache: npm
       - name: Install npm
         run: npm ci
-      - name: Run textlint
+      - name: Run stylelint
         run: npm run lint:stylelint
       - name: Run secretlint
         run: npm run lint:secretlint
