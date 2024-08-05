@@ -19,6 +19,6 @@
     "secretlint": "^8.2.4",
     "stylelint": "^16.8.1",
     "stylelint-prettier": "^5.0.2",
-    "stylelint-scss": "^6.4.1"
+    "stylelint-scss": "^6.5.0"
   }
 }
