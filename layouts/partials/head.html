@@ -73,6 +73,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 
     <!-- style -->
-    {{ $style := resources.Get "scss/index.scss" | resources.ToCSS | minify | fingerprint }}
+    {{ $style := resources.Get "scss/index.scss" | css.Sass | minify | fingerprint }}
     <link rel="stylesheet" href="{{ $style.Permalink }}">
 </head>
