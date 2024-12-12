@@ -1,6 +1,3 @@
-# theme.toml template for a Hugo theme
-# See https://github.com/gohugoio/hugoThemes#themetoml for an example
-
 name = "hugo take theme"
 license = "MIT"
 licenselink = "https://github.com/takeokunn/hugo-take-theme/blob/master/LICENSE"
