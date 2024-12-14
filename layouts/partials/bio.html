@@ -1,0 +1,17 @@
+{{ $avatar_img := "avatar.png" }}
+{{ $avatar_img_alt := "Sidharth R" }}
+{{ $image := resources.Get $avatar_img }}
+<div class="author">
+    {{ with $image }}
+    {{ if eq .MediaType.SubType "svg" }}
+    <svg width="25em" height="25em" xmlns="http://www.w3.org/2000/svg">
+        <image width="25em" height="25em" href="{{ $image.RelPermalink }}" />
+    </svg>
+    {{ else }}
+    {{ $image := $image.Fill "100x100 webp" }}
+    <img class="author-avatar" src="{{ $image.RelPermalink }}" alt="{{ $avatar_img_alt }}" width="{{ .Width }}" height="{{ .Height }}" />
+    {{ end }}
+    {{ end }}
+    <h2 class="author-name">Awesome hugo blog</h2>
+    <p class="author-bio">A fast, minimalistic Hugo theme with light and dark mode support, for running a personal site or blog.</p>
+</div>

@@ -1,0 +1,8 @@
+{{- $toc := .Site.Params.toc -}}
+
+{{ $toc = .Params.toc }}
+
+<details class="toc">
+    <summary><b>Table of Contents</b></summary>
+    {{ .TableOfContents }}
+</details>

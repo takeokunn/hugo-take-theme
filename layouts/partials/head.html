@@ -1,74 +1,53 @@
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    {{ hugo.Generator }}
+    {{- partial "meta/main.html" . }}
+    {{- hugo.Generator }}
 
-    {{ if .IsHome }}
-        <title>{{ .Site.Title }}</title>
-    {{ else if .Title }}
-        <title>{{ .Title }} - {{ .Site.Title }}</title>
-    {{ else }}
-        <title>{{ .Site.Title }}</title>
-    {{ end }}
+    {{/* Open Graph tags */}}
+    {{ template "_internal/opengraph.html" . }}
 
-    <!-- for seo -->
-    <meta name="HandheldFriendly" content="True">
-    <meta name="MobileOptimized" content="320">
+    {{/* Twitter Card tags */}}
+    {{ template "_internal/twitter_cards.html" . }}
+
+    {{/* Canonical link, RSS */}}
+
     <link rel="canonical" href="{{ .Permalink }}">
+    {{- with .OutputFormats.Get "RSS" }}
+    <link href="{{ .RelPermalink }}" rel="alternate" type="application/rss+xml" title="{{ $.Site.Title }}">
+    <link href="{{ .RelPermalink }}" rel="feed" type="application/rss+xml" title="{{ $.Site.Title }}">
+    {{- end }}
 
-    <!-- meta -->
-    {{ if .Title }}
-        <meta name="title" content="{{ .Title }} - {{ .Site.Title }}">
-    {{ else }}
-        <meta name="title" content="{{ .Site.Title }}">
+    {{- /* Styles */ -}}
+
+    {{- $style := resources.Get "sass/main.scss" | resources.ExecuteAsTemplate "style.scss" . | toCSS (dict "targetPath" "style.css") | minify | fingerprint }}
+    <link href="{{ $style.RelPermalink }}" rel="stylesheet">
+    {{- $code_syntax_highlight_css := resources.Get "code-highlight.css" | minify | fingerprint }}
+    <link href="{{ $code_syntax_highlight_css.RelPermalink }}" rel="stylesheet">
+
+    {{/* Favicons */}}
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ (resources.Get "icons/apple-touch-icon.png").RelPermalink }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ (resources.Get "icons/favicon-32x32.png").RelPermalink }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ (resources.Get "icons/favicon-16x16.png").RelPermalink }}">
+    <link rel="mask-icon" href="{{ (resources.Get "icons/safari-pinned-tab.svg").RelPermalink }}">
+    <link rel="shortcut icon" href="{{ (resources.Get "icons/favicon.ico" | resources.Copy "favicon.ico").RelPermalink }}">
+
+    {{- partial "webmanifest.html" . -}}
+
+    <meta name="theme-color" content="{{ .Site.Params.webmanifest.theme_color | default "#434648" }}">
+
+    {{/* SVG favicon for the modern web */}}
+    <link rel="icon" type="image/svg+xml" href="{{ (resources.Get "icons/favicon.svg").RelPermalink }}">
+
+    {{/* Katex support (enabled on specific pages). See 'helpers/katex.html' for more info. */}}
+
+    {{- if or .Params.math .Site.Params.math }}{{ partial "helpers/katex.html" . -}}{{- end -}}
+
+    {{/* Google analytics script. See hugo.toml to enable/disable this. */}}
+    {{- if hugo.IsProduction | or (eq site.Params.env "production") }}
+    {{ template "_internal/google_analytics.html" . }}
+    {{- end -}}
+
+    {{/* Extend head with user supplied partial */}}
+    {{ if templates.Exists "partials/custom-head.html" }}
+    {{ partial "custom-head.html" . }}
     {{ end }}
-    {{ if .Summary }}
-        <meta name="description" content="{{ .Summary }}">
-    {{ else }}
-        <meta name="description" content="{{ .Site.Params.description }}">
-    {{ end }}
-
-    <!-- ogp -->
-    <meta property="og:locale" content="ja_JP">
-    {{ if .Title }}
-        <meta property="og:title" content="{{ .Title }}">
-    {{ else }}
-        <meta property="og:title" content="{{ .Site.Title }}">
-    {{ end }}
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="{{ .Permalink }}">
-    <meta property="og:site_name" content="{{ .Site.Title }}">
-    <meta property="og:image" content="{{ .Site.Params.ogpImage | absURL }}">
-    {{ if .Summary }}
-        <meta property="og:description" content="{{ .Summary }}">
-    {{ else }}
-        <meta property="og:description" content="{{ .Site.Params.description }}">
-    {{ end }}
-    <meta name="twitter:site" content="@{{ .Site.Params.twitter }}">
-    <meta name="twitter:card" content="summary_large_image">
-
-    <!-- preconnect -->
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
-    <link rel="preconnect" href="https://use.fontawesome.com">
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="preconnect" href="https://www.google-analytics.com">
-    <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="preconnect" href="https://raw.githubusercontent.com">
-
-    <!-- sitemap -->
-    {{ with .Site.Home.AlternativeOutputFormats.Get "RSS" }}
-        <link
-            rel="{{ .Rel }}"
-            type="{{ .MediaType.Type }}"
-            href="{{ .Permalink }}"
-            title="{{ site.Title }}">
-    {{ end }}
-
-    <!-- cdn -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-
-    <!-- style -->
-    {{ $style := resources.Get "scss/index.scss" | css.Sass | minify | fingerprint }}
-    <link rel="stylesheet" href="{{ $style.Permalink }}">
 </head>

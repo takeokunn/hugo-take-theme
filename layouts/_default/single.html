@@ -1,47 +1,23 @@
 {{ define "main" }}
-
-<main class="single container">
-    <div class="columns">
-        <article class="column is-half is-offset-one-quarter">
-            <h1 class="title">{{ .Title }}</h1>
-            <ul class="info">
-                {{ if .Date }}
-                <li>
-                    <span><i class="far fa-calendar-alt"></i></span>
-                    <span><time>{{ .Date | time.Format ":date_medium" }}</time></span>
-                </li>
+<div class="wrapper post">
+    <main class="page-content" aria-label="Content">
+        <article>
+            <header class="header">
+                <h1 class="header-title">{{ .Title }}</h1>
+                {{ $configDateFormat := .Site.Params.dateFormat | default ":date_medium" }}
+                {{ with .Date }}
+                {{ $ISO_time := dateFormat "2006-01-02T15:04:05-07:00" . }}
+                <div class="post-meta">
+                    <time datetime="{{ $ISO_time }}" itemprop="datePublished"> {{ . | time.Format $configDateFormat }} </time>
+                </div>
                 {{ end }}
-                <li>
-                    {{ if .Params.tags }}
-                        <span><i class="fas fa-hashtag"></i></span>
-                        {{ range .Params.tags }}
-                            {{ $href := print (absURL "tags/") (urlize .) }}
-                            <a href="{{ $href }}">{{ . }}</a>
-                        {{ end }}
-                    {{ end }}
-                </li>
-            </ul>
-            <div class="content">{{ .Content }}</div>
+            </header>
+            {{ partial "toc.html" .}}
+            <div class="page-content">
+                {{ .Content }}
+            </div>
         </article>
-    </div>
-    <div class="columns recent-wrapper">
-        <div class="column is-half is-offset-one-quarter">
-            <ul>
-                {{ with .PrevInSection }}
-                    <li>
-                        <p class="label">Previous</p>
-                        <p class="title"><a href="{{ .Permalink }}">{{ .Title }}</a></p>
-                    </li>
-                {{ end }}
-                {{ with .NextInSection }}
-                    <li>
-                        <p class="label">Next</p>
-                        <p class="title"><a href="{{ .Permalink }}">{{ .Title }}</a></p>
-                    </li>
-                {{ end }}
-            </ul>
-        </div>
-    </div>
-</main>
-
+        {{- partial "comments.html" . -}}
+    </main>
+</div>
 {{ end }}

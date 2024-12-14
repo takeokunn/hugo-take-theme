@@ -4,8 +4,8 @@ licenselink = "https://github.com/takeokunn/hugo-take-theme/blob/master/LICENSE"
 description = ""
 homepage = "https://github.com/takeokunn/hugo-take-theme"
 tags = []
-features = []
-min_version = "0.41.0"
+features = ["blog", "sass", "dark"]
+min_version = "0.87.0"
 
 [author]
   name = "takeokunn"

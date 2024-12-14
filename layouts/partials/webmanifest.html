@@ -1,0 +1,12 @@
+{{
+    $ctx := (dict
+        "name" (default .Site.Params.sitename | default .Site.Title)
+        "short_name" (default .Site.Params.sitename | default .Site.Title)
+        "start_url" (default .Site.Home.Permalink)
+        "theme_color" (default "#434648")
+        "background_color" (default "#131418")
+        "display" (default "standalone")
+    )
+
+}}
+<link rel="manifest" href="{{ (resources.Get "icons/site.webmanifest" | resources.ExecuteAsTemplate "site.webmanifest" $ctx).Permalink }}">

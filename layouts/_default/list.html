@@ -1,65 +1,23 @@
-{{ define "main" }}
+{{- define "main" -}}
+<div class="wrapper list-page">
+    <header class="header">
+        <h1 class="header-title center">{{ .Title }}</h1>
+    </header>
+    <main class="page-content" aria-label="Content">
+        {{ range .Pages.GroupByDate "2006" }}
+        {{ $year := .Key }}
+        <h2 class="post-year">{{ $year }}</h2>
 
-<main class="list container">
-    {{ if .IsHome }}
-        <section class="hero">
-            <div class="hero-body has-text-centered">
-                <h1 class="title">takeokunn's blog</h1>
-                <p class="subtitle">stand with emacs</p>
-            </div>
-        </section>
-    {{ else if and .Title (eq .Type "tags") }}
-        <section class="hero">
-            <div class="hero-body has-text-centered">
-                <h1 class="title">{{ if (eq .Type "tags") }}#{{ end }}{{ .Title }}</h1>
-            </div>
-        </section>
-    {{ end }}
+        {{/* create a list of posts for each month, with month as heading */}}
 
-    {{ $pages := union .RegularPages .Sections }}
-    {{ if .IsHome }}
-        {{ $pages = where site.RegularPages "Type" "in" site.Params.mainSections }}
-    {{ end }}
+        {{ range .Pages }}
 
-    {{ $paginator := .Paginate $pages }}
-    <div class="columns">
-        <div class="column is-half is-offset-one-quarter">
-            <ul class="posts">
-                {{ range $index, $page := $paginator.Pages }}
-                    <li class="post">
-                        <p class="title">
-                            <a href="{{ .Permalink }}">{{ .Title }}</a>
-                        </p>
-                        <ul class="info">
-                            <li>
-                                <span><i class="far fa-calendar-alt"></i></span>
-                                <time>{{ .Date | time.Format ":date_medium" }}</time>
-                            </li>
-                            {{ if .Params.tags }}
-                                <li>
-                                    <span>#</span>
-                                    {{ range .Params.tags }}
-                                        {{ $href := print (absURL "tags/") (urlize .) }}
-                                        <a href="{{ $href }}">{{ . }}</a>
-                                    {{ end }}
-                                </li>
-                            {{ end }}
-                        </ul>
-                    </li>
-                {{ end }}
-            </ul>
-            {{ if gt $paginator.TotalPages 1 }}
-                <nav class="pagination">
-                    {{ if $paginator.HasPrev }}
-                        <a class="btn" href="{{ $paginator.Prev.URL }}">← Prev Page</a>
-                    {{ end }}
-                    {{ if $paginator.HasNext }}
-                        <a class="btn ml-auto" href="{{ $paginator.Next.URL }}">Next Page →</a>
-                    {{ end }}
-                </nav>
-            {{ end }}
-        </div>
-    </div>
-</main>
+        {{ partial "postCard" . }}
 
-{{ end }}
+        {{ end }} {{/* end range .Pages */}}
+
+        {{ end }} {{/* end range .Pages.GroupByDate "2006" */}}
+
+    </main>
+</div>
+{{- end -}}

@@ -6,8 +6,8 @@
   "scripts": {
     "lint": "run-s lint:stylelint lint:secretlint",
     "lint:fix": "run-s lint:stylelint:fix",
-    "lint:stylelint": "stylelint 'assets/scss/**/*.scss'",
-    "lint:stylelint:fix": "stylelint --fix 'assets/scss/**/*.scss'",
+    "lint:stylelint": "stylelint 'assets/sass/**/*.scss'",
+    "lint:stylelint:fix": "stylelint --fix 'assets/sass/**/*.scss'",
     "lint:secretlint": "secretlint '**/*'"
   },
   "devDependencies": {

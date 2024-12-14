@@ -1,8 +1,12 @@
-{{ define "main" }}
+{{ define "title"}}
+    404 |  NOT FOUND
+{{ end }}
 
-<main class="notfound">
-    <p>404 not found</p>
-    <p><a href="/">Topへ戻る</a></p>
-</main>
-
+{{ define "main"}}
+<div class="wrapper">
+    <main class="main-404" aria-label="Content">
+        <h1>404 NOT FOUND</h1>
+        <p>You just hit a route that doesn't exist.</p>
+    </main>
+</div>
 {{ end }}

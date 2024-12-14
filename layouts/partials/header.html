@@ -1,27 +1,28 @@
-<header>
-    <nav class="navbar nav-shadow" role="navigation" aria-label="main navigation">
-        <div class="container">
-            <div class="navbar-brand">
-                <a href="/" class="navbar-item">
-                    <img src="{{ .Site.Params.icon | absURL }}" alt="icon">
-                </a>
-                <div class="navbar-sp">
-                    <div class="buttons">
-                        <a href="/about" class="button">About</a>
-                        <a href="/tags" class="button">Tags</a>
-                    </div>
-                </div>
-            </div>
-            <div class="navbar-menu">
-                <div class="navbar-end">
-                    <div class="navbar-item">
-                        <div class="buttons">
-                            <a href="/about" class="button">About</a>
-                            <a href="/tags" class="button">Tags</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<div class="navbar" role="navigation">
+    <nav class="menu" aria-label="Main Navigation">
+        <a href="{{ .Site.Home.Permalink }}" class="logo">
+            {{ partial "svgs/home.svg" (dict "height" 25 "width" 25) . }}
+        </a>
+        <input type="checkbox" id="menu-trigger" class="menu-trigger" />
+        <label for="menu-trigger">
+            <span class="menu-icon">
+                {{ partial "svgs/menu.svg" (dict "height" 25 "width" 25) . }}
+            </span>
+        </label>
+        <div class="trigger">
+            <ul class="trigger-container">
+                {{ $currentPage := . }}
+                <li>
+                    <a class="menu-link {{ if eq .RelPermalink "/" }}active{{ end }}" href="/">
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <a class="menu-link {{ if eq .RelPermalink "/posts/" }}active{{ end }}" href="/posts/">
+                        Posts
+                    </a>
+                </li>
+            </ul>
         </div>
     </nav>
-</header>
+</div>
