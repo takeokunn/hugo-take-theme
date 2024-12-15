@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja-JP">
     {{- partial "head.html" . -}}
-    <body data-theme = "{{ .Site.Params.defaultColor }}" class="notransition">
+    <body class="notransition">
         {{- partial "header.html" . -}}
         {{- block "main" . }}{{- end }}
         {{- partial "footer.html" . -}}

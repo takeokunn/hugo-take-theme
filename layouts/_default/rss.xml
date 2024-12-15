@@ -1,4 +1,3 @@
-<!-- Taken from Hugo default RSS template: https://github.com/gohugoio/hugo/blob/master/tpl/tplimpl/embedded/templates/_default/rss.xml -->
 {{- $pctx := . -}}
 {{- if .IsHome -}}{{ $pctx = .Site }}{{- end -}}
 {{- $pages := slice -}}

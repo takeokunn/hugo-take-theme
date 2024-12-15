@@ -2,7 +2,7 @@
 <meta http-equiv="content-type" content="text/html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title itemprop="name">{{ .Title }} | {{ .Site.Title }}</title>
+<title itemprop="name">{{ .Title }} | takeokunn's blog</title>
 <meta property="og:title" content="{{ .Title }} | {{ .Site.Title }}" />
 <meta name="twitter:title" content="{{ .Title }} | {{ .Site.Title }}" />
 <meta itemprop="name" content="{{ .Title }} | {{ .Site.Title }}" />
@@ -14,10 +14,10 @@
 
 {{/*  If description is defined in front matter, use it  */}}
 {{- if .Params.description -}}
-  {{- $description = trim .Params.description "\n" -}}
+{{- $description = trim .Params.description "\n" -}}
 {{/*  If description is not defined in front matter, use site description  */}}
 {{- else if .Site.Params.description -}}
-  {{- $description = trim .Site.Params.description "\n" -}}
+{{- $description = trim .Site.Params.description "\n" -}}
 {{- end -}}
 
 <meta name="description" content="{{ $description }}">
@@ -28,7 +28,7 @@
 <meta property="og:locale" content="{{ .Site.LanguageCode }}" />
 <meta name="language" content="{{ .Site.LanguageCode }}" />
 {{ range .AllTranslations }}
-  <link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" title="{{ .Language.LanguageName }}" />
+<link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" title="{{ .Language.LanguageName }}" />
 {{ end }}
 
 {{/*  Define empty variable image  */}}
@@ -36,10 +36,10 @@
 
 {{/*  If image is defined in front matter, use it  */}}
 {{- if .Params.image -}}
-  {{- $image = .Params.image -}}
+{{- $image = .Params.image -}}
 {{/*  If image is not defined in front matter, use site ogimage  */}}
 {{- else if .Site.Params.ogimage -}}
-  {{- $image = .Site.Params.ogimage -}}
+{{- $image = .Site.Params.ogimage -}}
 {{- end -}}
 
 {{- if $image -}}

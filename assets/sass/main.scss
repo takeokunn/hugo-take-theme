@@ -17,22 +17,22 @@ $gray: #6b7886;
 $white: #fff;
 
 //////////////// 2. Dark Colors /////////////////
-$dark-text-base-color: #babdc4;
-$dark-text-link-blue: #77a8fd;
-$dark-text-link-blue-active: #5292ff;
-$dark-bloquote-border: #4a4d56;
-$dark-blockquote-text: #9b9ba3;
-$dark-inline-code-text: #c2c4ca;
-$dark-inline-code-bg: #2d2d2d;
-$dark-toc-bg: #323232;
-$dark-go-top-bg: #676767b3;
-$dark-go-top-bg-hover: #676767;
+$dark-text-base-color: #ffffff; // 白 (通常のテキスト)
+$dark-text-link-blue: #00bfff;  // 明るい青 (リンク色)
+$dark-text-link-blue-active: #00d700; // 明るい緑 (アクティブリンク)
+$dark-bloquote-border: #ff79c6; // ピンク (引用の枠線)
+$dark-blockquote-text: #ffb86c; // 明るいオレンジ (引用のテキスト)
+$dark-inline-code-text: #ffffff; // 白 (インラインコードのテキスト)
+$dark-inline-code-bg: #44475a; // 暗いグレー (インラインコードの背景)
+$dark-toc-bg: #282a36; // 黒に近い紺 (目次背景)
+$dark-go-top-bg: #44475a; // ダークグレー (トップに戻るボタン背景)
+$dark-go-top-bg-hover: #6272a4; // 紫がかった青 (トップに戻るボタンホバー)
 
-$dark-black: #131418;
-$dark-white: #eaeaea;
-$dark-light: #1b1d25;
-$dark-smoke: #4a4d56;
-$dark-gray: #767f87;
+$dark-black: #181a1f; // 深い黒 (メイン背景)
+$dark-white: #f8f8f2; // 明るい灰色 (テキスト白)
+$dark-light: #44475a; // 暗いグレー (セカンダリ背景)
+$dark-smoke: #ff5555; // 赤 (スモークの色)
+$dark-gray: #8be9fd; // 明るいシアン (グレー系テキスト)
 
 //////////////// 3. Fonts preferences /////////////////
 $sans-family: Roboto, sans-serif;
