@@ -3,11 +3,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title itemprop="name">{{ .Title }} | takeokunn's blog</title>
-<meta property="og:title" content="{{ .Title }} | {{ .Site.Title }}" />
-<meta name="twitter:title" content="{{ .Title }} | {{ .Site.Title }}" />
-<meta itemprop="name" content="{{ .Title }} | {{ .Site.Title }}" />
-<meta name="application-name" content="{{ .Title }} | {{ .Site.Title }}" />
-<meta property="og:site_name" content="{{ .Site.Params.sitename }}" />
+<meta property="og:title" content="{{ .Title }} | {{ .Site.Title }}">
+<meta name="twitter:title" content="{{ .Title }} | {{ .Site.Title }}">
+<meta itemprop="name" content="{{ .Title }} | {{ .Site.Title }}">
+<meta name="application-name" content="{{ .Title }} | {{ .Site.Title }}">
+<meta property="og:site_name" content="{{ .Site.Params.sitename }}">
 
 {{/*  Define empty variable description  */}}
 {{- $description := "" -}}
@@ -21,14 +21,14 @@
 {{- end -}}
 
 <meta name="description" content="{{ $description }}">
-<meta itemprop="description" content="{{ $description }}" />
-<meta property="og:description" content="{{ $description }}" />
-<meta name="twitter:description" content="{{ $description }}" />
+<meta itemprop="description" content="{{ $description }}">
+<meta property="og:description" content="{{ $description }}">
+<meta name="twitter:description" content="{{ $description }}">
 
-<meta property="og:locale" content="{{ .Site.LanguageCode }}" />
-<meta name="language" content="{{ .Site.LanguageCode }}" />
+<meta property="og:locale" content="{{ .Site.LanguageCode }}">
+<meta name="language" content="{{ .Site.LanguageCode }}">
 {{ range .AllTranslations }}
-<link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" title="{{ .Language.LanguageName }}" />
+<link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" title="{{ .Language.LanguageName }}">
 {{ end }}
 
 {{/*  Define empty variable image  */}}
@@ -43,8 +43,8 @@
 {{- end -}}
 
 {{- if $image -}}
-<meta itemprop="image" content="{{ $image | absURL }}" />
-<meta property="og:image" content="{{ $image | absURL }}" />
-<meta name="twitter:image" content="{{ $image | absURL }}" />
-<meta name="twitter:image:src" content="{{ $image | absURL }}" />
+<meta itemprop="image" content="{{ $image | absURL }}">
+<meta property="og:image" content="{{ $image | absURL }}">
+<meta name="twitter:image" content="{{ $image | absURL }}">
+<meta name="twitter:image:src" content="{{ $image | absURL }}">
 {{- end -}}
