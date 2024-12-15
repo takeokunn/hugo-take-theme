@@ -2,9 +2,6 @@
     <h4 class="post-item-title">
         <a href="{{ .RelPermalink }}">{{ .Title }}</a>
     </h4>
-    {{/* format date string to create an ISO 8601 string */}}
-    {{ $ISO_date := "2006-01-02T15:04:05Z0700" }}
-    {{ $configDateFormat := .Site.Params.dateFormat | default "2 Jan 2006" }}
     {{ if .Params.isStarred }}
     <div class="post-item-right">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor" class="icon-star">
@@ -12,7 +9,7 @@
         </svg>
     </div>
     {{ end }}
-    <time class="post-item-meta" datetime="{{ dateFormat $ISO_date .Date }}">
-        {{ time.Format $configDateFormat .Date }}
+    <time class="post-item-meta" datetime="{{ .Date.Format .Site.Params.DateForm }}">
+        {{ .Date.Format .Site.Params.DateForm }}
     </time>
 </article>
