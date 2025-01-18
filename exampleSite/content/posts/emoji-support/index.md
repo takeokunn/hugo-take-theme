@@ -5,6 +5,7 @@ author: Hugo Authors
 description: Guide to emoji usage in Hugo
 tags:
   - emoji
+  - aa
 ---
 
 Os emojis podem ser habilitados em um projeto Hugo de várias maneiras.
@@ -33,9 +34,9 @@ O [Emoji cheat sheet](http://www.emoji-cheat-sheet.com/) é uma referência úti
 {{< css.inline >}}
 <style>
 .emojify {
-	font-family: Apple Color Emoji, Segoe UI Emoji, NotoColorEmoji, Segoe UI Symbol, Android Emoji, EmojiSymbols;
-	font-size: 2rem;
-	vertical-align: middle;
+    font-family: Apple Color Emoji, Segoe UI Emoji, NotoColorEmoji, Segoe UI Symbol, Android Emoji, EmojiSymbols;
+    font-size: 2rem;
+    vertical-align: middle;
 }
 @media screen and (max-width:650px) {
   .nowrap {

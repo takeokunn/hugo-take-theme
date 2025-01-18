@@ -6,6 +6,11 @@ This project is hugo theme for [[https://github.com/takeokunn/blog][takeokunn/bl
 
 https://takeokunn.org/
 
+** Run locally
+#+begin_src console
+  $ cd exampleSite
+  $ hugo server --themesDir ../..
+#+end_src
 ** LICENSE
 
 GPL v3

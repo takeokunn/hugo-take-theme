@@ -4,6 +4,11 @@
         <article>
             <header class="header">
                 <h1 class="header-title">{{ .Title }}</h1>
+                <ul class="tags">
+                    {{ range .Params.tags }}
+                        <li><a href="{{ "tags/" | relURL }}{{ . | urlize }}">{{ . }}</a></li>
+                    {{ end }}
+                </ul>
                 <div class="post-meta">
                     <time datetime="{{ .Date.Format .Site.Params.DateForm  }}" itemprop="datePublished">
                         {{ .Date.Format .Site.Params.DateForm }}

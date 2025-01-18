@@ -24,6 +24,22 @@
             font-size: 1.9em;
         }
     }
+
+    ul.tags {
+        display: flex;
+        margin: 0;
+        margin-bottom: 10px;
+        list-style-type: none;
+        > li {
+            background-color: $dark-toc-bg;
+            margin-right: 10px;
+            padding: 5px 10px;
+            > a {
+                font-weight: bold;
+                color: white;
+            }
+        }
+    }
 }
 
 // Post meta
