@@ -9,17 +9,15 @@
 <meta name="application-name" content="{{ .Title }} | {{ .Site.Title }}">
 <meta property="og:site_name" content="{{ .Site.Params.sitename }}">
 
-{{- $description = trim .Site.Params.description "\n" -}}
-
-<meta name="description" content="{{ substr $description 0 300 }}">
-<meta itemprop="description" content="{{ substr $description 0 300 }}">
-<meta property="og:description" content="{{ substr $description 0 300 }}">
-<meta name="twitter:description" content="{{ substr $description 0 300 }}">
+<meta name="description" content="{{ substr .Site.Params.description 0 300 }}">
+<meta itemprop="description" content="{{ substr .Site.Params.description 0 300 }}">
+<meta property="og:description" content="{{ substr .Site.Params.description 0 300 }}">
+<meta name="twitter:description" content="{{ substr .Site.Params.description 0 300 }}">
 
 <meta property="og:locale" content="{{ .Site.LanguageCode }}">
 <meta name="language" content="{{ .Site.LanguageCode }}">
 {{ range .AllTranslations }}
-<link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" title="{{ .Language.LanguageName }}">
+    <link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" title="{{ .Language.LanguageName }}">
 {{ end }}
 
 <meta itemprop="image" content="{{ .Site.Params.ogpImage | absURL }}">
