@@ -34,10 +34,9 @@
     <meta property="article:section" content="{{ index . 0 }}">
     {{ end }}
 
+    {{ $imageUrl := "ogp/default.png" }}
     {{ if .File }}
-        {{ $imageUrl := printf "ogp/%s.png" (path.Base .File.Dir) }}
-    {{ else }}
-        {{ $imageUrl := printf "ogp/default.png" }}
+        {{ $imageUrl = printf "ogp/%s.png" (path.Base .File.Dir) }}
     {{ end }}
     <meta itemprop="image" content="{{ $imageUrl | absURL }}">
     <meta property="og:image" content="{{ $imageUrl | absURL }}">
