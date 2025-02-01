@@ -19,8 +19,3 @@
 {{ range .AllTranslations }}
     <link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" title="{{ .Language.LanguageName }}">
 {{ end }}
-
-<meta itemprop="image" content="{{ .Site.Params.ogpImage | absURL }}">
-<meta property="og:image" content="{{ .Site.Params.ogpImage | absURL }}">
-<meta name="twitter:image" content="{{ .Site.Params.ogpImage | absURL }}">
-<meta name="twitter:image:src" content="{{ .Site.Params.ogpImage | absURL }}">
