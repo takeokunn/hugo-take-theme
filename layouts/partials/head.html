@@ -13,12 +13,4 @@
     <link href="{{ $code_syntax_highlight_css.RelPermalink }}" rel="stylesheet">
 
     <link rel="shortcut icon" href="{{ (resources.Get "icons/favicon.ico" | resources.Copy "favicon.ico").RelPermalink }}">
-
-    {{- if hugo.IsProduction | or (eq site.Params.env "production") }}
-        {{ template "_internal/google_analytics.html" . }}
-    {{- end -}}
-
-    {{ if templates.Exists "partials/custom-head.html" }}
-        {{ partial "custom-head.html" . }}
-    {{ end }}
 </head>
