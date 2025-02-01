@@ -9,14 +9,7 @@
 <meta name="application-name" content="{{ .Title }} | {{ .Site.Title }}">
 <meta property="og:site_name" content="{{ .Site.Params.sitename }}">
 
-{{/*  Define empty variable description  */}}
-{{- $description := "" -}}
-
-{{ if .Summary }}
-{{- $description = .Summary | plainify }}
-{{ else }}
 {{- $description = trim .Site.Params.description "\n" -}}
-{{ end }}
 
 <meta name="description" content="{{ substr $description 0 300 }}">
 <meta itemprop="description" content="{{ substr $description 0 300 }}">
@@ -29,20 +22,7 @@
 <link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" title="{{ .Language.LanguageName }}">
 {{ end }}
 
-{{/*  Define empty variable image  */}}
-{{- $image := "" -}}
-
-{{/*  If image is defined in front matter, use it  */}}
-{{- if .Params.image -}}
-{{- $image = .Params.image -}}
-{{/*  If image is not defined in front matter, use site ogimage  */}}
-{{- else if .Site.Params.ogimage -}}
-{{- $image = .Site.Params.ogimage -}}
-{{- end -}}
-
-{{- if $image -}}
-<meta itemprop="image" content="{{ $image | absURL }}">
-<meta property="og:image" content="{{ $image | absURL }}">
-<meta name="twitter:image" content="{{ $image | absURL }}">
-<meta name="twitter:image:src" content="{{ $image | absURL }}">
-{{- end -}}
+<meta itemprop="image" content="{{ .Site.Params.ogpImage | absURL }}">
+<meta property="og:image" content="{{ .Site.Params.ogpImage | absURL }}">
+<meta name="twitter:image" content="{{ .Site.Params.ogpImage | absURL }}">
+<meta name="twitter:image:src" content="{{ .Site.Params.ogpImage | absURL }}">
