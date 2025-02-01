@@ -43,6 +43,8 @@
     <meta name="twitter:image" content="{{ $imageUrl | absURL }}">
     <meta name="twitter:image:src" content="{{ $imageUrl | absURL }}">
 
+    {{ $description := (substr (.Content | plainify) 0 300) }}
+
     <script defer type="application/ld+json">
     {
         "@context": "http://schema.org",
@@ -53,7 +55,7 @@
         "name": "{{ .Site.Params.github }}"
         },
         "datePublished": "{{ dateFormat "2006-01-02" .Date }}",
-        "description": {{ .Description }},
+        "description": {{ $description }},
         "wordCount": {{ .WordCount }},
         "mainEntityOfPage": "True",
         "dateModified": "{{ dateFormat "2006-01-02" .Lastmod }}",
