@@ -34,7 +34,7 @@
     <meta property="article:section" content="{{ index . 0 }}">
     {{ end }}
 
-    {{ $imageUrl := printf "ogp/%s.png" .File.BaseFileName }}
+    {{ $imageUrl := printf "ogp/%s.png" (path.Base .File.Dir) }}
     <meta itemprop="image" content="{{ $imageUrl | absURL }}">
     <meta property="og:image" content="{{ $imageUrl | absURL }}">
     <meta name="twitter:image" content="{{ $imageUrl | absURL }}">
