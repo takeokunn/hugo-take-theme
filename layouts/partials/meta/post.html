@@ -36,7 +36,7 @@
 
     {{ $imageUrl := "ogp/default.png" }}
     {{ if .File }}
-        {{ $imageUrl = printf "ogp/%s.png" (path.Base .File.Dir) }}
+        {{ $imageUrl = printf "ogp/%s.png" (path.Base (path.Dir .File.Path)) }}
     {{ end }}
     <meta itemprop="image" content="{{ $imageUrl | absURL }}">
     <meta property="og:image" content="{{ $imageUrl | absURL }}">
