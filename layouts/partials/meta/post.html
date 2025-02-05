@@ -42,6 +42,7 @@
     <meta property="og:image" content="{{ $imageUrl | absURL }}">
     <meta name="twitter:image" content="{{ $imageUrl | absURL }}">
     <meta name="twitter:image:src" content="{{ $imageUrl | absURL }}">
+    <meta name="twitter:card" content="summary_large_image">
 
     {{ $description := (substr (.Content | plainify) 0 300) }}
 
