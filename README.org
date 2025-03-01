@@ -13,4 +13,4 @@ https://takeokunn.org/
 #+end_src
 ** LICENSE
 
-GPL v3
+MIT
