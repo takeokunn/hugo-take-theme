@@ -4,7 +4,7 @@
 
 ## URL Structure
 
-Zettelkastenベース
+Zettelkasten
 
 - fleeting
     - 小さい技術的なメモ
@@ -20,7 +20,3 @@ Zettelkastenベース
 {{ range .Site.RegularPages }}
 - [{{ .Title }}]({{ .Permalink }})
 {{ end }}
-
-## Links
-
-- [sitemap.xml](https://www.takeokunn.org/sitemap.xml)
