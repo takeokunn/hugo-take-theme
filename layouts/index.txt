@@ -1,13 +1,30 @@
-# {{ .Site.Title }}
+# takeokunn's blog
 
-> {{ .Site.Params.description }}
+たけてぃ(@takeokunn)の個人的なメモです。
+
+## URL Structure
+
+Zettelkastenベース
+
+- fleeting
+    - 小さい技術的なメモ
+- permanent
+    - 纏まった技術的メモ
+- poem
+    - 個人的なポエム
+- diary
+    - 個人的な日記
 
 ## Content
-{{ range $type := .Site.Params.front_page_content }}
 
-### {{ title $type }}
+{{ range .Pages.GroupByDate "2006" }}
+{{ $year := .Key }}
+- {{ $year }}
+    {{ range .Pages }}
+    - [{{ .Title }}]({{ .Permalink }})
+    {{ end }}
+{{ end }}
 
-{{ range (where $.Site.RegularPages "Type" $type) }}
-- [{{ .Title }}]({{ .Permalink }}index.md): Published {{ .Date.Format "2006-01-02" }}
-{{ end }}{{ end }}
+## Links
 
+- [sitemap.xml](https://www.takeokunn.org/sitemap.xml)
