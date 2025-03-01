@@ -17,12 +17,8 @@ Zettelkastenベース
 
 ## Content
 
-{{ range .Pages.GroupByDate "2006" }}
-{{ $year := .Key }}
-- {{ $year }}
-    {{ range .Pages }}
-    - [{{ .Title }}]({{ .Permalink }})
-    {{ end }}
+{{ range .Site.RegularPages }}
+- [{{ .Title }}]({{ .Permalink }})
 {{ end }}
 
 ## Links
