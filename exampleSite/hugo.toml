@@ -38,7 +38,7 @@ dateFormat = "2 May 2023"
 [outputFormats]
 [outputFormats.TXT]
 mediaType = "text/plain"
-baseName = "llm"
+baseName = "llms"
 isPlainText = true
 
 [outputs]
