@@ -110,15 +110,19 @@
     }
 
     .menu-link {
-        color: $black;
+        color: $white;
         line-height: $base-line-height + 0.4;
         text-decoration: none;
-        padding: 0.3rem 0.5rem;
-        opacity: 0.7;
+        padding: 0.4rem 0.6rem;
+        opacity: 0.9;
         letter-spacing: 0.015rem;
+        border-radius: 4px;
+        transition: all 0.2s ease;
 
         &:hover {
             opacity: 1;
+            background-color: $light;
+            text-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
         }
 
         &:not(:last-child) {
@@ -195,8 +199,8 @@
             font-size: 1.1em;
 
             &:not(:last-child) {
-                margin: 0;
-                padding: 2px 0;
+                margin: 5px 0;
+                padding: 10px 0;
             }
         }
     }

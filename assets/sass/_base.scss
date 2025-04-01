@@ -123,8 +123,11 @@ figure > img {
 
 // Image caption
 figcaption {
-    font-size: 13px;
+    font-size: 15px;
     text-align: center;
+    color: $gray;
+    margin-top: 8px;
+    padding: 5px;
 }
 
 // Lists
@@ -148,8 +151,8 @@ ol {
 }
 
 li {
-    padding-bottom: 1px;
-    padding-top: 1px;
+    padding-bottom: 4px;
+    padding-top: 4px;
 
     &:before {
         color: $black;
@@ -310,7 +313,8 @@ table {
     td,
     tr {
         border: 1px solid $light;
-        padding: 4px 10px;
+        padding: 8px 12px;
+        line-height: 1.5;
     }
 }
 

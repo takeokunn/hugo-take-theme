@@ -14,7 +14,7 @@ code {
 li > code,
 p > code {
     white-space: pre-wrap;
-    font-size: 1em;
+    font-size: 0.85em;
     padding: 2px 5px;
     position: relative;
     top: -1px;
@@ -22,20 +22,40 @@ p > code {
     background-color: $inline-code-bg;
     border-radius: 4px;
     border: 1px solid rgba(128, 128, 128, 0.15);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    font-family: 'Fira Code', Consolas, Monaco, 'Andale Mono', monospace;
+    letter-spacing: -0.01em;
 }
 // Codeblock Theme
 pre {
     background-color: #282a36; // Dracula背景
-    border-radius: 0.5rem;
-    padding: 0.7rem 1.2rem;
+    border-radius: 0.6rem;
+    padding: 1rem 1.4rem;
+    margin: 1.5rem 0;
     display: block;
     overflow-x: auto;
     border: 1px solid #44475a; // Dracula現在行背景
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+
+    // オプショナル: コードブロックの言語表示
+    &::before {
+        content: attr(data-lang);
+        position: absolute;
+        top: 0;
+        right: 1rem;
+        font-size: 0.8rem;
+        color: #6272a4; // Draculaコメント
+        background-color: rgba(40, 42, 54, 0.8);
+        padding: 0.2rem 0.6rem;
+        border-radius: 0 0 0.3rem 0.3rem;
+        border: 1px solid #44475a;
+        border-top: none;
+    }
 
     @include media-query($on-mobile) {
-        margin: 0 calc(51% - 51vw);
+        margin: 1.2rem calc(51% - 51vw);
+        border-radius: 0.4rem;
     }
 
     // Configure scrollbars for code blocks
@@ -63,92 +83,149 @@ pre {
         line-height: 1.6;
         display: block;
         border: 0;
-        font-size: 1.05em;
+        font-size: 0.9em;
+        font-family: 'Fira Code', Consolas, Monaco, 'Andale Mono', monospace;
+        tab-size: 4;
     }
 }
 
-.highlight table td {
-    padding: 5px;
+.highlight {
+    position: relative;
+    margin: 1em 0;
+
+    table {
+        width: 100%;
+        border: none;
+        background: none;
+        box-shadow: none;
+
+        td {
+            padding: 5px;
+            border: none;
+
+            &.lntd:first-child {
+                width: 1%;
+                min-width: 2em;
+                text-align: right;
+                user-select: none;
+                border-right: 1px solid rgba(98, 114, 164, 0.4);
+                padding-right: 10px;
+            }
+
+            &.lntd:last-child {
+                padding-left: 10px;
+            }
+        }
+
+        pre {
+            margin: 0;
+            padding: 0;
+            border: none;
+            box-shadow: none;
+            border-radius: 0;
+            background-color: transparent;
+        }
+
+        .lnt, .ln {
+            color: #6272a4;
+            opacity: 0.7;
+            display: block;
+            padding-right: 0.5em;
+            font-size: 0.85em;
+        }
+    }
 }
 
-.highlight table pre {
-    margin: 0;
-}
+// Draculaテーマのシンタックスハイライト
+// https://draculatheme.com/
 
+// 背景と通常テキスト
 .highlight,
 .highlight .w {
-    color: #fbf1c7;
-    // background-color: #1a1b21;
+    color: #f8f8f2; // Dracula前景色
 }
 
+// エラー
 .highlight .err {
-    color: #fb4934;
-    // background-color: #1a1b21;
+    color: #ff5555; // Dracula赤
     font-weight: bold;
 }
 
+// コメント
 .highlight .c,
 .highlight .cd,
 .highlight .cm,
 .highlight .c1,
 .highlight .cs {
-    color: #928374;
+    color: #6272a4; // Draculaコメント
     font-style: italic;
 }
 
+// プリプロセッサディレクティブ
 .highlight .cp {
-    color: #8ec07c;
+    color: #ff79c6; // Draculaピンク
 }
 
+// HTMLタグ
 .highlight .nt {
-    color: #fb4934;
+    color: #ff79c6; // Draculaピンク
 }
 
+// 演算子
 .highlight .o,
 .highlight .ow {
-    color: #fbf1c7;
+    color: #ff79c6; // Draculaピンク
 }
 
+// 句読点
 .highlight .p,
 .highlight .pi {
-    color: #fbf1c7;
+    color: #f8f8f2; // Dracula前景色
 }
 
+// 追加された行（git）
 .highlight .gi {
-    color: #b8bb26;
-    background-color: #282828;
+    color: #50fa7b; // Dracula緑
+    background-color: rgba(80, 250, 123, 0.2);
 }
 
+// 削除された行（git）
 .highlight .gd {
-    color: #fb4934;
-    background-color: #282828;
+    color: #ff5555; // Dracula赤
+    background-color: rgba(255, 85, 85, 0.2);
 }
 
+// 見出し
 .highlight .gh {
-    color: #b8bb26;
+    color: #8be9fd; // Draculaシアン
     font-weight: bold;
 }
 
+// キーワード
 .highlight .k,
 .highlight .kn,
 .highlight .kp,
 .highlight .kr,
 .highlight .kv {
-    color: #fb4934;
+    color: #ff79c6; // Draculaピンク
 }
 
+// 定数キーワード
 .highlight .kc {
-    color: #d3869b;
+    color: #bd93f9; // Dracula紫
 }
 
+// タイプキーワード
 .highlight .kt {
-    color: #fabd2f;
+    color: #8be9fd; // Draculaシアン
 }
 
+// 宣言キーワード
 .highlight .kd {
-    color: #fe8019;
+    color: #ff79c6; // Draculaピンク
 }
 
+// 文字列
 .highlight .s,
 .highlight .sb,
 .highlight .sc,
@@ -157,40 +234,45 @@ pre {
 .highlight .sh,
 .highlight .sx,
 .highlight .s1 {
-    color: #b8bb26;
-    font-style: italic;
+    color: #f1fa8c; // Dracula黄色
 }
 
+// 文字列補間
 .highlight .si {
-    color: #b8bb26;
-    font-style: italic;
+    color: #f1fa8c; // Dracula黄色
 }
 
+// 正規表現
 .highlight .sr {
-    color: #b8bb26;
-    font-style: italic;
+    color: #f1fa8c; // Dracula黄色
 }
 
+// エスケープ文字
 .highlight .se {
-    color: #fe8019;
+    color: #f1fa8c; // Dracula黄色
 }
 
+// 名前空間
 .highlight .nn {
-    color: #8ec07c;
+    color: #8be9fd; // Draculaシアン
 }
 
+// クラス名
 .highlight .nc {
-    color: #8ec07c;
+    color: #50fa7b; // Dracula緑
 }
 
+// 定数名
 .highlight .no {
-    color: #d3869b;
+    color: #bd93f9; // Dracula紫
 }
 
+// 属性名
 .highlight .na {
-    color: #b8bb26;
+    color: #50fa7b; // Dracula緑
 }
 
+// 数値
 .highlight .m,
 .highlight .mf,
 .highlight .mh,
@@ -199,9 +281,22 @@ pre {
 .highlight .mo,
 .highlight .mb,
 .highlight .mx {
-    color: #d3869b;
+    color: #bd93f9; // Dracula紫
 }
 
+// シンボル
 .highlight .ss {
-    color: #83a598;
+    color: #f1fa8c; // Dracula黄色
+}
+
+// 関数名
+.highlight .nf {
+    color: #50fa7b; // Dracula緑
+    font-weight: bold;
+}
+
+// 変数
+.highlight .nv {
+    color: #8be9fd; // Draculaシアン
+    font-style: italic;
 }

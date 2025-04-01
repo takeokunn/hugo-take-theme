@@ -98,43 +98,59 @@
     }
 
     span.footer_item {
-        opacity: 0.8;
+        opacity: 1;
         font-weight: $bold-weight;
-        font-size: $small-font-size;
+        font-size: $base-font-size * 0.9;
     }
 
     a.footer_item {
-        opacity: 0.8;
+        opacity: 1;
         text-decoration: none;
+        padding: 0.3rem 0.5rem;
+        border-radius: 4px;
+        transition: all 0.2s ease;
 
         &:not(:last-child) {
             margin-right: 10px;
             &:hover {
                 opacity: 1;
+                background-color: $light;
+                text-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
             }
         }
     }
 
     &_copyright {
-        font-size: $small-font-size - 1;
+        font-size: $small-font-size;
         display: block;
-        color: $gray;
-        opacity: 0.8;
-        margin-top: 0.7rem;
-        padding: 0.3rem 0.95rem;
+        color: $white;
+        opacity: 1;
+        margin-top: 1rem;
+        padding: 0.5rem 1rem;
     }
 
     &_social-icons {
         a {
             text-decoration: none;
-            margin-right: 0.31rem;
+            margin: 0 0.5rem;
+            padding: 5px;
+            display: inline-block;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+
+            &:hover {
+                background-color: $light;
+            }
         }
         svg {
-            color: #888a90;
-            height: 24px;
-            width: 24px;
+            color: $white;
+            height: 28px;
+            width: 28px;
+            transition: transform 0.2s ease;
+
             &:hover {
-                color: rgb(221, 221, 221);
+                color: $text-link-blue;
+                transform: scale(1.1);
             }
         }
     }
