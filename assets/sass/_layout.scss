@@ -89,9 +89,15 @@
 
 // Footer
 .footer {
+    max-width: calc(#{$wide-size} - (#{$spacing-full} * 2));
+    max-width: -webkit-calc(#{$wide-size} - (#{$spacing-full} * 2));
     margin-top: 8em;
     margin-bottom: 2em;
+    margin-right: auto;
+    margin-left: auto;
     text-align: center;
+    padding-top: 2em;
+    border-top: 1px solid $light;
 
     @include media-query($on-mobile) {
         margin-top: 3em;
@@ -123,10 +129,17 @@
     &_copyright {
         font-size: $small-font-size;
         display: block;
-        color: $white;
+        color: rgba(248, 248, 242, 0.8); // Dracula前景色 少し透過
         opacity: 1;
-        margin-top: 1rem;
+        margin-top: 1.5rem;
         padding: 0.5rem 1rem;
+        letter-spacing: 0.02em;
+    }
+
+    &_divider {
+        margin: 0 0.5rem;
+        color: #ff79c6; // Dracula ピンク
+        opacity: 0.7;
     }
 
     &_social-icons {

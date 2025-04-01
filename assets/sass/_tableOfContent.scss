@@ -4,12 +4,18 @@ details {
 }
 
 .toc {
-    margin: 0.5rem 0 1.5rem 0;
-    padding: 1rem 1.2rem;
-    border-radius: 0.5rem;
-    background-color: $toc-bg;
-    border: 1px solid rgba(128, 128, 128, 0.2);
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    margin: 0.8rem 0 2rem 0;
+    padding: 1.2rem 1.5rem;
+    border-radius: 0.6rem;
+    background-color: rgba(40, 42, 54, 0.5); // 半透明の背景
+    border: 1px solid rgba(68, 71, 90, 0.5);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+
+    &:hover {
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+        transform: translateY(-2px);
+    }
 
     // ダークモード用の調整
     html.dark & {
@@ -19,7 +25,14 @@ details {
 
     summary {
         font-weight: bold;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.7rem;
+        color: #ff79c6; // Draculaピンク
+        font-size: 1.1em;
+        letter-spacing: 0.02em;
+
+        &:hover {
+            color: #ffb86c; // Draculaオレンジ
+        }
 
         // ダークモード用の調整
         html.dark & {
@@ -33,10 +46,24 @@ details {
         padding-left: 1.2rem;
 
         li {
-            margin-bottom: 0.6em;
-            line-height: 1.5;
+            margin-bottom: 0.8em;
+            line-height: 1.6;
+
+            &::marker {
+                color: #bd93f9; // Dracula紫
+            }
 
             a {
+                text-decoration: none;
+                color: #8be9fd; // Draculaシアン
+                transition: all 0.2s ease;
+
+                &:hover {
+                    color: #50fa7b; // Dracula緑
+                    text-shadow: 0 0 6px rgba(80, 250, 123, 0.4);
+                    text-decoration: underline;
+                }
+
                 // ダークモード用のリンク調整
                 html.dark & {
                     &:hover {

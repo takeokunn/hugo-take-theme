@@ -113,30 +113,35 @@
         color: $white;
         line-height: $base-line-height + 0.4;
         text-decoration: none;
-        padding: 0.4rem 0.6rem;
+        padding: 0.5rem 0.8rem;
         opacity: 0.9;
-        letter-spacing: 0.015rem;
-        border-radius: 4px;
-        transition: all 0.2s ease;
+        letter-spacing: 0.02rem;
+        border-radius: 6px;
+        transition: all 0.25s ease;
+        position: relative;
+        font-weight: 500;
 
         &:hover {
             opacity: 1;
-            background-color: $light;
-            text-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
+            background-color: rgba(68, 71, 90, 0.5);
+            text-shadow: 0 0 4px rgba(139, 233, 253, 0.4);
+            transform: translateY(-1px);
         }
 
         &:not(:last-child) {
-            margin-right: 5px;
+            margin-right: 8px;
         }
 
         @include media-query($on-mobile) {
-            opacity: 0.8;
+            opacity: 0.9;
         }
     }
 
     .menu-link.active {
         opacity: 1;
         font-weight: 600;
+        background-color: rgba(139, 233, 253, 0.15);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     @include media-query($on-mobile) {

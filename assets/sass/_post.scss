@@ -93,26 +93,44 @@
 
 // Post item
 article.post-item {
-    margin-bottom: 1em;
+    margin-bottom: 1.2em;
+    padding: 0.8em 1em;
+    border-radius: 6px;
+    transition: all 0.25s ease;
+    background-color: rgba(68, 71, 90, 0.2);
+    display: flex;
+    flex-direction: column;
+
+    &:hover {
+        background-color: rgba(68, 71, 90, 0.4);
+        transform: translateY(-2px);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    }
 
     .post-item-title {
-        margin: 0.2em 0;
+        margin: 0.2em 0 0.4em 0;
+        font-size: 1.1em;
+        font-weight: 600;
 
         a {
             color: $text-link-blue;
             border-bottom: none;
             padding: 0;
+            text-decoration: none;
+            transition: all 0.2s ease;
 
             &:hover {
                 color: $text-link-blue-active;
-                text-shadow: 0 0 3px rgba(139, 233, 253, 0.4);
+                text-shadow: 0 0 4px rgba(139, 233, 253, 0.5);
             }
         }
     }
 
     time.post-item-meta {
         font-size: $small-font-size;
-        color: $gray;
+        color: #8be9fd; // Draculaシアン
+        opacity: 0.8;
+        letter-spacing: 0.03em;
     }
 }
 
