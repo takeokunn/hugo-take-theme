@@ -1,46 +1,45 @@
-//////////////// 1. Light Colors /////////////////
-$text-base-color: #434648;
-$text-link-blue: #003fff;
-$text-link-blue-active: #0036c7;
-$bloquote-border: #c4c8cc;
-$blockquote-text: #525b66;
-$inline-code-text: #333638;
-$inline-code-bg: #d8dbe2;
-$toc-bg: #edecec;
-$go-top-bg: #dfe0e397;
-$go-top-bg-hover: #dfe0e3;
+//////////////// Colors (Dracula Theme) /////////////////
+$text-base-color: #f8f8f2; // Dracula前景色 (通常のテキスト)
+$text-link-blue: #8be9fd; // Draculaシアン (リンク色)
+$text-link-blue-active: #50fa7b; // Dracula緑 (アクティブリンク)
+$bloquote-border: #ff79c6; // Draculaピンク (引用の枠線)
+$blockquote-text: #ffb86c; // Draculaオレンジ (引用のテキスト)
+$inline-code-text: #f1fa8c; // Dracula黄色 (インラインコードのテキスト)
+$inline-code-bg: #44475a; // Dracula現在行背景 (インラインコードの背景)
+$toc-bg: #282a36; // Dracula背景 (目次背景)
+$go-top-bg: #44475a; // Dracula現在行背景 (トップに戻るボタン背景)
+$go-top-bg-hover: #6272a4; // Draculaコメント (トップに戻るボタンホバー)
 
-$black: #0d122b;
-$light: #ececec;
-$smoke: #d2c7c7;
-$gray: #6b7886;
-$white: #fff;
+$black: #282a36; // Dracula背景 (メイン背景)
+$white: #f8f8f2; // Dracula前景色 (テキスト白)
+$light: #44475a; // Dracula現在行背景 (セカンダリ背景)
+$smoke: #ff5555; // Dracula赤 (スモークの色)
+$gray: #bd93f9; // Dracula紫 (グレー系テキスト)
 
-//////////////// 2. Dark Colors /////////////////
-$dark-text-base-color: #ffffff; // 白 (通常のテキスト)
-$dark-text-link-blue: #00bfff; // 明るい青 (リンク色)
-$dark-text-link-blue-active: #00d700; // 明るい緑 (アクティブリンク)
-$dark-bloquote-border: #ff79c6; // ピンク (引用の枠線)
-$dark-blockquote-text: #ffb86c; // 明るいオレンジ (引用のテキスト)
-$dark-inline-code-text: #ffffff; // 白 (インラインコードのテキスト)
-$dark-inline-code-bg: #44475a; // 暗いグレー (インラインコードの背景)
-$dark-toc-bg: #282a36; // 黒に近い紺 (目次背景)
-$dark-go-top-bg: #44475a; // ダークグレー (トップに戻るボタン背景)
-$dark-go-top-bg-hover: #6272a4; // 紫がかった青 (トップに戻るボタンホバー)
-
-$dark-black: #181a1f; // 深い黒 (メイン背景)
-$dark-white: #f8f8f2; // 明るい灰色 (テキスト白)
-$dark-light: #44475a; // 暗いグレー (セカンダリ背景)
-$dark-smoke: #ff5555; // 赤 (スモークの色)
-$dark-gray: #8be9fd; // 明るいシアン (グレー系テキスト)
+// 後方互換性のために保持（ダークモードを標準に）
+$dark-text-base-color: $text-base-color;
+$dark-text-link-blue: $text-link-blue;
+$dark-text-link-blue-active: $text-link-blue-active;
+$dark-bloquote-border: $bloquote-border;
+$dark-blockquote-text: $blockquote-text;
+$dark-inline-code-text: $inline-code-text;
+$dark-inline-code-bg: $inline-code-bg;
+$dark-toc-bg: $toc-bg;
+$dark-go-top-bg: $go-top-bg;
+$dark-go-top-bg-hover: $go-top-bg-hover;
+$dark-black: $black;
+$dark-white: $white;
+$dark-light: $light;
+$dark-smoke: $smoke;
+$dark-gray: $gray;
 
 //////////////// 3. Fonts preferences /////////////////
 $sans-family: Roboto, sans-serif;
 $mono-family: Consolas, monospace;
-$base-font-size: 16px;
-$medium-font-size: $base-font-size * 0.938;
-$small-font-size: $base-font-size * 0.875;
-$base-line-height: 1.85;
+$base-font-size: 18px;
+$medium-font-size: $base-font-size * 0.95;
+$small-font-size: $base-font-size * 0.9;
+$base-line-height: 1.7;
 
 // Font weight
 // $light-weight: 300; // uncomment if necessary

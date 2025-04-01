@@ -4,6 +4,13 @@
         background-color: $dark-black;
     }
 
+    // When mouse block a text set this color
+    mark,
+    ::selection {
+        background: $dark-smoke;
+        color: $dark-white;
+    }
+
     // Headings
     h1,
     h2,
@@ -59,6 +66,28 @@
     // ToC
     .toc {
         background-color: $dark-toc-bg;
+        border-color: $dark-light;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+
+        summary {
+            color: $dark-text-link-blue;
+        }
+
+        li {
+            color: $dark-text-base-color;
+
+            &::marker {
+                color: $dark-text-link-blue;
+            }
+
+            a {
+                &:hover {
+                    color: $dark-text-link-blue-active;
+                    text-decoration: underline;
+                    text-shadow: 0 0 5px rgba(80, 250, 123, 0.3);
+                }
+            }
+        }
     }
 
     // Go to top
@@ -117,10 +146,14 @@
 
         &:hover {
             color: $dark-text-link-blue;
+            text-decoration: underline;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 8px rgba(139, 233, 253, 0.5);
         }
 
         &:focus {
-            outline-color: rgba(44, 118, 246, 0.6);
+            outline-color: $dark-text-link-blue-active;
+            outline-width: 2px;
         }
     }
 
@@ -273,14 +306,7 @@
     }
 }
 
-// support JS disabled environment with media query
-@media (prefers-color-scheme: dark) {
-    // use "light" class to avoid style conflicts in js enabled environment
-    html:not(.light) {
-        @include dark-mode();
-    }
-}
-
-html.dark {
+// Always use dark mode
+html {
     @include dark-mode();
 }

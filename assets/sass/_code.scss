@@ -14,22 +14,25 @@ code {
 li > code,
 p > code {
     white-space: pre-wrap;
-    font-size: 0.9em;
-    padding: 1px 3px;
+    font-size: 1em;
+    padding: 2px 5px;
     position: relative;
     top: -1px;
     color: $inline-code-text;
     background-color: $inline-code-bg;
-    border-radius: 2px;
-    border: 1px solid rgba(128, 128, 128, 0.1);
+    border-radius: 4px;
+    border: 1px solid rgba(128, 128, 128, 0.15);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 // Codeblock Theme
 pre {
-    background-color: #1a1b21;
-    border-radius: 0.3rem;
-    padding: 0.5rem 1rem;
+    background-color: #282a36; // Dracula背景
+    border-radius: 0.5rem;
+    padding: 0.7rem 1.2rem;
     display: block;
     overflow-x: auto;
+    border: 1px solid #44475a; // Dracula現在行背景
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
     @include media-query($on-mobile) {
         margin: 0 calc(51% - 51vw);
@@ -41,25 +44,26 @@ pre {
     }
     // Set scrollbar background, track and thumb colors
     &::-webkit-scrollbar-track {
-        background: #606071;
+        background: #44475a; // Dracula現在行背景
         border-radius: 0.1rem;
     }
     &::-webkit-scrollbar-thumb {
-        background: #999ea2;
+        background: #6272a4; // Draculaコメント
         border-radius: 0.3rem;
     }
     &::-webkit-scrollbar-thumb:hover {
-        background: #424546;
+        background: #bd93f9; // Dracula紫
     }
 
     > code {
-        color: white;
+        color: #f8f8f2; // Dracula前景色
         max-width: 50rem;
         margin-left: auto;
         margin-right: auto;
-        line-height: 1.5;
+        line-height: 1.6;
         display: block;
         border: 0;
+        font-size: 1.05em;
     }
 }
 

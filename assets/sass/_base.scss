@@ -56,7 +56,7 @@ body {
     overflow-x: hidden;
     position: relative;
     color: $text-base-color;
-    background-color: $white;
+    background-color: $black;
     font: $normal-weight #{$base-font-size}/#{$base-line-height} $sans-family;
     -webkit-text-size-adjust: 100%;
     -webkit-font-smoothing: antialiased;
@@ -91,7 +91,7 @@ figure,
 strong,
 b {
     font-weight: $bold-weight;
-    color: $black;
+    color: $white;
 }
 
 // horizontal rule
@@ -169,7 +169,7 @@ h3,
 h4,
 h5,
 h6 {
-    color: $black;
+    color: $white;
     font-weight: $bold-weight;
     & + ul,
     & + ol {
@@ -200,14 +200,17 @@ h6 > a {
 // Link
 a {
     color: inherit;
-    text-decoration-color: $smoke;
+    text-decoration-color: $light;
 
     &:hover {
         color: $text-link-blue;
+        text-decoration: underline;
+        transition: all 0.3s ease;
+        text-shadow: 0 0 8px rgba(139, 233, 253, 0.5);
     }
 
     &:focus {
-        outline: 3px solid rgba(0, 54, 199, 0.6);
+        outline: 2px solid $text-link-blue-active;
         outline-offset: 2px;
     }
 }
@@ -292,10 +295,14 @@ table {
     margin-top: $spacing-half;
     border-collapse: collapse;
     font-size: $small-font-size;
+    background-color: rgba(40, 42, 54, 0.5);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
 
     thead {
         font-weight: $bold-weight;
-        color: $black;
+        color: $white;
+        background-color: #44475a; // Dracula現在行背景
         border-bottom: 1px solid $light;
     }
 
@@ -303,7 +310,7 @@ table {
     td,
     tr {
         border: 1px solid $light;
-        padding: 2px 7px;
+        padding: 4px 10px;
     }
 }
 
@@ -317,8 +324,8 @@ table {
 // When mouse block a text set this color
 mark,
 ::selection {
-    background: #fffba0;
-    color: $black;
+    background: $smoke;
+    color: $white;
 }
 
 // Github Gist clear border

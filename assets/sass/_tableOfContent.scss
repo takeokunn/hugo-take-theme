@@ -4,19 +4,47 @@ details {
 }
 
 .toc {
-    margin: 1.1rem 0 1rem 0;
-    padding: 0.5rem 1rem 0.5rem 1rem;
-    border-radius: 0.3rem;
+    margin: 1.5rem 0 1.5rem 0;
+    padding: 1rem 1.2rem;
+    border-radius: 0.5rem;
     background-color: $toc-bg;
+    border: 1px solid rgba(128, 128, 128, 0.2);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+
+    // ダークモード用の調整
+    html.dark & {
+        border: 1px solid $dark-light;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    summary {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+
+        // ダークモード用の調整
+        html.dark & {
+            color: $dark-text-link-blue;
+        }
+    }
 
     ul {
-        padding-top: 1rem;
-        margin-left: 1rem;
-        padding-left: 1rem;
+        padding-top: 0.8rem;
+        margin-left: 0.8rem;
+        padding-left: 1.2rem;
 
         li {
-            margin-bottom: 0.5em;
-            line-height: 1.4;
+            margin-bottom: 0.6em;
+            line-height: 1.5;
+
+            a {
+                // ダークモード用のリンク調整
+                html.dark & {
+                    &:hover {
+                        color: $dark-text-link-blue-active;
+                        text-shadow: 0 0 5px rgba(80, 250, 123, 0.3);
+                    }
+                }
+            }
         }
     }
 }
