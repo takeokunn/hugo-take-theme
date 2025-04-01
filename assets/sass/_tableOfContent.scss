@@ -28,7 +28,7 @@ details {
         overflow: hidden;
         max-height: 0;
         opacity: 0;
-        transition: max-height 0.5s ease, opacity 0.5s ease, padding 0.5s ease;
+        transition: max-height 1s cubic-bezier(0.05, 0.85, 0.15, 1), opacity 1s cubic-bezier(0.05, 0.85, 0.15, 1), padding 1s cubic-bezier(0.05, 0.85, 0.15, 1);
     }
 
     &[open] > ul {
@@ -42,9 +42,10 @@ details {
         color: #ff79c6; // Draculaピンク
         font-size: 1.1em;
         letter-spacing: 0.02em;
-        transition: color 0.3s ease;
+        transition: color 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.7s cubic-bezier(0.05, 0.85, 0.15, 1);
         user-select: none;
         outline: none;
+        transform-origin: center left;
 
         &:hover {
             color: #ffb86c; // Draculaオレンジ
@@ -53,7 +54,7 @@ details {
         &::marker,
         &::-webkit-details-marker {
             color: #ff79c6;
-            transition: transform 0.3s ease;
+            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         // ダークモード用の調整
@@ -78,7 +79,7 @@ details {
             a {
                 text-decoration: none;
                 color: #8be9fd; // Draculaシアン
-                transition: all 0.2s ease;
+                transition: all 0.4s cubic-bezier(0.2, 0.9, 0.2, 1);
 
                 &:hover {
                     color: #50fa7b; // Dracula緑

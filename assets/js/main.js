@@ -32,7 +32,10 @@ window.addEventListener('load', () => {
                 if (tocDetails.open) {
                     // Opening animation
                     tocContent.style.display = 'block';
-                    tocSummary.style.transform = 'rotate(0deg)';
+                    requestAnimationFrame(() => {
+                        tocSummary.style.transform = 'rotate(0deg)';
+                        tocSummary.style.transition = 'transform 0.7s cubic-bezier(0.05, 0.85, 0.15, 1)';
+                    });
 
                     // Use requestAnimationFrame for smoother animation
                     requestAnimationFrame(() => {
@@ -42,7 +45,10 @@ window.addEventListener('load', () => {
                     });
                 } else {
                     // Closing animation
-                    tocSummary.style.transform = 'rotate(-90deg)';
+                    requestAnimationFrame(() => {
+                        tocSummary.style.transform = 'rotate(-90deg)';
+                        tocSummary.style.transition = 'transform 0.7s cubic-bezier(0.05, 0.85, 0.15, 1)';
+                    });
                     tocContent.style.maxHeight = '0';
                     tocContent.style.opacity = '0';
                     tocContent.style.paddingTop = '0';
@@ -52,7 +58,7 @@ window.addEventListener('load', () => {
                         if (!tocDetails.open) {
                             tocContent.style.display = 'none';
                         }
-                    }, 500); // Match transition duration from CSS
+                    }, 1000); // Match transition duration from CSS (1s)
                 }
             });
         }
