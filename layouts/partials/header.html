@@ -1,24 +1,24 @@
 <div class="navbar" role="navigation">
     <nav class="menu" aria-label="Main Navigation">
-        <a href="{{ .Site.Home.Permalink }}" class="logo">
+        <a href="{{ .Site.Home.Permalink }}" class="logo" aria-label="Home">
             {{ partial "svgs/home.svg" (dict "height" 25 "width" 25) . }}
         </a>
-        <input type="checkbox" id="menu-trigger" class="menu-trigger" />
-        <label for="menu-trigger">
-            <span class="menu-icon">
+        <input type="checkbox" id="menu-trigger" class="menu-trigger" aria-hidden="true" />
+        <label for="menu-trigger" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-menu">
+            <span class="menu-icon" aria-hidden="true">
                 {{ partial "svgs/menu.svg" (dict "height" 25 "width" 25) . }}
             </span>
         </label>
-        <div class="trigger">
-            <ul class="trigger-container">
+        <div class="trigger" id="site-menu" role="menu">
+            <ul class="trigger-container" role="menubar">
                 {{ $currentPage := . }}
-                <li>
-                    <a class="menu-link {{ if eq .RelPermalink "/" }}active{{ end }}" href="/">
+                <li role="none">
+                    <a class="menu-link {{ if eq .RelPermalink "/" }}active{{ end }}" href="/" role="menuitem" {{ if eq .RelPermalink "/" }}aria-current="page"{{ end }}>
                         Home
                     </a>
                 </li>
-                <li>
-                    <a class="menu-link {{ if eq .RelPermalink "/posts/" }}active{{ end }}" href="/posts/">
+                <li role="none">
+                    <a class="menu-link {{ if eq .RelPermalink "/posts/" }}active{{ end }}" href="/posts/" role="menuitem" {{ if eq .RelPermalink "/posts/" }}aria-current="page"{{ end }}>
                         Posts
                     </a>
                 </li>

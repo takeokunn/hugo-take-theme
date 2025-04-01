@@ -1,5 +1,5 @@
 {{ $image := resources.Get "icons/avatar.png" }}
-<div class="author">
+<div class="author" role="complementary" aria-label="Author information">
     {{ with $image }}
     {{ if eq .MediaType.SubType "svg" }}
     <svg width="25em" height="25em" xmlns="http://www.w3.org/2000/svg">

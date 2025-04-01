@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja-jp" dir="ltr" prefix="og: https://ogp.me/ns#">
     {{- partial "head.html" . -}}
-    <body class="notransition">
+    <body class="notransition" aria-live="polite">
         {{- partial "header.html" . -}}
         <div class="wrapper">
             {{ partial "bio" . }}
@@ -12,7 +12,7 @@
                 {{ end }}
                 <p>
                     {{ range $firstSection := (where .Site.Sections "Section" "in" (first 1 (.Site.Params.mainSections))) }}
-                    <a href="{{ $firstSection.Permalink }}">See all posts</a>
+                    <a href="{{ $firstSection.Permalink }}" aria-label="View all blog posts">See all posts</a>
                     {{ end }}
                 </p>
             </main>

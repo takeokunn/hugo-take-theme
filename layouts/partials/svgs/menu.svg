@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ .width }}" height="{{ .height }}" stroke="currentColor" fill="none" viewBox="0 0 14 14">
+<svg xmlns="http://www.w3.org/2000/svg" width="{{ .width }}" height="{{ .height }}" stroke="currentColor" fill="none" viewBox="0 0 14 14" aria-hidden="true" focusable="false">
     <title>Menu</title>
     <path stroke-linecap="round" stroke-linejoin="round" d="M10.595 7L3.40726 7"></path>
     <path stroke-linecap="round" stroke-linejoin="round" d="M10.5096 3.51488L3.49301 3.51488"></path>

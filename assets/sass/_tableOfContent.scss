@@ -23,15 +23,37 @@ details {
         box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
     }
 
+    // TOCコンテンツのアニメーション
+    & > ul {
+        overflow: hidden;
+        max-height: 0;
+        opacity: 0;
+        transition: max-height 0.5s ease, opacity 0.5s ease, padding 0.5s ease;
+    }
+
+    &[open] > ul {
+        max-height: 2000px; // 十分大きな値
+        opacity: 1;
+    }
+
     summary {
         font-weight: bold;
         margin-bottom: 0.7rem;
         color: #ff79c6; // Draculaピンク
         font-size: 1.1em;
         letter-spacing: 0.02em;
+        transition: color 0.3s ease;
+        user-select: none;
+        outline: none;
 
         &:hover {
             color: #ffb86c; // Draculaオレンジ
+        }
+
+        &::marker,
+        &::-webkit-details-marker {
+            color: #ff79c6;
+            transition: transform 0.3s ease;
         }
 
         // ダークモード用の調整

@@ -1,17 +1,17 @@
 {{ define "main" }}
 <div class="wrapper post">
     <main class="page-content" aria-label="Content">
-        <article>
+        <article role="article">
             <header class="header">
                 <h1 class="header-title">{{ .Title }}</h1>
                 <div class="post-meta">
-                    <time datetime="{{ .Date.Format .Site.Params.DateForm  }}" itemprop="datePublished">
+                    <time datetime="{{ .Date.Format .Site.Params.DateForm  }}" itemprop="datePublished" aria-label="Published on {{ .Date.Format .Site.Params.DateForm }}">
                         {{ .Date.Format .Site.Params.DateForm }}
                     </time>
                 </div>
-                <ul class="tags">
+                <ul class="tags" aria-label="Post tags">
                     {{ range .Params.tags }}
-                        <li><a href="{{ "tags/" | relURL }}{{ . | urlize }}">{{ . }}</a></li>
+                        <li><a href="{{ "tags/" | relURL }}{{ . | urlize }}" aria-label="View all posts with tag: {{ . }}">{{ . }}</a></li>
                     {{ end }}
                 </ul>
             </header>

@@ -75,14 +75,12 @@
 
     time {
         position: relative;
-        padding: 3px 8px;
-        border-radius: 4px;
-        background-color: rgba(68, 71, 90, 0.6);
-        font-size: 0.9em;
+        padding: 3px 0;
+        font-size: 0.95em;
         letter-spacing: 0.03em;
         display: inline-block;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         color: #8be9fd; // Draculaシアン
+        font-weight: 400;
     }
 
     span[itemprop="author"] {

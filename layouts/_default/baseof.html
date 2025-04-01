@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja-jp" dir="ltr" prefix="og: https://ogp.me/ns#">
     {{- partial "head.html" . -}}
-    <body class="notransition">
+    <body class="notransition" aria-live="polite">
         {{- partial "header.html" . -}}
         {{- block "main" . }}{{- end }}
         {{- partial "footer.html" . -}}
