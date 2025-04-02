@@ -34,8 +34,12 @@ $dark-smoke: $smoke;
 $dark-gray: $gray;
 
 //////////////// 3. Fonts preferences /////////////////
-$sans-family: Roboto, system-ui, -apple-system, sans-serif;
-$mono-family: 'Fira Code', Consolas, monospace;
+$sans-family:
+    Roboto,
+    system-ui,
+    -apple-system,
+    sans-serif;
+$mono-family: "Fira Code", Consolas, monospace;
 $base-font-size: 16px;
 $medium-font-size: $base-font-size * 0.95;
 $small-font-size: $base-font-size * 0.9;
