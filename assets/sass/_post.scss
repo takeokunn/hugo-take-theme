@@ -186,6 +186,7 @@ article.post-item {
         margin: 0;
         padding-top: $spacing-full - 15;
         padding-bottom: $spacing-full - 15;
+        word-wrap: break-word;
     }
 
     ul.task-list {
