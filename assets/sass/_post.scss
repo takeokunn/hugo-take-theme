@@ -90,14 +90,28 @@
 }
 
 // Post item
-article.post-item {
+.post-item-link {
+    display: block;
     margin-bottom: 1.2em;
+    text-decoration: none;
+    color: inherit;
+    border-bottom: none;
+
+    &:hover {
+        color: inherit;
+        text-decoration: none;
+        background: none;
+    }
+}
+
+article.post-item {
     padding: 0.8em 1em;
     border-radius: 6px;
     transition: all 0.25s ease;
     background-color: rgba(68, 71, 90, 0.2);
     display: flex;
     flex-direction: column;
+    text-align: center;
 
     &:hover {
         background-color: rgba(68, 71, 90, 0.4);
@@ -105,23 +119,26 @@ article.post-item {
         box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
     }
 
+    .post-item-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+
+        .post-item-right {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    }
+
     .post-item-title {
         margin: 0.2em 0 0.4em 0;
         font-size: 1.1em;
         font-weight: 600;
-
-        a {
-            color: $text-link-blue;
-            border-bottom: none;
-            padding: 0;
-            text-decoration: none;
-            transition: all 0.2s ease;
-
-            &:hover {
-                color: $text-link-blue-active;
-                text-shadow: 0 0 4px rgba(139, 233, 253, 0.5);
-            }
-        }
+        color: inherit;
+        transition: all 0.2s ease;
     }
 
     time.post-item-meta {
