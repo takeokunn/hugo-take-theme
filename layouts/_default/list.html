@@ -1,9 +1,9 @@
 {{- define "main" -}}
-<div class="wrapper list-page">
+<div class="wrapper">
     <header class="header">
         <h1 class="header-title center">{{ .Title }}</h1>
     </header>
-    <main class="page-content" aria-label="Content">
+    <main aria-label="Content">
         {{ range .Pages.GroupByDate "2006" }}
             {{ $year := .Key }}
             <h2 class="post-year">{{ $year }}</h2>
