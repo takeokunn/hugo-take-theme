@@ -1,0 +1,75 @@
+//////////////// Colors (Dracula Theme) /////////////////
+$text-base-color: #f8f8f2; // Dracula前景色 (通常のテキスト)
+$text-link-blue: #8be9fd; // Draculaシアン (リンク色)
+$text-link-blue-active: #50fa7b; // Dracula緑 (アクティブリンク)
+$bloquote-border: #ff79c6; // Draculaピンク (引用の枠線)
+$blockquote-text: #ffb86c; // Draculaオレンジ (引用のテキスト)
+$inline-code-text: #f1fa8c; // Dracula黄色 (インラインコードのテキスト)
+$inline-code-bg: #44475a; // Dracula現在行背景 (インラインコードの背景)
+$toc-bg: #282a36; // Dracula背景 (目次背景)
+$go-top-bg: #44475a; // Dracula現在行背景 (トップに戻るボタン背景)
+$go-top-bg-hover: #6272a4; // Draculaコメント (トップに戻るボタンホバー)
+
+$black: #282a36; // Dracula背景 (メイン背景)
+$white: #f8f8f2; // Dracula前景色 (テキスト白)
+$light: #44475a; // Dracula現在行背景 (セカンダリ背景)
+$smoke: #ff5555; // Dracula赤 (スモークの色) - ::selection background
+$gray: #bd93f9; // Dracula紫 (グレー系テキスト, post-meta)
+
+// Specific Dracula colors not aliased above (used directly in _code.scss, _post.scss etc.)
+$dracula-pink: #ff79c6;
+$dracula-purple: #bd93f9;
+$dracula-cyan: #8be9fd;
+$dracula-green: #50fa7b;
+$dracula-orange: #ffb86c;
+$dracula-yellow: #f1fa8c;
+$dracula-red: #ff5555;
+$dracula-comment: #6272a4;
+$dracula-current-line: #44475a;
+$dracula-foreground: #f8f8f2;
+$dracula-background: #282a36;
+
+//////////////// 3. Fonts preferences /////////////////
+$sans-family:
+    Roboto,
+    system-ui,
+    -apple-system,
+    sans-serif;
+$mono-family: "Fira Code", Consolas, monospace;
+$base-font-size: 16px;
+$medium-font-size: $base-font-size * 0.95;
+$small-font-size: $base-font-size * 0.9;
+$base-line-height: 1.8;
+
+// Font weight
+// $light-weight: 300; // uncomment if necessary
+$normal-weight: 400;
+$bold-weight: 700;
+// $black-weight: 900; // uncomment if necessary
+
+//////////////// 4.Responsive design (media queries) /////////////////
+$wide-size: 890px;
+$narrow-size: 720px;
+
+// Padding unit
+$spacing-full: 30px;
+$spacing-half: $spacing-full / 2;
+
+// Screen sizes
+$on-mobile: 768px;
+$on-tablet: 769px;
+$on-desktop: 1024px;
+$on-widescreen: 1152px;
+
+@mixin media-query($device) {
+    @media screen and (max-width: $device) {
+        @content;
+    }
+}
+
+@mixin relative-font-size($ratio) {
+    font-size: $base-font-size * $ratio;
+}
+
+// Placeholder for clearfix to avoid duplicate definition errors if moved from _base.scss
+%clearfix {}

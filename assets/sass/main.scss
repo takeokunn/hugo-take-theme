@@ -1,93 +1,17 @@
-//////////////// Colors (Dracula Theme) /////////////////
-$text-base-color: #f8f8f2; // Dracula前景色 (通常のテキスト)
-$text-link-blue: #8be9fd; // Draculaシアン (リンク色)
-$text-link-blue-active: #50fa7b; // Dracula緑 (アクティブリンク)
-$bloquote-border: #ff79c6; // Draculaピンク (引用の枠線)
-$blockquote-text: #ffb86c; // Draculaオレンジ (引用のテキスト)
-$inline-code-text: #f1fa8c; // Dracula黄色 (インラインコードのテキスト)
-$inline-code-bg: #44475a; // Dracula現在行背景 (インラインコードの背景)
-$toc-bg: #282a36; // Dracula背景 (目次背景)
-$go-top-bg: #44475a; // Dracula現在行背景 (トップに戻るボタン背景)
-$go-top-bg-hover: #6272a4; // Draculaコメント (トップに戻るボタンホバー)
-
-$black: #282a36; // Dracula背景 (メイン背景)
-$white: #f8f8f2; // Dracula前景色 (テキスト白)
-$light: #44475a; // Dracula現在行背景 (セカンダリ背景)
-$smoke: #ff5555; // Dracula赤 (スモークの色)
-$gray: #bd93f9; // Dracula紫 (グレー系テキスト)
-
-// 後方互換性のために保持（ダークモードを標準に）
-$dark-text-base-color: $text-base-color;
-$dark-text-link-blue: $text-link-blue;
-$dark-text-link-blue-active: $text-link-blue-active;
-$dark-bloquote-border: $bloquote-border;
-$dark-blockquote-text: $blockquote-text;
-$dark-inline-code-text: $inline-code-text;
-$dark-inline-code-bg: $inline-code-bg;
-$dark-toc-bg: $toc-bg;
-$dark-go-top-bg: $go-top-bg;
-$dark-go-top-bg-hover: $go-top-bg-hover;
-$dark-black: $black;
-$dark-white: $white;
-$dark-light: $light;
-$dark-smoke: $smoke;
-$dark-gray: $gray;
-
-//////////////// 3. Fonts preferences /////////////////
-$sans-family:
-    Roboto,
-    system-ui,
-    -apple-system,
-    sans-serif;
-$mono-family: "Fira Code", Consolas, monospace;
-$base-font-size: 16px;
-$medium-font-size: $base-font-size * 0.95;
-$small-font-size: $base-font-size * 0.9;
-$base-line-height: 1.8;
-
-// Font weight
-// $light-weight: 300; // uncomment if necessary
-$normal-weight: 400;
-$bold-weight: 700;
-// $black-weight: 900; // uncomment if necessary
-
-//////////////// 4.Responsive design (media queries) /////////////////
-$wide-size: 890px;
-$narrow-size: 720px;
-
-// Padding unit
-$spacing-full: 30px;
-$spacing-half: $spacing-full / 2;
-
-// Screen sizes
-$on-mobile: 768px;
-$on-tablet: 769px;
-$on-desktop: 1024px;
-$on-widescreen: 1152px;
-
-@mixin media-query($device) {
-    @media screen and (max-width: $device) {
-        @content;
-    }
-}
-
-@mixin relative-font-size($ratio) {
-    font-size: $base-font-size * $ratio;
-}
-
 //////////////// 5. Import all sass files /////////////////
 
+// Import variables first
+@import "variables";
+
+// Import base styles and components
 @import "fonts";
 @import "base";
 @import "navbar";
 @import "layout";
 @import "post";
 @import "code";
-
 @import "tableOfContent";
 @import "miscellaneous";
-@import "dark";
 @import "listpage";
 @import "custom";
-
 @import "goToTop";
