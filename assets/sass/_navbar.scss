@@ -114,8 +114,8 @@
 
         &:hover {
             opacity: 1;
-            background-color: rgba(68, 71, 90, 0.5);
-            text-shadow: 0 0 4px rgba(139, 233, 253, 0.4);
+            background-color: rgba($light, 0.5); // Use variable
+            text-shadow: 0 0 4px rgba($text-link-blue, 0.4); // Use variable
             transform: translateY(-1px);
         }
 
@@ -131,8 +131,8 @@
     .menu-link.active {
         opacity: 1;
         font-weight: 600;
-        background-color: rgba(139, 233, 253, 0.15);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        background-color: rgba($text-link-blue, 0.15); // Use variable
+        box-shadow: 0 2px 4px rgba($black, 0.1); // Use variable
     }
 
     @include media-query($on-mobile) {

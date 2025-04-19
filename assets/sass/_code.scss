@@ -28,14 +28,14 @@ p > code {
 }
 // Codeblock Theme
 pre {
-    background-color: #282a36; // Dracula背景
+    background-color: $black; // Use variable
     border-radius: 0.6rem;
     padding: 1rem 1.4rem;
     margin: 1.5rem 0;
     display: block;
     overflow-x: auto;
-    border: 1px solid #44475a; // Dracula現在行背景
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border: 1px solid $light; // Use variable
+    box-shadow: 0 5px 15px rgba($black, 0.3); // Use variable
     position: relative;
 
     // オプショナル: コードブロックの言語表示
@@ -45,11 +45,11 @@ pre {
         top: 0;
         right: 1rem;
         font-size: 0.8rem;
-        color: #6272a4; // Draculaコメント
-        background-color: rgba(40, 42, 54, 0.8);
+        color: $dracula-comment; // Use variable
+        background-color: rgba($black, 0.8); // Use variable
         padding: 0.2rem 0.6rem;
         border-radius: 0 0 0.3rem 0.3rem;
-        border: 1px solid #44475a;
+        border: 1px solid $light; // Use variable
         border-top: none;
     }
 
@@ -64,19 +64,19 @@ pre {
     }
     // Set scrollbar background, track and thumb colors
     &::-webkit-scrollbar-track {
-        background: #44475a; // Dracula現在行背景
+        background: $light; // Use variable
         border-radius: 0.1rem;
     }
     &::-webkit-scrollbar-thumb {
-        background: #6272a4; // Draculaコメント
+        background: $dracula-comment; // Use variable
         border-radius: 0.3rem;
     }
     &::-webkit-scrollbar-thumb:hover {
-        background: #bd93f9; // Dracula紫
+        background: $dracula-purple; // Use variable
     }
 
     > code {
-        color: #f8f8f2; // Dracula前景色
+        color: $white; // Use variable
         max-width: 50rem;
         margin-left: auto;
         margin-right: auto;
@@ -108,7 +108,7 @@ pre {
                 min-width: 2em;
                 text-align: right;
                 user-select: none;
-                border-right: 1px solid rgba(98, 114, 164, 0.4);
+                border-right: 1px solid rgba($dracula-comment, 0.4); // Use variable
                 padding-right: 10px;
             }
 
@@ -128,7 +128,7 @@ pre {
 
         .lnt,
         .ln {
-            color: #6272a4;
+            color: $dracula-comment; // Use variable
             opacity: 0.7;
             display: block;
             padding-right: 0.5em;
@@ -143,12 +143,12 @@ pre {
 // 背景と通常テキスト
 .highlight,
 .highlight .w {
-    color: #f8f8f2; // Dracula前景色
+    color: $dracula-foreground; // Use variable
 }
 
 // エラー
 .highlight .err {
-    color: #ff5555; // Dracula赤
+    color: $dracula-red; // Use variable
     font-weight: bold;
 }
 
@@ -158,47 +158,47 @@ pre {
 .highlight .cm,
 .highlight .c1,
 .highlight .cs {
-    color: #6272a4; // Draculaコメント
+    color: $dracula-comment; // Use variable
     font-style: italic;
 }
 
 // プリプロセッサディレクティブ
 .highlight .cp {
-    color: #ff79c6; // Draculaピンク
+    color: $dracula-pink; // Use variable
 }
 
 // HTMLタグ
 .highlight .nt {
-    color: #ff79c6; // Draculaピンク
+    color: $dracula-pink; // Use variable
 }
 
 // 演算子
 .highlight .o,
 .highlight .ow {
-    color: #ff79c6; // Draculaピンク
+    color: $dracula-pink; // Use variable
 }
 
 // 句読点
 .highlight .p,
 .highlight .pi {
-    color: #f8f8f2; // Dracula前景色
+    color: $dracula-foreground; // Use variable
 }
 
 // 追加された行（git）
 .highlight .gi {
-    color: #50fa7b; // Dracula緑
-    background-color: rgba(80, 250, 123, 0.2);
+    color: $dracula-green; // Use variable
+    background-color: rgba($dracula-green, 0.2); // Use variable
 }
 
 // 削除された行（git）
 .highlight .gd {
-    color: #ff5555; // Dracula赤
-    background-color: rgba(255, 85, 85, 0.2);
+    color: $dracula-red; // Use variable
+    background-color: rgba($dracula-red, 0.2); // Use variable
 }
 
 // 見出し
 .highlight .gh {
-    color: #8be9fd; // Draculaシアン
+    color: $dracula-cyan; // Use variable
     font-weight: bold;
 }
 
@@ -208,22 +208,22 @@ pre {
 .highlight .kp,
 .highlight .kr,
 .highlight .kv {
-    color: #ff79c6; // Draculaピンク
+    color: $dracula-pink; // Use variable
 }
 
 // 定数キーワード
 .highlight .kc {
-    color: #bd93f9; // Dracula紫
+    color: $dracula-purple; // Use variable
 }
 
 // タイプキーワード
 .highlight .kt {
-    color: #8be9fd; // Draculaシアン
+    color: $dracula-cyan; // Use variable
 }
 
 // 宣言キーワード
 .highlight .kd {
-    color: #ff79c6; // Draculaピンク
+    color: $dracula-pink; // Use variable
 }
 
 // 文字列
@@ -235,42 +235,42 @@ pre {
 .highlight .sh,
 .highlight .sx,
 .highlight .s1 {
-    color: #f1fa8c; // Dracula黄色
+    color: $dracula-yellow; // Use variable
 }
 
 // 文字列補間
 .highlight .si {
-    color: #f1fa8c; // Dracula黄色
+    color: $dracula-yellow; // Use variable
 }
 
 // 正規表現
 .highlight .sr {
-    color: #f1fa8c; // Dracula黄色
+    color: $dracula-yellow; // Use variable
 }
 
 // エスケープ文字
 .highlight .se {
-    color: #f1fa8c; // Dracula黄色
+    color: $dracula-yellow; // Use variable
 }
 
 // 名前空間
 .highlight .nn {
-    color: #8be9fd; // Draculaシアン
+    color: $dracula-cyan; // Use variable
 }
 
 // クラス名
 .highlight .nc {
-    color: #50fa7b; // Dracula緑
+    color: $dracula-green; // Use variable
 }
 
 // 定数名
 .highlight .no {
-    color: #bd93f9; // Dracula紫
+    color: $dracula-purple; // Use variable
 }
 
 // 属性名
 .highlight .na {
-    color: #50fa7b; // Dracula緑
+    color: $dracula-green; // Use variable
 }
 
 // 数値
@@ -282,22 +282,22 @@ pre {
 .highlight .mo,
 .highlight .mb,
 .highlight .mx {
-    color: #bd93f9; // Dracula紫
+    color: $dracula-purple; // Use variable
 }
 
 // シンボル
 .highlight .ss {
-    color: #f1fa8c; // Dracula黄色
+    color: $dracula-yellow; // Use variable
 }
 
 // 関数名
 .highlight .nf {
-    color: #50fa7b; // Dracula緑
+    color: $dracula-green; // Use variable
     font-weight: bold;
 }
 
 // 変数
 .highlight .nv {
-    color: #8be9fd; // Draculaシアン
+    color: $dracula-cyan; // Use variable
     font-style: italic;
 }

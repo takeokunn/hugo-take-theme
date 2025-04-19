@@ -7,20 +7,14 @@ details {
     margin: 0.8rem 0 2rem 0;
     padding: 1.2rem 1.5rem;
     border-radius: 0.6rem;
-    background-color: rgba(40, 42, 54, 0.5); // 半透明の背景
-    border: 1px solid rgba(68, 71, 90, 0.5);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    background-color: rgba($black, 0.5); // Use variable
+    border: 1px solid rgba($light, 0.5); // Use variable
+    box-shadow: 0 4px 12px rgba($black, 0.2); // Use variable
     transition: all 0.3s ease;
 
     &:hover {
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+        box-shadow: 0 6px 16px rgba($black, 0.25); // Use variable
         transform: translateY(-2px);
-    }
-
-    // ダークモード用の調整
-    html.dark & {
-        border: 1px solid $dark-light;
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
     }
 
     // TOCコンテンツのアニメーション
@@ -42,7 +36,7 @@ details {
     summary {
         font-weight: bold;
         margin-bottom: 0.7rem;
-        color: #ff79c6; // Draculaピンク
+        color: $dracula-pink; // Use variable
         font-size: 1.1em;
         letter-spacing: 0.02em;
         transition:
@@ -53,18 +47,13 @@ details {
         transform-origin: center left;
 
         &:hover {
-            color: #ffb86c; // Draculaオレンジ
+            color: $dracula-orange; // Use variable
         }
 
         &::marker,
         &::-webkit-details-marker {
-            color: #ff79c6;
+            color: $dracula-pink; // Use variable
             transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-
-        // ダークモード用の調整
-        html.dark & {
-            color: $dark-text-link-blue;
         }
     }
 
@@ -78,26 +67,18 @@ details {
             line-height: 1.6;
 
             &::marker {
-                color: #bd93f9; // Dracula紫
+                color: $dracula-purple; // Use variable
             }
 
             a {
                 text-decoration: none;
-                color: #8be9fd; // Draculaシアン
+                color: $dracula-cyan; // Use variable
                 transition: all 0.4s cubic-bezier(0.2, 0.9, 0.2, 1);
 
                 &:hover {
-                    color: #50fa7b; // Dracula緑
-                    text-shadow: 0 0 6px rgba(80, 250, 123, 0.4);
+                    color: $dracula-green; // Use variable
+                    text-shadow: 0 0 6px rgba($dracula-green, 0.4); // Use variable
                     text-decoration: underline;
-                }
-
-                // ダークモード用のリンク調整
-                html.dark & {
-                    &:hover {
-                        color: $dark-text-link-blue-active;
-                        text-shadow: 0 0 5px rgba(80, 250, 123, 0.3);
-                    }
                 }
             }
         }

@@ -1,20 +1,20 @@
 .list-page .post-year {
     padding-bottom: 0.8rem;
     margin-bottom: 1rem;
-    color: #ff79c6; // Dracula ピンク
+    color: $dracula-pink; // Use variable
     font-size: 1.6em;
-    border-bottom: 1px solid rgba(255, 121, 198, 0.2);
+    border-bottom: 1px solid rgba($dracula-pink, 0.2); // Use variable
     font-weight: 700;
     letter-spacing: 0.03em;
 }
 
 .icon-star {
-    color: #ffb86c; // Dracula オレンジ
+    color: $dracula-orange; // Use variable
     height: 16px;
     margin-right: 1rem;
     width: 16px;
     display: block;
-    filter: drop-shadow(0 0 2px rgba(255, 184, 108, 0.5));
+    filter: drop-shadow(0 0 2px rgba($dracula-orange, 0.5)); // Use variable
 }
 
 .post-item-right {

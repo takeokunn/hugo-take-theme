@@ -249,7 +249,6 @@ blockquote {
 
 // Wrapper
 .wrapper {
-    max-width: -webkit-calc(#{$narrow-size} - (#{$spacing-full} * 2));
     max-width: calc(#{$narrow-size} - (#{$spacing-full} * 2));
     position: relative;
     margin-right: auto;
@@ -259,7 +258,6 @@ blockquote {
     @extend %clearfix;
 
     @include media-query($on-mobile) {
-        max-width: -webkit-calc(#{$narrow-size} - (#{$spacing-full}));
         max-width: calc(#{$narrow-size} - (#{$spacing-full}));
         padding-right: $spacing-full - 10;
         padding-left: $spacing-full - 10;
@@ -301,14 +299,14 @@ table {
     margin-top: $spacing-half;
     border-collapse: collapse;
     font-size: $small-font-size;
-    background-color: rgba(40, 42, 54, 0.5);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    background-color: rgba($black, 0.5); // Use variable
+    box-shadow: 0 2px 6px rgba($black, 0.2); // Use variable
     border-radius: 4px;
 
     thead {
         font-weight: $bold-weight;
         color: $white;
-        background-color: #44475a; // Dracula現在行背景
+        background-color: $light; // Use variable
         border-bottom: 1px solid $light;
     }
 

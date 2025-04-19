@@ -38,7 +38,7 @@
 .posts-item-note {
     padding-bottom: 0.3rem;
     font-weight: 500;
-    color: $black;
+    color: $text-base-color; // Use correct text color for dark theme
 }
 
 // List of posts
@@ -56,10 +56,10 @@
 
     .post-item-date {
         min-width: 96px;
-        color: $black;
+        color: $text-base-color; // Use correct text color for dark theme
 
         @include media-query($on-mobile) {
-            font-size: 16px;
+            font-size: $base-font-size; // Use variable
         }
     }
 
@@ -81,7 +81,7 @@
 
             &:hover,
             &focus {
-                color: $black;
+                color: $text-link-blue; // Use link hover color
             }
         }
     }
@@ -90,7 +90,6 @@
 // Footer
 .footer {
     max-width: calc(#{$wide-size} - (#{$spacing-full} * 2));
-    max-width: -webkit-calc(#{$wide-size} - (#{$spacing-full} * 2));
     margin-top: 8em;
     margin-bottom: 2em;
     margin-right: auto;
@@ -129,7 +128,7 @@
     &_copyright {
         font-size: $small-font-size;
         display: block;
-        color: rgba(248, 248, 242, 0.8); // Dracula前景色 少し透過
+        color: rgba($white, 0.8); // Use variable with opacity
         opacity: 1;
         margin-top: 1.5rem;
         padding: 0.5rem 1rem;
@@ -138,7 +137,7 @@
 
     &_divider {
         margin: 0 0.5rem;
-        color: #ff79c6; // Dracula ピンク
+        color: $dracula-pink; // Use variable
         opacity: 0.7;
     }
 
@@ -179,7 +178,7 @@
         font-size: 5em;
         font-weight: $bold-weight;
         line-height: 1.1;
-        color: $black;
+        color: $white; // Use correct text color for dark theme
         text-shadow: 1px 0px 0px $text-link-blue;
     }
     .phrase {
@@ -217,10 +216,10 @@
         color: $text-base-color;
         -webkit-appearance: none;
         font-size: $base-font-size;
-        background-color: rgba(128, 128, 128, 0.1);
-        border: 1px solid rgba(128, 128, 128, 0.1);
+        background-color: rgba($light, 0.1); // Use variable
+        border: 1px solid rgba($light, 0.1); // Use variable
         &::-webkit-input-placeholder {
-            color: #808080;
+            color: rgba($gray, 0.8); // Use variable
         }
         &::-webkit-search-decoration,
         &::-webkit-search-results-decoration {
@@ -277,7 +276,7 @@ kbd {
 }
 
 mark {
-    background: #ff0;
-    color: #000;
+    background: $smoke; // Use variable consistent with ::selection
+    color: $white; // Use variable consistent with ::selection
     border-radius: 3px;
 }
