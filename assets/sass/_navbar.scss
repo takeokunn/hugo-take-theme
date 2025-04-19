@@ -56,27 +56,19 @@
             -webkit-transform: scale(0.9, 0.9);
             transform: scale(0.9, 0.9);
         }
+        // Always dark mode: hide moon, show sun
         .mode-moon {
-            display: block;
-            line {
-                stroke: $black;
-                fill: none;
-            }
-
-            circle {
-                fill: $black;
-                stroke: $black;
-            }
+            display: none;
         }
         .mode-sunny {
-            display: none;
+            display: block;
             line {
-                stroke: $dark-white;
+                stroke: $white; // Use direct variable
                 fill: none;
             }
             circle {
                 fill: none;
-                stroke: $dark-white;
+                stroke: $white; // Use direct variable
             }
         }
     }
