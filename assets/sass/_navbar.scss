@@ -26,9 +26,7 @@
 }
 // Navigation
 .menu {
-    user-select: none;
-    -ms-user-select: none;
-    -webkit-user-select: none;
+    user-select: none; // Standard property is sufficient
 
     ul {
         margin: 0;
@@ -52,8 +50,7 @@
             opacity: 1;
         }
         &:active {
-            -webkit-transform: scale(0.9, 0.9);
-            transform: scale(0.9, 0.9);
+            transform: scale(0.9, 0.9); // Standard property is sufficient
         }
         // Always dark mode: hide moon, show sun
         .mode-moon {
@@ -168,8 +165,7 @@
                 }
             }
             &:active {
-                -webkit-transform: scale(0.9, 0.9);
-                transform: scale(0.9, 0.9);
+                transform: scale(0.9, 0.9); // Standard property is sufficient
             }
         }
 
@@ -180,8 +176,7 @@
 
         input[type="checkbox"]:checked ~ .trigger {
             position: fixed;
-            animation: 0.2s ease-in forwards fadein;
-            -webkit-animation: 0.2s ease-in forwards fadein;
+            animation: 0.2s ease-in forwards fadein; // Standard property is sufficient
             flex-direction: column;
             justify-content: center;
             height: 100vh;

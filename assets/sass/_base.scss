@@ -1,27 +1,11 @@
 // Reset some basic elements
 * {
-    -webkit-transition:
-        background-color 75ms ease-in,
-        border-color 75ms ease-in;
-    -moz-transition:
-        background-color 75ms ease-in,
-        border-color 75ms ease-in;
-    -ms-transition:
-        background-color 75ms ease-in,
-        border-color 75ms ease-in;
-    -o-transition:
-        background-color 75ms ease-in,
-        border-color 75ms ease-in;
     transition:
         background-color 75ms ease-in,
         border-color 75ms ease-in;
 }
 
 .notransition {
-    -webkit-transition: none;
-    -moz-transition: none;
-    -ms-transition: none;
-    -o-transition: none;
     transition: none;
 }
 
@@ -58,12 +42,9 @@ body {
     color: $text-base-color;
     background-color: $black;
     font: $normal-weight #{$base-font-size}/#{$base-line-height} $sans-family;
-    -webkit-text-size-adjust: 100%;
-    -webkit-font-smoothing: antialiased;
-    -webkit-font-feature-settings: "kern" 1;
-    -moz-font-feature-settings: "kern" 1;
-    -o-font-feature-settings: "kern" 1;
-    font-feature-settings: "kern" 1;
+    -webkit-text-size-adjust: 100%; // Keep for iOS Safari
+    -webkit-font-smoothing: antialiased; // Keep for better rendering control
+    font-feature-settings: "kern" 1; // Standard property is sufficient
     font-kerning: normal;
     box-sizing: border-box;
     letter-spacing: 0.01em;
@@ -263,8 +244,7 @@ blockquote {
         padding-left: $spacing-full - 10;
 
         &.blurry {
-            animation: 0.2s ease-in forwards blur;
-            -webkit-animation: 0.2s ease-in forwards blur;
+            animation: 0.2s ease-in forwards blur; // Standard property is sufficient
         }
     }
 }

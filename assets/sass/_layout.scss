@@ -12,11 +12,8 @@
         width: 70px;
         height: 70px;
         border-radius: 100%;
-        user-select: none;
-        -ms-user-select: none;
-        -webkit-user-select: none;
-        -webkit-animation: 0.5s ease-in forwards fadein;
-        animation: 0.5s ease-in forwards fadein;
+        user-select: none; // Standard property is sufficient
+        animation: 0.5s ease-in forwards fadein; // Standard property is sufficient
         opacity: 1;
         object-fit: cover;
     }
