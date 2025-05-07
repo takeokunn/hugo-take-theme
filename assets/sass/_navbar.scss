@@ -177,6 +177,7 @@
         input[type="checkbox"]:checked ~ .trigger {
             position: fixed;
             animation: 0.2s ease-in forwards fadein; // Standard property is sufficient
+            background-color: $black; // Add background color to prevent transparency
             flex-direction: column;
             justify-content: center;
             height: 100vh;
