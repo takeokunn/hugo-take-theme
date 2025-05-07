@@ -83,6 +83,11 @@
         display: none;
     }
 
+    // Default state for the close button (hidden on desktop and by default on mobile)
+    .menu-close-button {
+        display: none;
+    }
+
     li {
         display: inline-block;
         margin: 0;
@@ -192,7 +197,8 @@
         }
 
         .menu-close-button {
-            display: none; // Hidden by default, shown only in mobile modal
+            // Base display: none; is now outside this media query.
+            // These are styles for when it's visible in the modal.
             position: absolute;
             top: 1rem;
             right: 1rem;
