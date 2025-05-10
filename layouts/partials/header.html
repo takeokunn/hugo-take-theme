@@ -14,14 +14,13 @@
                 &times; <!-- This is the 'X' character -->
             </label>
             <ul class="trigger-container" role="menubar">
-                {{ $currentPage := . }}
                 <li role="none">
-                    <a class="menu-link {{ if eq .RelPermalink "/" }}active{{ end }}" href="/" role="menuitem" {{ if eq .RelPermalink "/" }}aria-current="page"{{ end }}>
+                    <a class="menu-link {{ if .IsHome }}active{{ end }}" href="/" role="menuitem" {{ if .IsHome }}aria-current="page"{{ end }}>
                         Home
                     </a>
                 </li>
                 <li role="none">
-                    <a class="menu-link {{ if eq .RelPermalink "/posts/" }}active{{ end }}" href="/posts/" role="menuitem" {{ if eq .RelPermalink "/posts/" }}aria-current="page"{{ end }}>
+                    <a class="menu-link {{ if eq .Section "posts" }}active{{ end }}" href="/posts/" role="menuitem" {{ if eq .Section "posts" }}aria-current="page"{{ end }}>
                         Posts
                     </a>
                 </li>
