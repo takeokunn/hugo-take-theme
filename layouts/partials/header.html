@@ -25,6 +25,11 @@
                         Posts
                     </a>
                 </li>
+                <li role="none">
+                    <a class="menu-link {{ if eq .RelPermalink "/graph/" }}active{{ end }}" href="/graph/" role="menuitem" {{ if eq .RelPermalink "/graph/" }}aria-current="page"{{ end }}>
+                        Graph
+                    </a>
+                </li>
             </ul>
         </div>
     </nav>
