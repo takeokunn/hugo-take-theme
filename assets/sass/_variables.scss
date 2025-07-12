@@ -14,7 +14,7 @@ $black: #282a36; // Dracula背景 (メイン背景)
 $white: #f8f8f2; // Dracula前景色 (テキスト白)
 $light: #44475a; // Dracula現在行背景 (セカンダリ背景)
 $smoke: #ff5555; // Dracula赤 (スモークの色) - ::selection background
-$gray: #bd93f9; // Dracula紫 (グレー系テキスト, post-meta)
+$gray: #f8f8f2; // Dracula紫 (グレー系テキスト, post-meta)
 
 // Specific Dracula colors not aliased above (used directly in _code.scss, _post.scss etc.)
 $dracula-pink: #ff79c6;
@@ -23,8 +23,8 @@ $dracula-cyan: #8be9fd;
 $dracula-green: #50fa7b;
 $dracula-orange: #ffb86c;
 $dracula-yellow: #f1fa8c;
-$dracula-red: #ff5555;
-$dracula-comment: #6272a4;
+$dracula-red: #ff9592;
+$dracula-comment: #9a9a9a;
 $dracula-current-line: #44475a;
 $dracula-foreground: #f8f8f2;
 $dracula-background: #282a36;

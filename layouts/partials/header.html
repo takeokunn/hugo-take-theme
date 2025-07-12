@@ -3,17 +3,17 @@
         <a href="{{ .Site.Home.Permalink }}" class="logo" aria-label="Home">
             {{ partial "svgs/home.svg" (dict "height" 25 "width" 25) . }}
         </a>
-        <input type="checkbox" id="menu-trigger" class="menu-trigger" aria-hidden="true" />
-        <label for="menu-trigger" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-menu">
+        <input type="checkbox" id="menu-trigger" class="menu-trigger" aria-expanded="false" aria-controls="site-menu" />
+        <label for="menu-trigger" aria-label="Toggle menu">
             <span class="menu-icon" aria-hidden="true">
                 {{ partial "svgs/menu.svg" (dict "height" 25 "width" 25) . }}
             </span>
         </label>
-        <div class="trigger" id="site-menu" role="menu">
+        <div class="trigger" id="site-menu">
             <label for="menu-trigger" class="menu-close-button" aria-label="Close menu">
                 &times; <!-- This is the 'X' character -->
             </label>
-            <ul class="trigger-container" role="menubar">
+            <ul class="trigger-container" role="menu">
                 <li role="none">
                     <a class="menu-link {{ if .IsHome }}active{{ end }}" href="/" role="menuitem" {{ if .IsHome }}aria-current="page"{{ end }}>
                         Home
