@@ -1,9 +1,9 @@
 <a href="{{ .RelPermalink }}" class="post-item-link" aria-label="Read post: {{ .Title }}">
     <article class="post-item" role="article">
         <div class="post-item-header">
-            <h4 class="post-item-title">
+            <h3 class="post-item-title">
                 {{ .Title }}
-            </h4>
+            </h3>
         </div>
         <time class="post-item-meta" datetime="{{ .Date.Format .Site.Params.DateForm }}" aria-label="Published on {{ .Date.Format .Site.Params.DateForm }}">
             {{ .Date.Format .Site.Params.DateForm }}
