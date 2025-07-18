@@ -1,0 +1,23 @@
+# {{ .Site.Title }}
+
+> {{ .Site.Params.Description }}
+
+{{/* Articles */}}
+{{ range where (where (sort (.Site.GetPage "/posts/").Pages "Date" "desc") "Draft" "ne" true) "Sitemap.Disable" "ne" true }}
+--------------------------------------------------------------------------------
+title: "{{ .Title }}"
+date: "{{ .Date.Format "2006-01-02" }}"
+--------------------------------------------------------------------------------
+{{ replaceRE "{{&lt;\\s*comment\\s*&gt;}}(.|\n)*?{{&lt;\\s*/comment\\s*&gt;}}" "" .RawContent -}}
+{{ end -}}
+
+{{/* Others */}}
+{{ range slice "about.md" -}}
+{{ with site.GetPage . -}}
+--------------------------------------------------------------------------------
+title: "{{ .Title }}"
+lastmod: "{{ .Date.Format "2006-01-02" }}"
+--------------------------------------------------------------------------------
+{{ replaceRE "{{&lt;\\s*comment\\s*&gt;}}(.|\n)*?{{&lt;\\s*/comment\\s*&gt;}}" "" .RawContent -}}
+{{ end -}}
+{{ end -}}
