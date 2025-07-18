@@ -17,7 +17,7 @@
     "prettier": "^3.6.2",
     "sass": "^1.89.2",
     "secretlint": "^10.2.1",
-    "stylelint": "^16.21.1",
+    "stylelint": "^16.22.0",
     "stylelint-prettier": "^5.0.3",
     "stylelint-scss": "^6.12.1"
   }
