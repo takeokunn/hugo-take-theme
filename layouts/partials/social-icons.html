@@ -6,8 +6,8 @@
 <div class="social-icons" role="navigation" aria-label="Social links">
     {{/* Zenn */}}
     {{ with $social.zenn }}
-    <a href="{{ . }}" target="_blank" rel="noopener noreferrer me" title="Zenn" aria-label="Visit Zenn profile" class="social-icon-zenn">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 88" aria-hidden="true" focusable="false" class="zenn-icon">
+    <a href="{{ . }}" target="_blank" rel="noopener noreferrer me" title="Zenn" aria-label="Visit Zenn profile">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 88" aria-hidden="true" focusable="false">
             <path d="M2.22 83.478h17.632c1.296 0 2.16-.576 2.952-1.584L67.906 17.092c.576-.864.288-1.728-.576-1.728H51.946c-1.008 0-1.656.432-2.304 1.296L3.948 81.606c-.648.936-.288 1.872.864 1.872h-2.592z" fill="currentColor"/>
             <path d="M54.106 83.478h15.336c1.152 0 1.656-.36 1.656-1.224 0-.36-.144-.792-.432-1.296L52.666 52.75c-.504-.792-1.296-.792-1.944 0l-7.992 13.248c-.432.72-.36 1.512.144 2.304l8.928 14.112c.504.72 1.152 1.064 2.304 1.064z" fill="currentColor"/>
         </svg>
@@ -37,6 +37,17 @@
     <a href="{{ . }}" target="_blank" rel="noopener noreferrer me" title="Keyoxide" aria-label="Visit Keyoxide profile">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
             <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+        </svg>
+    </a>
+    {{ end }}
+
+    {{/* RSS */}}
+    {{ with $social.rss }}
+    <a href="{{ . }}" target="_blank" rel="noopener noreferrer" title="RSS" aria-label="Subscribe via RSS">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <path d="M4 11a9 9 0 0 1 9 9"></path>
+            <path d="M4 4a16 16 0 0 1 16 16"></path>
+            <circle cx="5" cy="19" r="1"></circle>
         </svg>
     </a>
     {{ end }}

@@ -150,17 +150,6 @@
             &:hover {
                 background-color: $light;
             }
-
-            // Zenn icon specific styling
-            &.social-icon-zenn {
-                svg {
-                    color: $zenn-brand-blue;
-                }
-
-                &:hover svg {
-                    color: $zenn-brand-blue;
-                }
-            }
         }
         svg {
             color: $white;
@@ -383,21 +372,6 @@ mark {
             background-color: $dracula-purple;
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba($dracula-purple, 0.4);
-        }
-
-        // Zenn icon specific styling
-        &.social-icon-zenn {
-            svg {
-                color: $zenn-brand-blue;
-            }
-
-            &:hover {
-                background-color: $zenn-brand-blue;
-
-                svg {
-                    color: $white;
-                }
-            }
         }
     }
 
