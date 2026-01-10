@@ -541,6 +541,13 @@ mark {
         font-size: $base-font-size;
         transition: color 0.2s ease;
     }
+
+    .pdf-date {
+        margin-left: auto;
+        font-size: $small-font-size;
+        color: $dracula-comment;
+        flex-shrink: 0;
+    }
 }
 
 .pdf-source {
