@@ -1,5 +1,5 @@
 {{ if eq .Section "posts" }}
-    {{ $ISO_date := dateFormat "2006-01-02T15:04:05Z0700" .Date | safeHTML }}
+    {{ $ISO_date := .Date.Format "2006-01-02T15:04:05-07:00" }}
     <!-- Pagination meta tags for list pages only -->
     {{ if ne .Page.Kind "page" }}
     {{ $paginator := .Paginate (where .Pages "Section" "blog") }}
@@ -16,8 +16,8 @@
     {{end }}
 
     <meta property="og:type" content="article">
-    <meta property="og:article:published_time" content={{ $ISO_date | safeHTML }}>
-    <meta property="article:published_time" content={{ $ISO_date | safeHTML }}>
+    <meta property="og:article:published_time" content="{{ $ISO_date }}">
+    <meta property="article:published_time" content="{{ $ISO_date }}">
     <meta property="og:url" content="{{ .Permalink }}">
 
     {{ with.Site.Params.author }}
@@ -55,11 +55,11 @@
         "@type": "Person",
         "name": "{{ .Site.Params.github }}"
         },
-        "datePublished": "{{ dateFormat "2006-01-02" .Date }}",
+        "datePublished": "{{ .Date.Format "2006-01-02T15:04:05-07:00" }}",
         "description": {{ $description }},
         "wordCount": {{ .WordCount }},
         "mainEntityOfPage": "True",
-        "dateModified": "{{ dateFormat "2006-01-02" .Lastmod }}",
+        "dateModified": "{{ .Lastmod.Format "2006-01-02T15:04:05-07:00" }}",
         "image": {
         "@type": "imageObject",
         "url": "{{ with .Params.image }}{{ . | absURL }}{{ end }}"
