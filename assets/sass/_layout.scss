@@ -150,6 +150,17 @@
             &:hover {
                 background-color: $light;
             }
+
+            // Zenn icon specific styling
+            &.social-icon-zenn {
+                svg {
+                    color: $zenn-brand-blue;
+                }
+
+                &:hover svg {
+                    color: $zenn-brand-blue;
+                }
+            }
         }
         svg {
             color: $white;
@@ -363,12 +374,30 @@ mark {
         border-radius: 50%;
         background-color: $light;
         text-decoration: none;
-        transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        transition:
+            background-color 0.2s ease,
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
 
         &:hover {
             background-color: $dracula-purple;
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba($dracula-purple, 0.4);
+        }
+
+        // Zenn icon specific styling
+        &.social-icon-zenn {
+            svg {
+                color: $zenn-brand-blue;
+            }
+
+            &:hover {
+                background-color: $zenn-brand-blue;
+
+                svg {
+                    color: $white;
+                }
+            }
         }
     }
 
@@ -419,7 +448,9 @@ mark {
     background-color: $light;
     border-radius: 8px;
     overflow: hidden;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 
     &:hover {
         transform: translateY(-4px);
@@ -460,7 +491,7 @@ mark {
 
     .featured-card-date {
         font-size: $small-font-size * 0.9;
-        color: $dracula-purple;
+        color: $text-base-color;
     }
 }
 
@@ -511,7 +542,9 @@ mark {
         border-radius: 6px;
         text-decoration: none;
         color: $text-base-color;
-        transition: background-color 0.2s ease, transform 0.2s ease;
+        transition:
+            background-color 0.2s ease,
+            transform 0.2s ease;
 
         &:hover {
             background-color: rgba($dracula-purple, 0.2);
