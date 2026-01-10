@@ -3,18 +3,31 @@
     {{- partial "head.html" . -}}
     <body class="notransition" aria-live="polite">
         {{- partial "header.html" . -}}
-        <div class="wrapper">
-            {{ partial "bio" . }}
+        <div class="wrapper portfolio-wrapper">
+            {{/* Hero Section - Avatar, Title, Subtitle, Social Links */}}
+            {{ partial "hero" . }}
+
             <main aria-label="Content">
-                <h3 class="posts-item-note" aria-label="Recent Posts">Recent Posts</h3>
-                {{ range first 10 (where .Site.RegularPages "Section" "in" .Site.MainSections) }}
-                    {{ partial "postCard" . }}
-                {{ end }}
-                <p>
-                    {{ range $firstSection := (where .Site.Sections "Section" "in" (first 1 (.Site.Params.mainSections))) }}
-                    <a href="{{ $firstSection.Permalink }}" aria-label="View all blog posts">See all posts</a>
+                {{/* Featured Articles Section */}}
+                {{ partial "featured-articles" . }}
+
+                {{/* PDF Publications Section */}}
+                {{ partial "pdf-list" . }}
+
+                {{/* Recent Posts Section - Fallback when no featured articles configured */}}
+                {{ if not .Site.Params.featuredArticles }}
+                <section class="recent-posts" aria-label="Recent posts">
+                    <h2 class="section-title">Recent Posts</h2>
+                    {{ range first 10 (where .Site.RegularPages "Section" "in" .Site.MainSections) }}
+                        {{ partial "postCard" . }}
                     {{ end }}
-                </p>
+                    <p>
+                        {{ range $firstSection := (where .Site.Sections "Section" "in" (first 1 (.Site.Params.mainSections))) }}
+                        <a href="{{ $firstSection.Permalink }}" aria-label="View all blog posts">See all posts</a>
+                        {{ end }}
+                    </p>
+                </section>
+                {{ end }}
             </main>
         </div>
         {{- partial "footer.html" . -}}

@@ -277,3 +277,286 @@ mark {
     color: $white; // Use variable consistent with ::selection
     border-radius: 3px;
 }
+
+// Portfolio Layout
+.portfolio-wrapper {
+    max-width: $wide-size;
+    margin: 0 auto;
+    padding: 0 $spacing-full;
+
+    @include media-query($on-mobile) {
+        padding: 0 $spacing-half;
+    }
+}
+
+// Hero Section
+.hero {
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+    text-align: center;
+
+    @include media-query($on-mobile) {
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .hero-content {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .hero-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        margin-bottom: 1.5rem;
+        user-select: none;
+        animation: 0.5s ease-in forwards fadein;
+        opacity: 1;
+        object-fit: cover;
+        border: 3px solid $dracula-purple;
+        box-shadow: 0 4px 20px rgba($dracula-purple, 0.3);
+
+        @include media-query($on-mobile) {
+            width: 100px;
+            height: 100px;
+        }
+    }
+
+    .hero-title {
+        font-size: 2.5rem;
+        font-weight: $bold-weight;
+        margin: 0 0 0.5rem 0;
+        color: $white;
+        letter-spacing: -0.02em;
+
+        @include media-query($on-mobile) {
+            font-size: 2rem;
+        }
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+        margin: 0 0 1.5rem 0;
+        color: $dracula-comment;
+        font-style: italic;
+
+        @include media-query($on-mobile) {
+            font-size: 1rem;
+        }
+    }
+}
+
+// Social Icons (shared between hero and footer)
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 1rem;
+
+    a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background-color: $light;
+        text-decoration: none;
+        transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+
+        &:hover {
+            background-color: $dracula-purple;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba($dracula-purple, 0.4);
+        }
+    }
+
+    svg {
+        width: 22px;
+        height: 22px;
+        color: $white;
+        transition: color 0.2s ease;
+    }
+}
+
+// Section Title
+.section-title {
+    font-size: 1.5rem;
+    font-weight: $bold-weight;
+    color: $white;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid $dracula-purple;
+    display: inline-block;
+
+    @include media-query($on-mobile) {
+        font-size: 1.25rem;
+    }
+}
+
+// Featured Articles Section
+.featured-articles {
+    margin-bottom: 4rem;
+
+    @include media-query($on-mobile) {
+        margin-bottom: 2rem;
+    }
+}
+
+.featured-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+
+    @include media-query($on-mobile) {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+.featured-card {
+    background-color: $light;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .featured-card-link {
+        display: block;
+        padding: 1.25rem;
+        text-decoration: none;
+        color: inherit;
+        height: 100%;
+    }
+
+    .featured-card-title {
+        font-size: 1.1rem;
+        font-weight: $bold-weight;
+        color: $white;
+        margin: 0 0 0.5rem 0;
+        line-height: 1.4;
+        transition: color 0.2s ease;
+    }
+
+    &:hover .featured-card-title {
+        color: $text-link-blue;
+    }
+
+    .featured-card-summary {
+        font-size: $small-font-size;
+        color: $dracula-comment;
+        margin: 0 0 0.75rem 0;
+        line-height: 1.5;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .featured-card-date {
+        font-size: $small-font-size * 0.9;
+        color: $dracula-purple;
+    }
+}
+
+.featured-more {
+    text-align: center;
+    margin-top: 1.5rem;
+
+    .featured-more-link {
+        display: inline-block;
+        padding: 0.5rem 1.5rem;
+        color: $text-link-blue;
+        text-decoration: none;
+        border: 1px solid $text-link-blue;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+
+        &:hover {
+            background-color: $text-link-blue;
+            color: $black;
+        }
+    }
+}
+
+// PDF List Section
+.pdf-list {
+    margin-bottom: 4rem;
+
+    @include media-query($on-mobile) {
+        margin-bottom: 2rem;
+    }
+}
+
+.pdf-list-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.pdf-list-item {
+    margin-bottom: 0.75rem;
+
+    .pdf-link {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        background-color: $light;
+        border-radius: 6px;
+        text-decoration: none;
+        color: $text-base-color;
+        transition: background-color 0.2s ease, transform 0.2s ease;
+
+        &:hover {
+            background-color: rgba($dracula-purple, 0.2);
+            transform: translateX(4px);
+
+            .pdf-title {
+                color: $text-link-blue;
+            }
+        }
+    }
+
+    .pdf-icon {
+        width: 20px;
+        height: 20px;
+        color: $dracula-pink;
+        flex-shrink: 0;
+    }
+
+    .pdf-title {
+        font-size: $base-font-size;
+        transition: color 0.2s ease;
+    }
+}
+
+.pdf-source {
+    text-align: center;
+    margin-top: 1rem;
+
+    .pdf-source-link {
+        color: $dracula-comment;
+        text-decoration: none;
+        font-size: $small-font-size;
+        transition: color 0.2s ease;
+
+        &:hover {
+            color: $text-link-blue;
+        }
+    }
+}
+
+// Recent Posts Section (fallback)
+.recent-posts {
+    margin-bottom: 4rem;
+
+    @include media-query($on-mobile) {
+        margin-bottom: 2rem;
+    }
+}

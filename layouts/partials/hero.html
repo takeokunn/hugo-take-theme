@@ -1,0 +1,18 @@
+{{/* Hero Section Partial - Portfolio-style hero with avatar, title, subtitle, and social links */}}
+{{/* Replaces bio.html for portfolio pages */}}
+
+<section class="hero" role="banner" aria-label="Profile introduction">
+    <div class="hero-content">
+        {{/* Avatar - using shared partial */}}
+        {{ partial "avatar" (dict "size" "120x120" "class" "hero-avatar" "context" .) }}
+
+        {{/* Title and Subtitle */}}
+        <h1 class="hero-title">{{ .Site.Params.heroTitle | default .Site.Title }}</h1>
+        <p class="hero-subtitle">{{ .Site.Params.heroSubtitle | default "poem driven development" }}</p>
+
+        {{/* Social Links */}}
+        {{ with .Site.Params.social }}
+        {{ partial "social-icons" . }}
+        {{ end }}
+    </div>
+</section>

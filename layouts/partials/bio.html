@@ -1,15 +1,8 @@
-{{ $image := resources.Get "icons/avatar.png" }}
+{{/* Bio Partial - Author section with avatar, name, and tagline */}}
+{{/* Uses shared avatar partial for DRY compliance */}}
+
 <div class="author" role="complementary" aria-label="Author information">
-    {{ with $image }}
-    {{ if eq .MediaType.SubType "svg" }}
-    <svg width="25em" height="25em" xmlns="http://www.w3.org/2000/svg">
-        <image width="25em" height="25em" href="{{ $image.RelPermalink }}" />
-    </svg>
-    {{ else }}
-    {{ $image := $image.Fill "100x100 webp" }}
-    <img class="author-avatar" src="{{ $image.RelPermalink }}" alt="takeokunn" width="{{ .Width }}" height="{{ .Height }}" />
-    {{ end }}
-    {{ end }}
-    <h2 class="author-name">takeokunn's blog</h2>
-    <p class="author-bio">poem driven development</p>
+    {{ partial "avatar" (dict "size" "100x100" "class" "author-avatar" "context" .) }}
+    <h2 class="author-name">{{ .Site.Title }}</h2>
+    <p class="author-bio">{{ .Site.Params.heroSubtitle | default "poem driven development" }}</p>
 </div>

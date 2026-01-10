@@ -1,0 +1,62 @@
+{{/* PDF List Partial - Hybrid auto-generation with manual fallback */}}
+{{/* Usage: {{ partial "pdf-list" . }} */}}
+{{/* Auto-discovers PDFs from static/pdf/ directory */}}
+{{/* Also supports .Site.Params.pdfLinks array of {title, url} objects as additions */}}
+
+{{/* Collect all PDF entries */}}
+{{ $allPdfs := slice }}
+{{ $seenUrls := dict }}
+
+{{/* 1. Auto-discover PDFs from static/pdf/ directory */}}
+{{ $pdfDir := "static/pdf" }}
+{{ with readDir $pdfDir }}
+    {{ range . }}
+        {{ if and (not .IsDir) (strings.HasSuffix .Name ".pdf") }}
+            {{ $title := strings.TrimSuffix ".pdf" .Name }}
+            {{ $url := printf "/pdf/%s" .Name }}
+            {{ $allPdfs = $allPdfs | append (dict "title" $title "url" $url) }}
+            {{ $seenUrls = merge $seenUrls (dict $url true) }}
+        {{ end }}
+    {{ end }}
+{{ end }}
+
+{{/* 2. Add manual pdfLinks entries (hybrid - only if not already discovered) */}}
+{{ with .Site.Params.pdfLinks }}
+    {{ range . }}
+        {{ if and .url .title }}
+            {{ if not (index $seenUrls .url) }}
+                {{ $allPdfs = $allPdfs | append (dict "title" .title "url" .url) }}
+            {{ end }}
+        {{ end }}
+    {{ end }}
+{{ end }}
+
+{{/* 3. Render the PDF list if we have any entries */}}
+{{ if gt (len $allPdfs) 0 }}
+<section class="pdf-list" aria-label="PDF publications">
+    <h2 class="section-title">Publications</h2>
+    <ul class="pdf-list-items">
+        {{ range $allPdfs }}
+        <li class="pdf-list-item">
+            <a href="{{ .url }}" target="_blank" rel="noopener noreferrer" class="pdf-link" aria-label="Download {{ .title }} (PDF)">
+                <svg class="pdf-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                <span class="pdf-title">{{ .title }}</span>
+            </a>
+        </li>
+        {{ end }}
+    </ul>
+    {{ with $.Site.Params.pdfSourceLink }}
+    <div class="pdf-source">
+        <a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="pdf-source-link" aria-label="View all PDFs on GitHub">
+            View all on GitHub →
+        </a>
+    </div>
+    {{ end }}
+</section>
+{{ end }}

@@ -1,0 +1,33 @@
+{{/* Featured Articles Partial - Card grid for curated articles */}}
+{{/* Usage: {{ partial "featured-articles" . }} */}}
+{{/* Requires .Site.Params.featuredArticles array of internal paths */}}
+
+{{ $featuredArticles := .Site.Params.featuredArticles }}
+{{ $dateFormat := .Site.Params.DateForm | default "2006.01.02" }}
+
+{{ with $featuredArticles }}
+<section class="featured-articles" aria-label="Featured articles">
+    <h2 class="section-title">Featured Articles</h2>
+    <div class="featured-grid">
+        {{ range . }}
+        {{ with $.Site.GetPage . }}
+        <article class="featured-card">
+            <a href="{{ .Permalink }}" class="featured-card-link">
+                <h3 class="featured-card-title">{{ .Title }}</h3>
+                {{ with .Summary }}
+                <p class="featured-card-summary">{{ . | plainify | truncate 100 }}</p>
+                {{ end }}
+                <time class="featured-card-date" datetime="{{ .Date.Format "2006-01-02" }}">
+                    {{ .Date.Format $dateFormat }}
+                </time>
+            </a>
+        </article>
+        {{ end }}
+        {{ end }}
+    </div>
+    {{ $moreLink := $.Site.Params.featuredArticlesMoreLink | default "/posts/" }}
+    <div class="featured-more">
+        <a href="{{ $moreLink }}" class="featured-more-link" aria-label="View all articles">more →</a>
+    </div>
+</section>
+{{ end }}

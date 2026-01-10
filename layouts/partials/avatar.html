@@ -1,0 +1,26 @@
+{{/* Avatar Partial - Reusable avatar image with SVG and WebP support */}}
+{{/* Usage: {{ partial "avatar" (dict "size" "120x120" "class" "hero-avatar" "context" .) }} */}}
+{{/* Parameters:
+     - size: Image dimensions (default: "100x100")
+     - class: CSS class name (default: "avatar")
+     - context: Page context for site access
+*/}}
+
+{{ $size := .size | default "100x100" }}
+{{ $class := .class | default "avatar" }}
+{{ $context := .context }}
+{{ $image := resources.Get "icons/avatar.png" }}
+
+{{ with $image }}
+{{ if eq .MediaType.SubType "svg" }}
+{{ $dimensions := split $size "x" }}
+{{ $width := index $dimensions 0 }}
+{{ $height := index $dimensions 1 }}
+<svg class="{{ $class }}" width="{{ $width }}" height="{{ $height }}" xmlns="http://www.w3.org/2000/svg">
+    <image width="{{ $width }}" height="{{ $height }}" href="{{ $image.RelPermalink }}" />
+</svg>
+{{ else }}
+{{ $processed := $image.Fill (printf "%s webp" $size) }}
+<img class="{{ $class }}" src="{{ $processed.RelPermalink }}" alt="{{ $context.Site.Title }}" width="{{ $processed.Width }}" height="{{ $processed.Height }}" />
+{{ end }}
+{{ end }}
