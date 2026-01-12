@@ -46,5 +46,14 @@ isPlainText = true
 rel = "alternate"
 root = true
 
+[sitemap]
+changefreq = "weekly"
+priority = 0.5
+filename = "sitemap.xml"
+
 [outputs]
-home = ["HTML", "llms", "llmsfull"]
+home = ["HTML", "Sitemap", "RSS", "llms", "llmsfull"]
+section = ["HTML", "RSS"]
+taxonomy = ["HTML"]
+term = ["HTML", "RSS"]
+page = ["HTML"]
