@@ -3,7 +3,7 @@
 
 This project is hugo theme for [[https://github.com/takeokunn/blog][takeokunn/blog]].
 
-https://takeokunn.org/
+https://www.takeokunn.org/
 
 ** Run locally
 #+begin_src console
