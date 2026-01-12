@@ -1,0 +1,44 @@
+{{- $id := .Get "id" -}}
+{{- $title := .Get "title" | default "YouTube video" -}}
+{{- $start := .Get "start" | default "" -}}
+
+{{- /* Build embed URL with optional start time */ -}}
+{{- $embedUrl := printf "https://www.youtube.com/embed/%s" $id -}}
+{{- if $start -}}
+    {{- $embedUrl = printf "%s?start=%s" $embedUrl $start -}}
+{{- end -}}
+
+{{- /* YouTube thumbnail URL */ -}}
+{{- $thumbnailUrl := printf "https://img.youtube.com/vi/%s/maxresdefault.jpg" $id -}}
+
+{{- /* Get page date for uploadDate fallback */ -}}
+{{- $uploadDate := .Page.Date.Format "2006-01-02T15:04:05-07:00" -}}
+
+<div class="youtube-container" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%;">
+    <iframe
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+        src="{{ $embedUrl }}"
+        title="{{ $title }}"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen
+        loading="lazy">
+    </iframe>
+</div>
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    "name": {{ $title | jsonify }},
+    "description": {{ $title | jsonify }},
+    "thumbnailUrl": {{ $thumbnailUrl | jsonify }},
+    "uploadDate": "{{ $uploadDate }}",
+    "embedUrl": {{ $embedUrl | jsonify }},
+    "potentialAction": {
+        "@type": "WatchAction",
+        "target": {{ $embedUrl | jsonify }}
+    }
+}
+</script>
