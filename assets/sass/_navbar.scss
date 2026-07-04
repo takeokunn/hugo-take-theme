@@ -143,9 +143,7 @@
             }
 
             .trigger {
-                visibility: hidden;
-                opacity: 0;
-                pointer-events: none;
+                display: none;
             }
 
             .trigger.open {
@@ -160,9 +158,6 @@
                 flex-direction: column;
                 justify-content: center;
                 animation: 0.2s ease-in forwards fadein;
-                opacity: 1;
-                visibility: visible;
-                pointer-events: auto;
             }
 
             .trigger.open .menu-close-button {
