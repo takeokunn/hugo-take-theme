@@ -210,6 +210,14 @@
     }
 }
 
+// The mobile navbar is position: fixed (only when JS collapses it),
+// so push page content down to keep it from sliding underneath.
+@include media-query($on-mobile) {
+    html.js body {
+        padding-top: 50px;
+    }
+}
+
 // Lock body scroll while the mobile overlay is open
 body.menu-is-open {
     overflow: hidden;
