@@ -7,3 +7,4 @@ exampleSite/.hugo_build.lock
 .direnv/
 result
 result-*
+.playwright-mcp/

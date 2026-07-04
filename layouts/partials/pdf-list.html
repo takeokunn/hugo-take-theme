@@ -52,7 +52,7 @@
 {{/* 4. Render the PDF list if we have any entries */}}
 {{ if gt (len $sortedPdfs) 0 }}
 <section class="pdf-list" aria-label="PDF publications">
-    <h2 class="section-title">Publications</h2>
+    <h2 class="section-title">{{ i18n "publications" }}</h2>
     <ul class="pdf-list-items">
         {{ range $sortedPdfs }}
         <li class="pdf-list-item">

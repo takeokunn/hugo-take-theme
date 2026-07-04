@@ -7,12 +7,12 @@
 
 {{ with $featuredArticles }}
 <section class="featured-articles" aria-label="Featured articles">
-    <h2 class="section-title">Featured Articles</h2>
+    <h2 class="section-title">{{ i18n "featuredArticles" }}</h2>
     <div class="featured-grid">
         {{ range . }}
         {{ with $.Site.GetPage . }}
         <article class="featured-card">
-            <a href="{{ .Permalink }}" class="featured-card-link">
+            <a href="{{ .RelPermalink }}" class="featured-card-link">
                 <h3 class="featured-card-title">{{ .Title }}</h3>
                 {{ with .Summary }}
                 <p class="featured-card-summary">{{ . | plainify | truncate 100 }}</p>
