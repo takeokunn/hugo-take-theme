@@ -1,0 +1,8 @@
+{{/* Site JavaScript - minified + SRI in production, plain in development */}}
+{{ $main := resources.Get "js/main.js" }}
+{{ if hugo.IsProduction }}
+{{ $main = $main | resources.Minify | resources.Fingerprint "sha256" }}
+<script src="{{ $main.RelPermalink }}" integrity="{{ $main.Data.Integrity }}" defer></script>
+{{ else }}
+<script src="{{ $main.RelPermalink }}" defer></script>
+{{ end }}

@@ -1,27 +1,34 @@
-{{- $id := .Get "id" -}}
+{{- $id := or (.Get "id") (.Get 0) -}}
 {{- $title := .Get "title" | default "YouTube video" -}}
 {{- $start := .Get "start" | default "" -}}
 
-{{- /* Build embed URL with optional start time */ -}}
-{{- $embedUrl := printf "https://www.youtube.com/embed/%s" $id -}}
+{{- /* Reject anything that is not a well-formed YouTube video id / start offset
+       so arbitrary strings can never reach the iframe src */ -}}
+{{- if not (findRE `^[a-zA-Z0-9_-]{11}$` $id) -}}
+    {{- errorf "youtube shortcode: invalid video id %q in %s" $id .Position -}}
+{{- end -}}
+{{- if and $start (not (findRE `^[0-9]+$` $start)) -}}
+    {{- errorf "youtube shortcode: start must be seconds (digits only), got %q in %s" $start .Position -}}
+{{- end -}}
+
+{{- /* privacy-enhanced host: no cookies until playback starts */ -}}
+{{- $embedUrl := printf "https://www.youtube-nocookie.com/embed/%s" $id -}}
 {{- if $start -}}
     {{- $embedUrl = printf "%s?start=%s" $embedUrl $start -}}
 {{- end -}}
 
-{{- /* YouTube thumbnail URL */ -}}
 {{- $thumbnailUrl := printf "https://img.youtube.com/vi/%s/maxresdefault.jpg" $id -}}
 
 {{- /* Get page date for uploadDate fallback */ -}}
 {{- $uploadDate := .Page.Date.Format "2006-01-02T15:04:05-07:00" -}}
 
-<div class="youtube-container" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%;">
+<div class="youtube-container">
     <iframe
-        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
         src="{{ $embedUrl }}"
         title="{{ $title }}"
-        frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         referrerpolicy="strict-origin-when-cross-origin"
+        sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"
         allowfullscreen
         loading="lazy">
     </iframe>
@@ -34,7 +41,7 @@
     "name": {{ $title | jsonify }},
     "description": {{ $title | jsonify }},
     "thumbnailUrl": {{ $thumbnailUrl | jsonify }},
-    "uploadDate": "{{ $uploadDate }}",
+    "uploadDate": {{ $uploadDate | jsonify }},
     "embedUrl": {{ $embedUrl | jsonify }},
     "potentialAction": {
         "@type": "WatchAction",

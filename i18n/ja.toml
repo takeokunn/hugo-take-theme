@@ -1,0 +1,56 @@
+[skipToContent]
+other = "本文へスキップ"
+
+[mainNavigation]
+other = "メインナビゲーション"
+
+[openMenu]
+other = "メニューを開く"
+
+[closeMenu]
+other = "メニューを閉じる"
+
+[tableOfContents]
+other = "目次"
+
+[backToTop]
+other = "ページの先頭へ戻る"
+
+[postTags]
+other = "記事のタグ"
+
+[publishedOn]
+other = "公開日"
+
+[featuredArticles]
+other = "Featured Articles"
+
+[publications]
+other = "Publications"
+
+[recentPosts]
+other = "Recent Posts"
+
+[seeAllPosts]
+other = "記事一覧を見る"
+
+[notFoundTitle]
+other = "404 NOT FOUND"
+
+[notFoundMessage]
+other = "お探しのページは見つかりませんでした。"
+
+[backToHome]
+other = "ホームへ戻る"
+
+[socialLinks]
+other = "ソーシャルリンク"
+
+[subscribeRss]
+other = "RSSを購読する"
+
+[prevPost]
+other = "前の記事"
+
+[nextPost]
+other = "次の記事"

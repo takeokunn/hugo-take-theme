@@ -1,15 +1,16 @@
 {{- define "main" -}}
-<div class="wrapper">
+<div class="wrapper list-page">
     <header class="header">
         <h1 class="header-title center">{{ .Title }}</h1>
     </header>
-    <main aria-label="Content">
+    <main id="main-content" tabindex="-1">
         {{ range .Pages.GroupByDate "2006" }}
-            {{ $year := .Key }}
-            <h2 class="post-year">{{ $year }}</h2>
-            {{ range .Pages }}
-                {{ partial "postCard" . }}
-            {{ end }}
+            <section aria-labelledby="year-{{ .Key }}">
+                <h2 class="post-year" id="year-{{ .Key }}">{{ .Key }}</h2>
+                {{ range .Pages }}
+                    {{ partial "postCard" . }}
+                {{ end }}
+            </section>
         {{ end }}
     </main>
 </div>

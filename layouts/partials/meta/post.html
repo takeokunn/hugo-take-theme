@@ -1,72 +1,64 @@
 {{ if eq .Section "posts" }}
     {{ $ISO_date := .Date.Format "2006-01-02T15:04:05-07:00" }}
-    <!-- Pagination meta tags for list pages only -->
-    {{ if ne .Page.Kind "page" }}
-    {{ $paginator := .Paginate (where .Pages "Section" "blog") }}
-    {{ if $paginator }}
-    <link rel="first" href="{{ $paginator.First.URL }}">
-    <link rel="last" href="{{ $paginator.Last.URL }}">
-    {{ if $paginator.HasPrev }}
-    <link rel="prev" href="{{ $paginator.Prev.URL }}">
-    {{end }}
-    {{ if $paginator.HasNext }}
-    <link rel="next" href="{{ $paginator.Next.URL }}">
-    {{end }}
-    {{end }}
-    {{end }}
+    {{ $ISO_lastmod := .Lastmod.Format "2006-01-02T15:04:05-07:00" }}
 
     <meta property="og:type" content="article">
-    <meta property="og:article:published_time" content="{{ $ISO_date }}">
     <meta property="article:published_time" content="{{ $ISO_date }}">
-    <meta property="og:url" content="{{ .Permalink }}">
+    <meta property="article:modified_time" content="{{ $ISO_lastmod }}">
 
-    {{ with.Site.Params.author }}
-    <meta property="og:article:author" content="{{ .name }}">
+    {{ with .Site.Params.author }}
     <meta property="article:author" content="{{ .name }}">
     <meta name="author" content="{{ .name }}">
-    {{ with.fediverseAccount }}
+    {{ with .fediverseAccount }}
     <meta name="fediverse:creator" content="{{ . }}">{{/* ref https://blog.joinmastodon.org/2024/07/highlighting-journalism-on-mastodon/ */}}
     {{ end }}
     {{ end }}
 
-    {{ with.Params.category }}
+    {{ with .Params.category }}
     <meta name="news_keywords" content="{{ index . 0 }}">
     <meta property="article:section" content="{{ index . 0 }}">
+    {{ end }}
+    {{ range .GetTerms "tags" }}
+    <meta property="article:tag" content="{{ .LinkTitle }}">
     {{ end }}
 
     {{ $imageUrl := "ogp/default.png" }}
     {{ if .File }}
         {{ $imageUrl = printf "ogp/%s.png" (strings.TrimSuffix ".md" (path.Base .File.Path)) }}
     {{ end }}
+    {{ with .Params.image }}{{ $imageUrl = . }}{{ end }}
     <meta itemprop="image" content="{{ $imageUrl | absURL }}">
     <meta property="og:image" content="{{ $imageUrl | absURL }}">
     <meta name="twitter:image" content="{{ $imageUrl | absURL }}">
-    <meta name="twitter:image:src" content="{{ $imageUrl | absURL }}">
     <meta name="twitter:card" content="summary_large_image">
 
-    {{ $description := (substr (.Content | plainify) 0 300) }}
+    {{ $description := or .Description (.Summary | plainify | htmlUnescape | truncate 160) }}
+    {{ $authorName := or .Site.Params.author.name .Site.Title }}
 
-    <script defer type="application/ld+json">
+    <script type="application/ld+json">
     {
-        "@context": "http://schema.org",
-        "@type": "Article",
-        "headline": {{ .Title }},
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": {{ .Title | jsonify }},
         "author": {
-        "@type": "Person",
-        "name": "{{ .Site.Params.github }}"
+            "@type": "Person",
+            "name": {{ $authorName | jsonify }}
         },
-        "datePublished": "{{ .Date.Format "2006-01-02T15:04:05-07:00" }}",
-        "description": {{ $description }},
+        "datePublished": {{ $ISO_date | jsonify }},
+        "dateModified": {{ $ISO_lastmod | jsonify }},
+        "description": {{ $description | jsonify }},
         "wordCount": {{ .WordCount }},
-        "mainEntityOfPage": "True",
-        "dateModified": "{{ .Lastmod.Format "2006-01-02T15:04:05-07:00" }}",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": {{ .Permalink | jsonify }}
+        },
         "image": {
-        "@type": "imageObject",
-        "url": "{{ with .Params.image }}{{ . | absURL }}{{ end }}"
+            "@type": "ImageObject",
+            "url": {{ $imageUrl | absURL | jsonify }}
         },
         "publisher": {
-        "@type": "Organization",
-        "name": "{{ .Site.Title }}"
+            "@type": "Organization",
+            "name": {{ .Site.Title | jsonify }}
         }
     }
     </script>

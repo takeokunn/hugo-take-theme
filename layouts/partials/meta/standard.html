@@ -1,31 +1,35 @@
 <meta charset="utf-8">
-<meta http-equiv="content-type" content="text/html">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#282a36">
 
 <meta name="Hatena::Bookmark" content="nocomment">
 
-{{ if .IsHome }}
-    <title itemprop="name">takeokunn's blog</title>
-{{ else }}
-    <title itemprop="name">{{ .Title }} | takeokunn's blog</title>
+{{- $isPost := eq .Section "posts" }}
+{{- $title := .Site.Title }}
+{{- if not .IsHome }}{{ $title = printf "%s | %s" .Title .Site.Title }}{{ end }}
+
+<title itemprop="name">{{ $title }}</title>
+
+<meta property="og:title" content="{{ $title }}">
+<meta name="twitter:title" content="{{ $title }}">
+<meta itemprop="name" content="{{ $title }}">
+<meta name="application-name" content="{{ .Site.Title }}">
+<meta property="og:site_name" content="{{ .Site.Title }}">
+<meta property="og:url" content="{{ .Permalink }}">
+{{ if not $isPost }}
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
 {{ end }}
 
-{{ if .IsHome }}
-    <meta property="og:title" content="{{ .Site.Title }}">
-    <meta name="twitter:title" content="{{ .Site.Title }}">
-    <meta itemprop="name" content="{{ .Site.Title }}">
-    <meta name="application-name" content="{{ .Site.Title }}">
-{{ else }}
-    <meta property="og:title" content="{{ .Title }} | {{ .Site.Title }}">
-    <meta name="twitter:title" content="{{ .Title }} | {{ .Site.Title }}">
-    <meta itemprop="name" content="{{ .Title }} | {{ .Site.Title }}">
-    <meta name="application-name" content="{{ .Title }} | {{ .Site.Title }}">
+{{/* Keep taxonomy/term pages out of search indexes (thin content) */}}
+{{ if in (slice "taxonomy" "term") .Kind }}
+<meta name="robots" content="noindex, follow">
 {{ end }}
-<meta property="og:site_name" content="{{ .Site.Params.sitename }}">
 
-{{ $description := "poem driven development" }}
-{{ if eq .Section "posts" }}
-    {{ $description = (substr (.Content | plainify) 0 300) }}
+{{ $description := or .Site.Params.description .Site.Params.heroSubtitle "" }}
+{{ if $isPost }}
+    {{ $description = or .Description (.Summary | plainify | htmlUnescape | truncate 160) }}
 {{ end }}
 
 <meta name="description" content="{{ $description }}">
@@ -33,8 +37,13 @@
 <meta property="og:description" content="{{ $description }}">
 <meta name="twitter:description" content="{{ $description }}">
 
-<meta property="og:locale" content="{{ .Site.LanguageCode }}">
-<meta name="language" content="{{ .Site.LanguageCode }}">
+{{ with or site.Language.LanguageCode site.Language.Lang }}
+{{ $parts := split . "-" }}
+{{ $ogLocale := index $parts 0 }}
+{{ if gt (len $parts) 1 }}{{ $ogLocale = printf "%s_%s" (index $parts 0) (upper (index $parts 1)) }}{{ end }}
+<meta property="og:locale" content="{{ $ogLocale }}">
+<meta name="language" content="{{ . }}">
+{{ end }}
 {{ range .AllTranslations }}
     <link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" title="{{ .Language.LanguageName }}">
 {{ end }}

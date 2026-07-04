@@ -1,0 +1,56 @@
+[skipToContent]
+other = "Skip to main content"
+
+[mainNavigation]
+other = "Main navigation"
+
+[openMenu]
+other = "Open menu"
+
+[closeMenu]
+other = "Close menu"
+
+[tableOfContents]
+other = "Table of Contents"
+
+[backToTop]
+other = "Back to top"
+
+[postTags]
+other = "Post tags"
+
+[publishedOn]
+other = "Published on"
+
+[featuredArticles]
+other = "Featured Articles"
+
+[publications]
+other = "Publications"
+
+[recentPosts]
+other = "Recent Posts"
+
+[seeAllPosts]
+other = "See all posts"
+
+[notFoundTitle]
+other = "404 NOT FOUND"
+
+[notFoundMessage]
+other = "You just hit a route that doesn't exist."
+
+[backToHome]
+other = "Back to home"
+
+[socialLinks]
+other = "Social links"
+
+[subscribeRss]
+other = "Subscribe via RSS"
+
+[prevPost]
+other = "Previous post"
+
+[nextPost]
+other = "Next post"

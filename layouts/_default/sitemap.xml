@@ -1,7 +1,8 @@
 {{ printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML }}
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    {{- range .Site.AllPages }}
-    {{- if and (ne .Params.private true) (ne .Draft true) }}
+    {{- range .Site.Pages }}
+    {{- /* Skip taxonomy/term pages (they carry noindex) and private/draft pages */}}
+    {{- if and (not (in (slice "taxonomy" "term") .Kind)) (ne .Params.private true) (ne .Draft true) (ne .Sitemap.Disable true) }}
     <url>
         <loc>{{ .Permalink }}</loc>
         {{- with or .Lastmod .Date }}

@@ -1,12 +1,12 @@
-<a href="{{ .RelPermalink }}" class="post-item-link" aria-label="Read post: {{ .Title }}">
-    <article class="post-item" role="article">
+<a href="{{ .RelPermalink }}" class="post-item-link">
+    <article class="post-item">
         <div class="post-item-header">
             <h3 class="post-item-title">
                 {{ .Title }}
             </h3>
         </div>
-        <time class="post-item-meta" datetime="{{ .Date.Format .Site.Params.DateForm }}" aria-label="Published on {{ .Date.Format .Site.Params.DateForm }}">
-            {{ .Date.Format .Site.Params.DateForm }}
+        <time class="post-item-meta" datetime="{{ .Date.Format "2006-01-02" }}">
+            <span class="visually-hidden">{{ i18n "publishedOn" }}: </span>{{ .Date.Format (.Site.Params.DateForm | default "2006.01.02") }}
         </time>
     </article>
 </a>

@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html lang="ja-jp" dir="ltr" prefix="og: https://ogp.me/ns#">
+<html lang="{{ or site.Language.LanguageCode site.Language.Lang }}" dir="{{ or site.Language.LanguageDirection "ltr" }}" prefix="og: https://ogp.me/ns#">
     {{- partial "head.html" . -}}
-    <body class="notransition" aria-live="polite">
+    <body>
+        <a class="skip-link" href="#main-content">{{ i18n "skipToContent" }}</a>
         {{- partial "header.html" . -}}
         {{- block "main" . }}{{- end }}
+        {{- partial "goToTop.html" . -}}
         {{- partial "footer.html" . -}}
+        {{- partial "scripts.html" . -}}
     </body>
 </html>

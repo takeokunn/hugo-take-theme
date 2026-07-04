@@ -1,14 +1,16 @@
 {{/* Hero Section Partial - Portfolio-style hero with avatar, title, subtitle, and social links */}}
-{{/* Replaces bio.html for portfolio pages */}}
+{{/* role="banner" belongs to the page header; a plain section landmark is correct here */}}
 
-<section class="hero" role="banner" aria-label="Profile introduction">
+<section class="hero">
     <div class="hero-content">
-        {{/* Avatar - using shared partial */}}
-        {{ partial "avatar" (dict "size" "120x120" "class" "hero-avatar" "context" .) }}
+        {{/* Avatar is the LCP element on the home page - load with priority */}}
+        {{ partial "avatar" (dict "size" "120x120" "class" "hero-avatar" "context" . "priority" true) }}
 
         {{/* Title and Subtitle */}}
         <h1 class="hero-title">{{ .Site.Params.heroTitle | default .Site.Title }}</h1>
-        <p class="hero-subtitle">{{ .Site.Params.heroSubtitle | default "poem driven development" }}</p>
+        {{ with or .Site.Params.heroSubtitle .Site.Params.description }}
+        <p class="hero-subtitle">{{ . }}</p>
+        {{ end }}
 
         {{/* Social Links */}}
         {{ with .Site.Params.social }}

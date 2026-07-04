@@ -2,13 +2,22 @@
     {{- partial "meta/main.html" . }}
 
     <link rel="canonical" href="{{ .Permalink }}">
-    <link href="{{ .RelPermalink }}" rel="alternate" type="application/rss+xml" title="{{ $.Site.Title }}">
-    <link href="{{ .RelPermalink }}" rel="feed" type="application/rss+xml" title="{{ $.Site.Title }}">
+    {{- with site.Home.OutputFormats.Get "rss" }}
+    <link rel="alternate" type="application/rss+xml" href="{{ .RelPermalink }}" title="{{ site.Title }}">
+    {{- end }}
+    {{- if and .IsSection (not .IsHome) }}
+    {{- with .OutputFormats.Get "rss" }}
+    <link rel="alternate" type="application/rss+xml" href="{{ .RelPermalink }}" title="{{ $.Title }} - {{ site.Title }}">
+    {{- end }}
+    {{- end }}
 
     {{- $style := resources.Get "sass/main.scss" | resources.ExecuteAsTemplate "style.scss" . | toCSS (dict "targetPath" "style.css") | minify | fingerprint }}
     <link href="{{ $style.RelPermalink }}" rel="stylesheet">
     {{- $code_syntax_highlight_css := resources.Get "code-highlight.css" | minify | fingerprint }}
     <link href="{{ $code_syntax_highlight_css.RelPermalink }}" rel="stylesheet">
 
-    <link rel="shortcut icon" href="{{ (resources.Get "icons/favicon.ico" | resources.Copy "favicon.ico").RelPermalink }}">
+    <link rel="icon" href="{{ (resources.Get "icons/favicon.ico" | resources.Copy "favicon.ico").RelPermalink }}" sizes="32x32">
+
+    {{/* Flag JS availability early so CSS can adapt (menu button vs. always-visible nav) */}}
+    <script>document.documentElement.classList.add("js")</script>
 </head>

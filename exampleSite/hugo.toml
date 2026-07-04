@@ -23,8 +23,8 @@ endLevel = 4
 ordered = false
 
 [Languages.ja-jp]
-languageName = "Japanese"
-languageCode = "ja-jp"
+label = "Japanese"
+locale = "ja-jp"
 contentDir = "content/"
 
 [Languages.ja-jp.params]
@@ -52,7 +52,7 @@ priority = 0.5
 filename = "sitemap.xml"
 
 [outputs]
-home = ["HTML", "Sitemap", "RSS", "llms", "llmsfull"]
+home = ["HTML", "RSS", "llms", "llmsfull"]
 section = ["HTML", "RSS"]
 taxonomy = ["HTML"]
 term = ["HTML", "RSS"]

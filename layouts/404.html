@@ -1,12 +1,9 @@
-{{ define "title"}}
-    404 |  NOT FOUND
-{{ end }}
-
-{{ define "main"}}
+{{ define "main" }}
 <div class="wrapper">
-    <main class="main-404" aria-label="Content">
-        <h1>404 NOT FOUND</h1>
-        <p>You just hit a route that doesn't exist.</p>
+    <main id="main-content" tabindex="-1" class="main-404 not-found">
+        <h1 class="title">{{ i18n "notFoundTitle" }}</h1>
+        <p class="phrase">{{ i18n "notFoundMessage" }}</p>
+        <p><a class="solution" href="{{ site.Home.RelPermalink }}">{{ i18n "backToHome" }}</a></p>
     </main>
 </div>
 {{ end }}

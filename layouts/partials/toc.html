@@ -1,7 +1,11 @@
-{{- $toc := .Site.Params.toc -}}
-{{ $toc = .Params.toc }}
-
+{{/* Table of contents - rendered only when the page opts in (params.toc != false)
+     and the generated TOC actually has entries */}}
+{{- $enabled := true -}}
+{{- if isset .Site.Params "toc" }}{{ $enabled = .Site.Params.toc }}{{ end -}}
+{{- if isset .Params "toc" }}{{ $enabled = .Params.toc }}{{ end -}}
+{{- if and $enabled (in .TableOfContents "<li") -}}
 <details class="toc">
-    <summary aria-label="Toggle Table of Contents"><b>Table of Contents</b></summary>
+    <summary><b>{{ i18n "tableOfContents" }}</b></summary>
     {{ .TableOfContents }}
 </details>
+{{- end -}}

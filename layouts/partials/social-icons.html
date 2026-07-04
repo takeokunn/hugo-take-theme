@@ -3,7 +3,7 @@
 
 {{ $social := . }}
 
-<div class="social-icons" role="navigation" aria-label="Social links">
+<nav class="social-icons" aria-label="{{ i18n "socialLinks" }}">
     {{/* Zenn */}}
     {{ with $social.zenn }}
     <a href="{{ . }}" target="_blank" rel="noopener noreferrer me" title="Zenn" aria-label="Visit Zenn profile">
@@ -50,4 +50,4 @@
             <circle cx="5" cy="19" r="1"></circle>
         </svg>
     </a>
-</div>
+</nav>

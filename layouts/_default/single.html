@@ -1,25 +1,45 @@
 {{ define "main" }}
 <div class="wrapper post">
-    <main class="page-content" aria-label="Content">
-        <article role="article">
+    <main id="main-content" tabindex="-1" class="page-content">
+        <article>
             <header class="header">
                 <h1 class="header-title">{{ .Title }}</h1>
                 <div class="post-meta">
-                    <time datetime="{{ .Date.Format .Site.Params.DateForm  }}" itemprop="datePublished" aria-label="Published on {{ .Date.Format .Site.Params.DateForm }}">
-                        {{ .Date.Format .Site.Params.DateForm }}
+                    <time datetime="{{ .Date.Format "2006-01-02T15:04:05-07:00" }}" itemprop="datePublished">
+                        <span class="visually-hidden">{{ i18n "publishedOn" }}: </span>{{ .Date.Format (.Site.Params.DateForm | default "2006.01.02") }}
                     </time>
                 </div>
-                <ul class="tags" aria-label="Post tags">
-                    {{ range .Params.tags }}
-                        <li><a href="{{ "tags/" | relURL }}{{ . | urlize }}" aria-label="View all posts with tag: {{ . }}">{{ . }}</a></li>
+                {{ with .GetTerms "tags" }}
+                <ul class="tags" aria-label="{{ i18n "postTags" }}">
+                    {{ range . }}
+                        <li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>
                     {{ end }}
                 </ul>
+                {{ end }}
             </header>
-            {{ partial "toc.html" .}}
+            {{ partial "toc.html" . }}
             <div class="page-content">
                 {{ .Content }}
             </div>
         </article>
+        {{ if or .PrevInSection .NextInSection }}
+        <nav class="post-nav" aria-label="{{ i18n "prevPost" }} / {{ i18n "nextPost" }}">
+            {{ with .PrevInSection }}
+            <a class="post-nav-item" href="{{ .RelPermalink }}" rel="prev">
+                <div class="nav-arrow">← {{ i18n "prevPost" }}</div>
+                <span class="post-title">{{ .Title }}</span>
+            </a>
+            {{ else }}
+            <span class="post-nav-item" aria-hidden="true"></span>
+            {{ end }}
+            {{ with .NextInSection }}
+            <a class="post-nav-item" href="{{ .RelPermalink }}" rel="next">
+                <div class="nav-arrow">{{ i18n "nextPost" }} →</div>
+                <span class="post-title">{{ .Title }}</span>
+            </a>
+            {{ end }}
+        </nav>
+        {{ end }}
         {{- partial "comments.html" . -}}
     </main>
 </div>

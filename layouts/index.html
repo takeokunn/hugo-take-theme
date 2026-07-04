@@ -1,44 +1,31 @@
-<!DOCTYPE html>
-<html lang="ja-jp" dir="ltr" prefix="og: https://ogp.me/ns#">
-    {{- partial "head.html" . -}}
-    <body class="notransition" aria-live="polite">
-        {{- partial "header.html" . -}}
-        <div class="wrapper portfolio-wrapper">
-            {{/* Hero Section - Avatar, Title, Subtitle, Social Links */}}
-            {{ partial "hero" . }}
+{{ define "main" }}
+<div class="wrapper portfolio-wrapper">
+    {{/* Hero Section - Avatar, Title, Subtitle, Social Links */}}
+    {{ partial "hero" . }}
 
-            <main aria-label="Content">
-                {{/* Featured Articles Section */}}
-                {{ partial "featured-articles" . }}
+    <main id="main-content" tabindex="-1" aria-label="Content">
+        {{/* Featured Articles Section */}}
+        {{ partial "featured-articles" . }}
 
-                {{/* PDF Publications Section */}}
-                {{ partial "pdf-list" . }}
+        {{/* PDF Publications Section */}}
+        {{ partial "pdf-list" . }}
 
-                {{/* Recent Posts Section - Fallback when no featured articles configured */}}
-                {{ if not .Site.Params.featuredArticles }}
-                <section class="recent-posts" aria-label="Recent posts">
-                    <h2 class="section-title">Recent Posts</h2>
-                    {{ range first 10 (where .Site.RegularPages "Section" "in" .Site.MainSections) }}
-                        {{ partial "postCard" . }}
-                    {{ end }}
-                    <p>
-                        {{ range $firstSection := (where .Site.Sections "Section" "in" (first 1 (.Site.Params.mainSections))) }}
-                        <a href="{{ $firstSection.Permalink }}" aria-label="View all blog posts">See all posts</a>
-                        {{ end }}
-                    </p>
-                </section>
-                {{ end }}
-            </main>
-        </div>
-        {{- partial "footer.html" . -}}
-
-        {{ $main := slice (resources.Get "js/main.js") }}
-        {{ if hugo.IsProduction }}
-        {{ $main = $main | resources.Concat "js/main.js" | resources.Minify | resources.Fingerprint }}
-        <script src="{{  $main.Permalink }}" integrity="{{ $main.Data.Integrity }}"></script>
-        {{ else }}
-        {{ $main = $main | resources.Concat "js/main.js" }}
-        <script async src="{{ $main.Permalink }}" ></script>
+        {{/* Recent Posts Section - Fallback when no featured articles configured */}}
+        {{ if not .Site.Params.featuredArticles }}
+        <section class="recent-posts">
+            <h2 class="section-title">{{ i18n "recentPosts" }}</h2>
+            {{ range first 10 (where .Site.RegularPages "Section" "in" .Site.MainSections) }}
+                {{ partial "postCard" . }}
+            {{ end }}
+            {{ with .Site.MainSections }}
+            {{ with site.GetPage (printf "/%s" (index . 0)) }}
+            <p>
+                <a href="{{ .RelPermalink }}">{{ i18n "seeAllPosts" }}</a>
+            </p>
+            {{ end }}
+            {{ end }}
+        </section>
         {{ end }}
-    </body>
-</html>
+    </main>
+</div>
+{{ end }}

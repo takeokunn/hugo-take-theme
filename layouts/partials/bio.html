@@ -1,8 +1,0 @@
-{{/* Bio Partial - Author section with avatar, name, and tagline */}}
-{{/* Uses shared avatar partial for DRY compliance */}}
-
-<div class="author" role="complementary" aria-label="Author information">
-    {{ partial "avatar" (dict "size" "100x100" "class" "author-avatar" "context" .) }}
-    <h2 class="author-name">{{ .Site.Title }}</h2>
-    <p class="author-bio">{{ .Site.Params.heroSubtitle | default "poem driven development" }}</p>
-</div>
