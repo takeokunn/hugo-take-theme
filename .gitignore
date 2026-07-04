@@ -4,3 +4,6 @@ node_modules
 exampleSite/public/
 exampleSite/resources/
 exampleSite/.hugo_build.lock
+.direnv/
+result
+result-*

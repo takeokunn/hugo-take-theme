@@ -1,11 +1,11 @@
 name = "hugo take theme"
 license = "MIT"
-licenselink = "https://github.com/takeokunn/hugo-take-theme/blob/master/LICENSE"
-description = ""
+licenselink = "https://github.com/takeokunn/hugo-take-theme/blob/main/LICENSE"
+description = "Accessible dark (Dracula) blog/portfolio theme with WAI-ARIA landmarks, i18n, RSS/OGP/JSON-LD metadata and Nix packaging"
 homepage = "https://github.com/takeokunn/hugo-take-theme"
-tags = []
-features = ["blog", "sass", "dark"]
-min_version = "0.87.0"
+tags = ["blog", "portfolio", "dark", "accessible", "responsive", "dracula"]
+features = ["blog", "sass", "dark", "accessibility", "rss", "seo", "i18n"]
+min_version = "0.128.0"
 
 [author]
   name = "takeokunn"

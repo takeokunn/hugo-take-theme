@@ -3,17 +3,27 @@ name: CI
 on:
   pull_request:
   push:
+    branches:
+      - main
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   lint:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v7
-      - name: Cache node_modules
+      - name: Setup node
         uses: actions/setup-node@v6
         with:
-          node-version: latest
+          node-version: lts/*
           cache: npm
       - name: Install npm
         run: npm ci
@@ -21,8 +31,21 @@ jobs:
         run: npm run lint:stylelint
       - name: Run secretlint
         run: npm run lint:secretlint
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Setup nix
+        uses: cachix/install-nix-action@v31
+      - name: Flake check (builds exampleSite)
+        run: nix flake check --print-build-logs
   dependabot:
-    needs: lint
+    needs:
+      - lint
+      - build
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
     permissions:
@@ -37,5 +60,5 @@ jobs:
       - name: Merge PR
         run: gh pr merge --auto --merge "$PR_URL"
         env:
-          PR_URL: ${{github.event.pull_request.html_url}}
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
