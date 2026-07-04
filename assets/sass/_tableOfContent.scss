@@ -1,59 +1,47 @@
 /* Table of contents */
-details {
-    cursor: pointer;
-}
-
 .toc {
     margin: 0.8rem 0 2rem 0;
     padding: 1.2rem 1.5rem;
     border-radius: 0.6rem;
-    background-color: rgba($black, 0.5); // Use variable
-    border: 1px solid rgba($light, 0.5); // Use variable
-    box-shadow: 0 4px 12px rgba($black, 0.2); // Use variable
-    transition: all 0.3s ease;
-
-    &:hover {
-        box-shadow: 0 6px 16px rgba($black, 0.25); // Use variable
-        transform: translateY(-2px);
-    }
-
-    // TOCコンテンツのアニメーション
-    & > ul {
-        overflow: hidden;
-        max-height: 0;
-        opacity: 0;
-        transition:
-            max-height 1s cubic-bezier(0.05, 0.85, 0.15, 1),
-            opacity 1s cubic-bezier(0.05, 0.85, 0.15, 1),
-            padding 1s cubic-bezier(0.05, 0.85, 0.15, 1);
-    }
-
-    &[open] > ul {
-        max-height: 2000px; // 十分大きな値
-        opacity: 1;
-    }
+    background-color: rgba($black, 0.5);
+    border: 1px solid rgba($light, 0.5);
+    box-shadow: 0 4px 12px rgba($black, 0.2);
+    // Enables animating block-size to/from `auto` (Chrome 129+, safe no-op elsewhere)
+    interpolate-size: allow-keywords;
 
     summary {
         font-weight: bold;
-        color: $dracula-pink; // Use variable
+        color: $dracula-pink;
         font-size: 1.1em;
         letter-spacing: 0.02em;
-        transition:
-            color 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
-            transform 0.7s cubic-bezier(0.05, 0.85, 0.15, 1);
+        cursor: pointer;
         user-select: none;
-        outline: none;
-        transform-origin: center left;
+        transition: color 0.3s ease;
 
         &:hover {
-            color: $dracula-orange; // Use variable
+            color: $dracula-orange;
         }
 
-        &::marker,
-        &::-webkit-details-marker {
-            color: $dracula-pink; // Use variable
-            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+        &::marker {
+            color: $dracula-pink;
         }
+    }
+
+    // CSS-only open/close animation via ::details-content
+    // (progressive enhancement: unsupported browsers toggle instantly)
+    &::details-content {
+        opacity: 0;
+        block-size: 0;
+        overflow-y: clip;
+        transition:
+            content-visibility 0.4s allow-discrete,
+            opacity 0.4s ease,
+            block-size 0.4s ease;
+    }
+
+    &[open]::details-content {
+        opacity: 1;
+        block-size: auto;
     }
 
     ul {
@@ -66,17 +54,16 @@ details {
             line-height: 1.6;
 
             &::marker {
-                color: $dracula-purple; // Use variable
+                color: $dracula-purple;
             }
 
             a {
                 text-decoration: none;
-                color: $dracula-cyan; // Use variable
-                transition: all 0.4s cubic-bezier(0.2, 0.9, 0.2, 1);
+                color: $dracula-cyan;
+                transition: color 0.2s ease;
 
                 &:hover {
-                    color: $dracula-green; // Use variable
-                    text-shadow: 0 0 6px rgba($dracula-green, 0.4); // Use variable
+                    color: $dracula-green;
                     text-decoration: underline;
                 }
             }

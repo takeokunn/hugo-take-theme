@@ -29,13 +29,20 @@ $dracula-current-line: #44475a;
 $dracula-foreground: #f8f8f2;
 $dracula-background: #282a36;
 
+// Muted text that still meets WCAG AA on $light card backgrounds
+$muted-on-light: #c3c6d4;
+
 //////////////// 3. Fonts preferences /////////////////
 $sans-family:
     Roboto,
     system-ui,
     -apple-system,
+    "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN",
+    "Noto Sans JP",
+    Meiryo,
     sans-serif;
-$mono-family: "Fira Code", Consolas, monospace;
+$mono-family: "Fira Code", ui-monospace, "SFMono-Regular", Consolas, monospace;
 $base-font-size: 16px;
 $medium-font-size: $base-font-size * 0.95;
 $small-font-size: $base-font-size * 0.9;
@@ -53,7 +60,7 @@ $narrow-size: 720px;
 
 // Padding unit
 $spacing-full: 30px;
-$spacing-half: $spacing-full / 2;
+$spacing-half: 15px; // = $spacing-full / 2 (precomputed: slash-division is deprecated in dart-sass)
 
 // Screen sizes
 $on-mobile: 768px;

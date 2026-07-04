@@ -1,20 +1,23 @@
 /* Scroll to top button */
 html {
-    scroll-behavior: smooth;
+    // Only animate scrolling for users who have not asked for reduced motion
+    @media (prefers-reduced-motion: no-preference) {
+        scroll-behavior: smooth;
+    }
 }
 
 #totop {
-    visibility: hidden;
     color: $text-base-color;
     position: fixed;
     bottom: 60px;
     right: 30px;
     z-index: 1;
+    border: 0;
     border-radius: 10%;
+    padding: 0;
+    cursor: pointer;
     background-color: $go-top-bg;
-    transition:
-        visibility 0.5s,
-        opacity 0.8s linear;
+    transition: background-color 0.2s ease;
 
     &:hover {
         background-color: $go-top-bg-hover;
