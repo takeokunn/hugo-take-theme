@@ -15,7 +15,7 @@
     "npm-run-all2": "^9.0.2",
     "postcss-scss": "^4.0.9",
     "prettier": "^3.9.5",
-    "sass": "^1.101.0",
+    "sass": "^1.101.3",
     "secretlint": "^13.0.2",
     "stylelint": "^17.14.1",
     "stylelint-prettier": "^5.0.3",
