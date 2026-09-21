@@ -14,7 +14,7 @@
     "@secretlint/secretlint-rule-preset-recommend": "^13.0.5",
     "npm-run-all2": "^9.0.3",
     "postcss-scss": "^4.0.9",
-    "prettier": "^3.9.6",
+    "prettier": "^3.9.8",
     "sass": "^1.104.1",
     "secretlint": "^13.0.5",
     "stylelint": "^17.15.0",
