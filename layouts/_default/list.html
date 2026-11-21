@@ -1,5 +1,6 @@
 {{- define "main" -}}
 {{- $pages := .Pages.ByDate.Reverse -}}
+{{- $isMain := in site.MainSections .Section -}}
 {{- $years := $pages.GroupByDate "2006" -}}
 <div class="container list-page">
     <header class="list-page__header">
@@ -13,15 +14,15 @@
             {{- end }} · {{ i18n "sortNew" -}}
         </p>
     </header>
-    {{- if eq .Section "posts" }}
-    <nav class="list-page__filters" aria-label="{{ i18n "filterByTag" }}">
+    {{- if $isMain }}
+    <nav class="list-page__filters chip-list" aria-label="{{ i18n "filterByTag" }}">
         <a class="chip chip--l is-active" href="{{ .RelPermalink }}" aria-current="page">{{ i18n "all" }}<span class="chip__count">{{ len $pages }}</span></a>
         {{- range partial "top-tags.html" 6 }}
             {{- partial "tag-chip.html" (dict "tag" .Page "count" .Count "size" "l") }}
         {{- end }}
     </nav>
     {{- end }}
-    <div class="list-page__layout{{ if ne .Section "posts" }} list-page__layout--full{{ end }}">
+    <div class="list-page__layout{{ if not $isMain }} list-page__layout--full{{ end }}">
         <main id="main-content" tabindex="-1">
             {{- range $years }}
             <section class="list-page__year" aria-labelledby="year-{{ .Key }}">
@@ -35,7 +36,7 @@
             </section>
             {{- end }}
         </main>
-        {{- if eq .Section "posts" }}
+        {{- if $isMain }}
         <aside class="list-page__sidebar">
             {{- with $years }}
             <section class="panel">

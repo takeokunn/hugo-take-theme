@@ -18,6 +18,10 @@
     @include type(page-title);
 }
 
+.list-page__title--purple {
+    color: var(--color-purple);
+}
+
 .list-page__subtitle {
     margin: 8px 0 0;
     color: var(--color-text-secondary);
@@ -25,15 +29,12 @@
 }
 
 .list-page__filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
     margin-bottom: 32px;
 
     @include mobile {
         flex-wrap: nowrap;
         overflow-x: auto;
-        padding-bottom: 6px;
+        padding: 6px 0;
         margin-bottom: 20px;
     }
 }
@@ -131,4 +132,19 @@
 .list-page__year-links a:hover,
 .list-page__popular a:hover {
     color: var(--color-link);
+}
+
+.list-page__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 40px;
+    align-items: start;
+
+    @include below-sidebar {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+.list-page__layout--full {
+    grid-template-columns: minmax(0, 1fr);
 }
