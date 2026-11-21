@@ -230,10 +230,13 @@ other = "Based on {{ .Tags }}"
 other = "See more"
 
 [postUnit]
+one = "post"
 other = "posts"
 
 [tagsTotal]
+one = "{{ .Count }} tagged post in total"
 other = "{{ .Count }} tagged posts in total"
 
 [termPostCount]
+one = "{{ .Count }} post"
 other = "{{ .Count }} posts"
