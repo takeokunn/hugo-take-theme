@@ -10,9 +10,9 @@
         <h1 class="list-page__title list-page__title--purple">{{ .Title }}</h1>
         <p class="list-page__subtitle">{{ i18n "tagCount" (dict "Count" (len $tags)) }} · {{ i18n "tagsTotal" (dict "Count" $total) }}</p>
         <nav class="tags-sort chip-list" aria-label="{{ i18n "sortLabel" }}">
-            <a class="chip is-active" data-tag-sort="count" href="?sort=count" aria-current="page">{{ i18n "sortCount" }}</a>
-            <a class="chip" data-tag-sort="new" href="?sort=new">{{ i18n "sortNew" }}</a>
-            <a class="chip" data-tag-sort="kana" href="?sort=kana">{{ i18n "sortName" }}</a>
+            <a class="chip chip--sort is-active" data-tag-sort="count" href="?sort=count" aria-current="page">{{ i18n "sortCount" }}</a>
+            <a class="chip chip--sort" data-tag-sort="new" href="?sort=new">{{ i18n "sortNew" }}</a>
+            <a class="chip chip--sort" data-tag-sort="kana" href="?sort=kana">{{ i18n "sortName" }}</a>
         </nav>
     </header>
     <main id="main-content" tabindex="-1">

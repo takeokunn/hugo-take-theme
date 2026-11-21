@@ -4,6 +4,16 @@
     margin-top: 20px;
 }
 
+// Sort controls: filled surface pills (not tag chips). .is-active keeps the
+// shared chip active style, which wins on specificity.
+.chip--sort {
+    min-height: 28px;
+    padding: 7px 14px;
+    border-color: transparent;
+    background: var(--color-surface);
+    font-size: 13px;
+}
+
 .tag-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
