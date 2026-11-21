@@ -1,303 +1,155 @@
-// Code
-code {
-    font-family: $mono-family;
-    text-rendering: optimizeLegibility;
-    font-feature-settings: "calt" 1;
-    font-variant-ligatures: normal;
-    white-space: pre;
-    word-spacing: normal;
-    word-break: normal;
-    word-wrap: normal;
-    font-size: inherit;
+// Code: inline code, code blocks and Chroma containers (§2.4).
+// Token colors live at the end of _tokens.scss (.highlight rules); this file
+// only lays out the blocks. Requires markup.highlight.noClasses = false.
+@use "variables" as *;
+
+code,
+kbd,
+pre,
+samp {
+    font-family: var(--font-mono);
 }
-// Inline code
-li > code,
-p > code {
+
+// Inline code: ligatures off (§2.3)
+:not(pre) > code {
+    padding: 2px 6px;
+    border: 1px solid var(--color-code-inline-bg);
+    border-radius: var(--radius-inline);
+    background: var(--color-code-inline-bg);
+    color: var(--color-code-inline);
+    font-size: 0.86em;
+    font-variant-ligatures: none;
     white-space: pre-wrap;
-    font-size: 0.85em;
-    padding: 2px 5px;
-    position: relative;
-    top: -1px;
-    color: $inline-code-text;
-    background-color: $inline-code-bg;
-    border-radius: 4px;
-    border: 1px solid rgba(128, 128, 128, 0.15);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-    font-family: "Fira Code", Consolas, Monaco, "Andale Mono", monospace;
-    letter-spacing: -0.01em;
 }
-// Codeblock Theme
+
+kbd {
+    border-color: var(--color-code-inline-bg);
+    background: var(--color-code-inline-bg);
+    color: var(--color-code-inline);
+}
+
 pre {
-    background-color: $black; // Use variable
-    border-radius: 0.6rem;
-    padding: 1rem 1.4rem;
-    margin: 1.5rem 0;
-    display: block;
+    margin: var(--space-6) 0;
+    padding: 20px 22px;
     overflow-x: auto;
-    border: 1px solid $light; // Use variable
-    box-shadow: 0 5px 15px rgba($black, 0.3); // Use variable
-    position: relative;
+    border-radius: var(--radius-code);
+    background: var(--color-code-block);
+    color: var(--color-text);
+    tab-size: 4;
 
-    // オプショナル: コードブロックの言語表示
-    &::before {
-        content: attr(data-lang);
-        position: absolute;
-        top: 0;
-        right: 1rem;
-        font-size: 0.8rem;
-        color: $dracula-comment; // Use variable
-        background-color: rgba($black, 0.8); // Use variable
-        padding: 0.2rem 0.6rem;
-        border-radius: 0 0 0.3rem 0.3rem;
-        border: 1px solid $light; // Use variable
-        border-top: none;
-    }
-
-    @include media-query($on-mobile) {
-        margin: 1.2rem calc(51% - 51vw);
-        border-radius: 0.4rem;
-    }
-
-    // Configure scrollbars for code blocks
-    &::-webkit-scrollbar {
-        height: 0.5rem;
-    }
-    // Set scrollbar background, track and thumb colors
-    &::-webkit-scrollbar-track {
-        background: $light; // Use variable
-        border-radius: 0.1rem;
-    }
-    &::-webkit-scrollbar-thumb {
-        background: $dracula-comment; // Use variable
-        border-radius: 0.3rem;
-    }
-    &::-webkit-scrollbar-thumb:hover {
-        background: $dracula-purple; // Use variable
-    }
-
+    // Code blocks: ligatures on (§2.3)
     > code {
-        color: $white; // Use variable
-        max-width: 50rem;
-        margin-left: auto;
-        margin-right: auto;
-        line-height: 1.6;
         display: block;
-        border: 0;
-        font-size: 0.9em;
-        font-family: "Fira Code", Consolas, Monaco, "Andale Mono", monospace;
-        tab-size: 4;
+        font-size: 14px;
+        line-height: 1.75;
+        font-variant-ligatures: contextual;
+        white-space: pre;
     }
 }
 
 .highlight {
     position: relative;
-    margin: 1em 0;
+    margin: var(--space-6) 0;
 
-    table {
-        width: 100%;
-        border: none;
-        background: none;
-        box-shadow: none;
+    > pre,
+    > .chroma {
+        margin: 0;
+    }
+
+    // lineNos wraps the table in <div class="chroma"> instead of <pre>
+    > div.chroma {
+        overflow-x: auto;
+        border-radius: var(--radius-code);
+        background: var(--color-code-block);
+    }
+
+    // Language label, top right (code[data-lang] is emitted by Hugo)
+    code[data-lang]::before {
+        content: attr(data-lang);
+        position: absolute;
+        top: 10px;
+        right: 14px;
+        color: var(--color-text-tertiary);
+        font-family: var(--font-mono);
+        font-size: 11px;
+        line-height: 1;
+        pointer-events: none;
+    }
+
+    // lineNos = true (table mode)
+    .lntable {
+        width: auto;
+        min-width: 100%;
+        border-spacing: 0;
+        border-collapse: separate;
+        border: 0;
 
         td {
-            padding: 5px;
-            border: none;
-
-            &.lntd:first-child {
-                width: 1%;
-                min-width: 2em;
-                text-align: right;
-                user-select: none;
-                border-right: 1px solid rgba($dracula-comment, 0.4); // Use variable
-                padding-right: 10px;
-            }
-
-            &.lntd:last-child {
-                padding-left: 10px;
-            }
+            padding: 0;
+            border: 0;
+            vertical-align: top;
         }
 
         pre {
             margin: 0;
             padding: 0;
-            border: none;
-            box-shadow: none;
             border-radius: 0;
-            background-color: transparent;
+            background: transparent;
         }
+    }
 
-        .lnt,
-        .ln {
-            color: $dracula-comment; // Use variable
-            opacity: 0.7;
-            display: block;
-            padding-right: 0.5em;
-            font-size: 0.85em;
-        }
+    .lntd:first-child {
+        width: 1%;
+        padding: 0 12px 0 0;
+        border-right: 1px solid var(--color-border);
+        color: var(--color-text-tertiary);
+        text-align: right;
+        user-select: none;
+    }
+
+    .lntd:last-child {
+        padding-left: 14px;
+    }
+
+    .lnt,
+    .ln {
+        display: block;
+        color: var(--color-text-tertiary);
+        font-size: 13px;
+        user-select: none;
+    }
+
+    // lineNos = inline
+    .ln {
+        display: inline-block;
+        margin-right: 12px;
+    }
+
+    // Highlighted lines (hl_lines)
+    .hl {
+        display: block;
+        background: color-mix(in srgb, var(--color-selection) 60%, transparent);
     }
 }
 
-// Draculaテーマのシンタックスハイライト
-// https://draculatheme.com/
-
-// 背景と通常テキスト
-.highlight,
-.highlight .w {
-    color: $dracula-foreground; // Use variable
+// Wrapper with line numbers gets the bordered frame from the Content sheet
+.highlight:has(.lntable) > .chroma {
+    padding: 18px 20px 18px 16px;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
 }
 
-// エラー
-.highlight .err {
-    color: $dracula-red; // Use variable
-    font-weight: bold;
-}
+@include mobile {
+    pre {
+        padding: 16px;
+        border-radius: 0;
+        margin-right: calc(var(--gutter) * -1);
+        margin-left: calc(var(--gutter) * -1);
+    }
 
-// コメント
-.highlight .c,
-.highlight .cd,
-.highlight .cm,
-.highlight .c1,
-.highlight .cs {
-    color: $dracula-comment; // Use variable
-    font-style: italic;
-}
-
-// プリプロセッサディレクティブ
-.highlight .cp {
-    color: $dracula-pink; // Use variable
-}
-
-// HTMLタグ
-.highlight .nt {
-    color: $dracula-pink; // Use variable
-}
-
-// 演算子
-.highlight .o,
-.highlight .ow {
-    color: $dracula-pink; // Use variable
-}
-
-// 句読点
-.highlight .p,
-.highlight .pi {
-    color: $dracula-foreground; // Use variable
-}
-
-// 追加された行（git）
-.highlight .gi {
-    color: $dracula-green; // Use variable
-    background-color: rgba($dracula-green, 0.2); // Use variable
-}
-
-// 削除された行（git）
-.highlight .gd {
-    color: $dracula-red; // Use variable
-    background-color: rgba($dracula-red, 0.2); // Use variable
-}
-
-// 見出し
-.highlight .gh {
-    color: $dracula-cyan; // Use variable
-    font-weight: bold;
-}
-
-// キーワード
-.highlight .k,
-.highlight .kn,
-.highlight .kp,
-.highlight .kr,
-.highlight .kv {
-    color: $dracula-pink; // Use variable
-}
-
-// 定数キーワード
-.highlight .kc {
-    color: $dracula-purple; // Use variable
-}
-
-// タイプキーワード
-.highlight .kt {
-    color: $dracula-cyan; // Use variable
-}
-
-// 宣言キーワード
-.highlight .kd {
-    color: $dracula-pink; // Use variable
-}
-
-// 文字列
-.highlight .s,
-.highlight .sb,
-.highlight .sc,
-.highlight .sd,
-.highlight .s2,
-.highlight .sh,
-.highlight .sx,
-.highlight .s1 {
-    color: $dracula-yellow; // Use variable
-}
-
-// 文字列補間
-.highlight .si {
-    color: $dracula-yellow; // Use variable
-}
-
-// 正規表現
-.highlight .sr {
-    color: $dracula-yellow; // Use variable
-}
-
-// エスケープ文字
-.highlight .se {
-    color: $dracula-yellow; // Use variable
-}
-
-// 名前空間
-.highlight .nn {
-    color: $dracula-cyan; // Use variable
-}
-
-// クラス名
-.highlight .nc {
-    color: $dracula-green; // Use variable
-}
-
-// 定数名
-.highlight .no {
-    color: $dracula-purple; // Use variable
-}
-
-// 属性名
-.highlight .na {
-    color: $dracula-green; // Use variable
-}
-
-// 数値
-.highlight .m,
-.highlight .mf,
-.highlight .mh,
-.highlight .mi,
-.highlight .il,
-.highlight .mo,
-.highlight .mb,
-.highlight .mx {
-    color: $dracula-purple; // Use variable
-}
-
-// シンボル
-.highlight .ss {
-    color: $dracula-yellow; // Use variable
-}
-
-// 関数名
-.highlight .nf {
-    color: $dracula-green; // Use variable
-    font-weight: bold;
-}
-
-// 変数
-.highlight .nv {
-    color: $dracula-cyan; // Use variable
-    font-style: italic;
+    .highlight:has(.lntable) > .chroma {
+        border-right: 0;
+        border-left: 0;
+        border-radius: 0;
+    }
 }
