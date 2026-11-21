@@ -1,37 +1,28 @@
-{{- /* Talk / slide PDFs, newest first, then undated (FR-007: keeps pdf-list.html behavior).
-     Sources:
-       1. PDFs found in the site's static/pdf/ directory (title = file name)
-       2. site.Params.pdfLinks entries {title, url, date, event}; matching entries
-          supply metadata for detected PDFs without repeating their URL
-     Returns a slice of dicts: title, url, date (time or ""), event.
-     Usage: {{ $talks := partial "talks-data.html" . }} (len $talks for the stat) */ -}}
+{{- /* Talk / slide PDFs, newest first, then undated. Configured entries take
+     precedence over automatically detected files with the same URL. */ -}}
 {{- $all := slice -}}
 {{- $seen := dict -}}
-{{- with readDir "static/pdf" -}}
-  {{- range . -}}
-    {{- if and (not .IsDir) (strings.HasSuffix .Name ".pdf") -}}
-      {{- $url := printf "/pdf/%s" .Name -}}
-      {{- $title := strings.TrimSuffix ".pdf" .Name -}}
+{{- range site.Params.pdfLinks -}}
+  {{- $entry := . -}}
+  {{- with .url -}}
+    {{- $url := . -}}
+    {{- if not (index $seen $url) -}}
       {{- $date := "" -}}
-      {{- $event := "" -}}
-      {{- range site.Params.pdfLinks -}}
-        {{- if eq .url $url -}}
-          {{- with .title }}{{ $title = . }}{{ end -}}
-          {{- with .date }}{{ $date = time . }}{{ end -}}
-          {{- with .event }}{{ $event = . }}{{ end -}}
-          {{- break -}}
-        {{- end -}}
-      {{- end -}}
-      {{- $all = $all | append (dict "title" $title "url" $url "date" $date "event" $event) -}}
+      {{- with $entry.date }}{{ $date = time . }}{{ end -}}
+      {{- $title := $entry.title | default (path.Base $url) -}}
+      {{- $all = $all | append (dict "title" $title "url" $url "date" $date "event" ($entry.event | default "")) -}}
       {{- $seen = merge $seen (dict $url true) -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}
-{{- range site.Params.pdfLinks -}}
-  {{- if and .url .title (not (index $seen .url)) -}}
-    {{- $date := "" -}}
-    {{- with .date }}{{ $date = time . }}{{ end -}}
-    {{- $all = $all | append (dict "title" .title "url" .url "date" $date "event" (.event | default "")) -}}
+{{- with readDir "static/pdf" -}}
+  {{- range . -}}
+    {{- if and (not .IsDir) (strings.HasSuffix .Name ".pdf") -}}
+      {{- $url := printf "/pdf/%s" .Name -}}
+      {{- if not (index $seen $url) -}}
+        {{- $all = $all | append (dict "title" (strings.TrimSuffix ".pdf" .Name) "url" $url "date" "" "event" "") -}}
+      {{- end -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
 {{- $dated := slice -}}
@@ -39,5 +30,4 @@
 {{- range $all -}}
   {{- if .date }}{{ $dated = $dated | append . }}{{ else }}{{ $undated = $undated | append . }}{{ end -}}
 {{- end -}}
-{{- $sorted := (sort $dated "date" "desc") | append $undated -}}
-{{- return $sorted -}}
+{{- return ((sort $dated "date" "desc") | append $undated) -}}
