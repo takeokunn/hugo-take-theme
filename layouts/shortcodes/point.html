@@ -1,0 +1,10 @@
+{{- /* {{< point >}}Markdown body{{< /point >}}: a callout labelled "POINT" (§4.2).
+     The body is rendered as block-level Markdown, so paragraphs and lists work. */ -}}
+{{- $body := .Inner | strings.TrimSpace -}}
+{{- if not $body -}}
+    {{- errorf "point shortcode: empty body in %s" .Position -}}
+{{- end -}}
+<div class="panel point">
+    <span class="point__label">POINT</span>
+    <div class="point__body">{{ $body | .Page.RenderString (dict "display" "block") }}</div>
+</div>
