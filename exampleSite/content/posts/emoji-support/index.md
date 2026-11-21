@@ -1,4 +1,5 @@
 ---
+categories: [blog]
 title: Emoji Support
 date: 2023-02-01
 author: Hugo Authors

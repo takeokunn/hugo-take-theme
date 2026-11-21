@@ -1,0 +1,12 @@
+{{- /* Post meta pills (§3.4, §4.2): published · updated (only when the date differs) ·
+     reading time · character count (.WordCount with hasCJKLanguage = true).
+     Argument: the page. */ -}}
+{{- $format := site.Params.DateForm | default "2006.01.02" -}}
+<ul class="meta-pills">
+    <li class="pill pill--published">{{ partial "icon.html" (dict "name" "calendar" "size" 13) }}{{ i18n "published" }} <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format $format }}</time></li>
+    {{- if ne (.Lastmod.Format "2006-01-02") (.Date.Format "2006-01-02") }}
+    <li class="pill pill--updated">{{ partial "icon.html" (dict "name" "refresh" "size" 13) }}{{ i18n "updated" }} <time datetime="{{ .Lastmod.Format "2006-01-02" }}">{{ .Lastmod.Format $format }}</time></li>
+    {{- end }}
+    <li class="pill pill--reading">{{ partial "icon.html" (dict "name" "clock" "size" 13) }}{{ i18n "minRead" .ReadingTime }}</li>
+    <li class="pill">{{ i18n "charCount" (dict "Count" (lang.FormatNumber 0 .WordCount)) }}</li>
+</ul>

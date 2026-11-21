@@ -1,0 +1,10 @@
+{{- /* Stat tile (§3.4): big number + label with a role-colored dot.
+     Args (dict):
+       value  number or short string
+       label  text under the number
+       color  pink (default) | cyan | purple | green | orange | yellow
+     Usage: <div class="stats">{{ partial "stat.html" (dict "value" 42 "label" "記事" "color" "pink") }}…</div> */ -}}
+<div class="stat">
+    <div class="stat__value">{{ .value }}</div>
+    <div class="stat__label"><span class="dot dot--{{ .color | default "pink" }}" aria-hidden="true"></span>{{ .label }}</div>
+</div>

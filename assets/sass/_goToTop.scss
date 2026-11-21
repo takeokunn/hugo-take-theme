@@ -1,4 +1,7 @@
-/* Scroll to top button */
+// Back-to-top button (§4.2). Shown only at ≤768px as a 48px pink circle; visibility
+// within that range is handled in main.js via the hidden attribute.
+@use "variables" as *;
+
 html {
     // Only animate scrolling for users who have not asked for reduced motion
     @media (prefers-reduced-motion: no-preference) {
@@ -7,27 +10,39 @@ html {
 }
 
 #totop {
-    color: $text-base-color;
     position: fixed;
-    bottom: 60px;
-    right: 30px;
-    z-index: 1;
-    border: 0;
-    border-radius: 10%;
+    right: var(--space-4);
+    bottom: calc(var(--space-6) + env(safe-area-inset-bottom, 0px));
+    z-index: 10;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
     padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--color-accent);
+    box-shadow: var(--shadow-offset-sm);
+    color: var(--color-on-accent);
     cursor: pointer;
-    background-color: $go-top-bg;
-    transition: background-color 0.2s ease;
+    transition: transform var(--dur) var(--ease);
 
-    &:hover {
-        background-color: $go-top-bg-hover;
+    svg {
+        width: 24px;
+        height: 24px;
     }
 
-    // center align icon vertically
-    svg {
-        margin: auto;
-        display: block;
-        height: 40px;
-        width: 40px;
+    @include mobile {
+        display: inline-flex;
+    }
+
+    &:hover {
+        transform: translate(-1px, -1px);
+    }
+
+    // After the display rules so the attribute wins at every width
+    &[hidden] {
+        display: none;
     }
 }

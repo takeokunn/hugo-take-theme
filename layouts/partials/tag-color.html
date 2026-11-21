@@ -1,0 +1,19 @@
+{{- /* Tag name -> CSS custom property name (--tag-1 … --tag-6).
+     site.Params.tagColors.<tag> (pink | cyan | purple | green | orange | yellow) wins;
+     otherwise hash.FNV32a of the lower-cased name, mod 6. Each tag is hashed on its
+     own, so adding a tag never recolors another one.
+     Usage: {{ $var := partial "tag-color.html" "Hugo" }}  => "--tag-1"
+     For markup, turn it into the class that sets --tag-color:
+       {{ replace $var "--tag-" "tagc-" }}  => "tagc-1" */ -}}
+{{- $name := lower (string .) -}}
+{{- $order := dict "pink" 1 "cyan" 2 "purple" 3 "green" 4 "orange" 5 "yellow" 6 -}}
+{{- $n := 0 -}}
+{{- with site.Params.tagColors -}}
+  {{- with index . $name -}}
+    {{- $n = index $order (lower .) | default 0 -}}
+  {{- end -}}
+{{- end -}}
+{{- if not $n -}}
+  {{- $n = add (mod (hash.FNV32a $name) 6) 1 -}}
+{{- end -}}
+{{- return printf "--tag-%d" $n -}}

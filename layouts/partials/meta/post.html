@@ -19,18 +19,10 @@
     <meta property="article:section" content="{{ index . 0 }}">
     {{ end }}
     {{ range .GetTerms "tags" }}
-    <meta property="article:tag" content="{{ .LinkTitle }}">
+    <meta property="article:tag" content="{{ partial "tag-name.html" . }}">
     {{ end }}
 
-    {{ $imageUrl := "ogp/default.png" }}
-    {{ if .File }}
-        {{ $imageUrl = printf "ogp/%s.png" (strings.TrimSuffix ".md" (path.Base .File.Path)) }}
-    {{ end }}
-    {{ with .Params.image }}{{ $imageUrl = . }}{{ end }}
-    <meta itemprop="image" content="{{ $imageUrl | absURL }}">
-    <meta property="og:image" content="{{ $imageUrl | absURL }}">
-    <meta name="twitter:image" content="{{ $imageUrl | absURL }}">
-    <meta name="twitter:card" content="summary_large_image">
+    {{ $imageUrl := partial "ogp-image-url.html" . }}
 
     {{ $description := or .Description (.Summary | plainify | htmlUnescape | truncate 160) }}
     {{ $authorName := or .Site.Params.author.name .Site.Title }}
@@ -54,7 +46,7 @@
         },
         "image": {
             "@type": "ImageObject",
-            "url": {{ $imageUrl | absURL | jsonify }}
+            "url": {{ $imageUrl }}
         },
         "publisher": {
             "@type": "Organization",

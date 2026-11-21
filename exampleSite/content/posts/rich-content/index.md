@@ -1,4 +1,5 @@
 ---
+categories: [blog]
 author: Autor
 title: Conteúdo Rico
 date: 2023-02-09

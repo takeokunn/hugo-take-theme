@@ -1,4 +1,5 @@
 ---
+categories: [blog]
 author: Autor
 title: Texto de Substituição
 date: 2023-02-07

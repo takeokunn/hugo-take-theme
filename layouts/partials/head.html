@@ -11,10 +11,18 @@
     {{- end }}
     {{- end }}
 
-    {{- $style := resources.Get "sass/main.scss" | resources.ExecuteAsTemplate "style.scss" . | toCSS (dict "targetPath" "style.css") | minify | fingerprint }}
+    {{- /* Fonts (§2.3). selfHostFonts expects the site to ship static/fonts/fonts.css
+         with its own @font-face rules for the three families. */}}
+    {{- if site.Params.selfHostFonts }}
+    <link rel="stylesheet" href="{{ "fonts/fonts.css" | relURL }}">
+    {{- else }}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=M+PLUS+Rounded+1c:wght@500;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap">
+    {{- end }}
+
+    {{- $style := resources.Get "sass/main.scss" | resources.ExecuteAsTemplate "style.scss" . | toCSS (dict "targetPath" "style.css" "transpiler" "dartsass") | minify | fingerprint }}
     <link href="{{ $style.RelPermalink }}" rel="stylesheet">
-    {{- $code_syntax_highlight_css := resources.Get "code-highlight.css" | minify | fingerprint }}
-    <link href="{{ $code_syntax_highlight_css.RelPermalink }}" rel="stylesheet">
 
     <link rel="icon" href="{{ (resources.Get "icons/favicon.ico" | resources.Copy "favicon.ico").RelPermalink }}" sizes="32x32">
 

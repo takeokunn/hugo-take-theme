@@ -1,0 +1,53 @@
+{{- /* Navigation entries shared by the header, the mobile menu and the footer.
+     Argument: the current page. Returns a slice of dicts:
+       name     label
+       url      href
+       current  bool (aria-current="page")
+       key      home | posts | tags | graph | about | other (drives the decoration color)
+       count    post or tag count for Posts / Tags, else 0 (mobile menu)
+     Home is not included (the brand links home); prepend it where needed.
+     Source: site.Menus.main when set, otherwise Posts / Tags / Graph / About (§3.1). */ -}}
+{{- $page := . -}}
+{{- $section := index (site.MainSections | default (slice "posts")) 0 -}}
+{{- $postsPage := site.GetPage (printf "/%s" $section) -}}
+{{- $tagsPage := site.GetPage "/tags" -}}
+{{- $postsURL := printf "%s/" $section | relURL -}}
+{{- with $postsPage }}{{ $postsURL = .RelPermalink }}{{ end -}}
+{{- $tagsURL := "tags/" | relURL -}}
+{{- with $tagsPage }}{{ $tagsURL = .RelPermalink }}{{ end -}}
+{{- $graphURL := "graph/" | relURL -}}
+{{- $about := partial "about-page.html" . -}}
+{{- $aboutURL := "" -}}
+{{- with $about }}{{ $aboutURL = .RelPermalink }}{{ end -}}
+{{- $postCount := len (where site.RegularPages "Section" "in" site.MainSections) -}}
+{{- $tagCount := len site.Taxonomies.tags -}}
+
+{{- $raw := slice -}}
+{{- with site.Menus.main -}}
+  {{- range . -}}
+    {{- $raw = $raw | append (dict "name" .Name "url" .URL "menu" .) -}}
+  {{- end -}}
+{{- else -}}
+  {{- $raw = $raw | append (dict "name" "Posts" "url" $postsURL) -}}
+  {{- if $tagsPage }}{{ $raw = $raw | append (dict "name" "Tags" "url" $tagsURL) }}{{ end -}}
+  {{- $raw = $raw | append (dict "name" "Graph" "url" $graphURL) -}}
+  {{- with $aboutURL }}{{ $raw = $raw | append (dict "name" "About" "url" .) }}{{ end -}}
+{{- end -}}
+
+{{- $items := slice -}}
+{{- range $raw -}}
+  {{- $url := .url -}}
+  {{- $key := "other" -}}
+  {{- $count := 0 -}}
+  {{- if eq $url $postsURL }}{{ $key = "posts" }}{{ $count = $postCount -}}
+  {{- else if eq $url $tagsURL }}{{ $key = "tags" }}{{ $count = $tagCount -}}
+  {{- else if and $aboutURL (eq $url $aboutURL) }}{{ $key = "about" -}}
+  {{- else if strings.Contains $url "graph" }}{{ $key = "graph" -}}
+  {{- end -}}
+  {{- $current := and (ne $url "/") (ne $url "") (hasPrefix $page.RelPermalink $url) -}}
+  {{- with .menu -}}
+    {{- if or ($page.IsMenuCurrent "main" .) ($page.HasMenuCurrent "main" .) }}{{ $current = true }}{{ end -}}
+  {{- end -}}
+  {{- $items = $items | append (dict "name" .name "url" $url "current" $current "key" $key "count" $count) -}}
+{{- end -}}
+{{- return $items -}}

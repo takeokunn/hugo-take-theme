@@ -1,48 +1,76 @@
-{{/* Site header - WAI-ARIA APG "disclosure navigation" pattern.
-     Without JS the nav list is always visible (no keyboard trap, nothing unreachable).
-     With JS (html.js) the mobile toggle button appears and manages aria-expanded. */}}
-<header class="navbar">
-    <nav class="menu" aria-label="{{ i18n "mainNavigation" }}">
-        <a href="{{ .Site.Home.RelPermalink }}" class="logo" aria-label="{{ site.Title }}">
-            {{ partial "svgs/home.svg" (dict "height" 25 "width" 25) . }}
-        </a>
-        <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="site-menu">
-            <span class="menu-icon" aria-hidden="true">
-                {{ partial "svgs/menu.svg" (dict "height" 25 "width" 25) . }}
-            </span>
-            <span class="visually-hidden">{{ i18n "openMenu" }}</span>
-        </button>
-        <div class="trigger" id="site-menu">
-            <button type="button" class="menu-close-button" aria-label="{{ i18n "closeMenu" }}">
-                <span aria-hidden="true">&times;</span>
+{{/* Site header (§3.1) and mobile menu (§3.2).
+     Disclosure pattern: .menu-toggle has aria-expanded / aria-controls="site-menu".
+     Without JS (no html.js) the nav list stays visible and both toggle buttons are
+     hidden, so nothing is unreachable. main.js handles the theme toggle and the
+     overlay (Esc, focus trap, scroll lock, focus return). */}}
+{{- $items := partial "nav-items.html" . -}}
+{{- $themeLabel := i18n "themeToggle" (dict "Name" "{name}") -}}
+<header class="site-header">
+    <nav class="site-header__inner container" aria-label="{{ i18n "mainNavigation" }}">
+        {{ partial "brand.html" . }}
+        <ul class="site-nav">
+            {{- range $items }}
+            <li><a class="nav-pill" href="{{ .url }}"{{ if .current }} aria-current="page"{{ end }}>{{ .name }}</a></li>
+            {{- end }}
+        </ul>
+        <div class="site-header__actions">
+            <a class="icon-button--plain site-header__rss" href="{{ index (site.Params.social | default dict) "rss" | default ("index.xml" | relURL) }}" aria-label="{{ i18n "subscribeRss" }}">{{ partial "icon.html" (dict "name" "rss") }}</a>
+            <button type="button" class="theme-toggle" data-theme-toggle data-label-template="{{ $themeLabel }}" aria-label="{{ replace $themeLabel "{name}" "Dracula" }}">
+                <span class="theme-icon theme-icon--moon" aria-hidden="true">{{ partial "icon.html" (dict "name" "moon" "size" 16) }}</span>
+                <span class="theme-icon theme-icon--sun" aria-hidden="true">{{ partial "icon.html" (dict "name" "sun" "size" 16) }}</span>
+                <span class="theme-toggle__label" data-theme-label aria-hidden="true">Dracula</span>
             </button>
-            <ul class="trigger-container">
-                {{ if site.Menus.main }}
-                {{ range site.Menus.main }}
-                <li>
-                    <a class="menu-link{{ if $.IsMenuCurrent "main" . }} active{{ end }}" href="{{ .URL }}"{{ if $.IsMenuCurrent "main" . }} aria-current="page"{{ end }}>
-                        {{ .Name }}
-                    </a>
-                </li>
-                {{ end }}
-                {{ else }}
-                <li>
-                    <a class="menu-link{{ if .IsHome }} active{{ end }}" href="{{ site.Home.RelPermalink }}"{{ if .IsHome }} aria-current="page"{{ end }}>
-                        Home
-                    </a>
-                </li>
-                <li>
-                    <a class="menu-link{{ if eq .Section "posts" }} active{{ end }}" href="{{ "posts/" | relURL }}"{{ if eq .Section "posts" }} aria-current="page"{{ end }}>
-                        Posts
-                    </a>
-                </li>
-                <li>
-                    <a class="menu-link{{ if eq .Section "graph" }} active{{ end }}" href="{{ "graph/" | relURL }}"{{ if eq .Section "graph" }} aria-current="page"{{ end }}>
-                        Graph
-                    </a>
-                </li>
-                {{ end }}
-            </ul>
+            <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="site-menu" aria-label="{{ i18n "openMenu" }}">
+                {{ partial "icon.html" (dict "name" "menu" "size" 20) }}
+            </button>
         </div>
     </nav>
+
+    <div class="mobile-menu" id="site-menu" role="dialog" aria-modal="true" aria-label="{{ i18n "mainNavigation" }}" hidden>
+        <div class="mobile-menu__bar">
+            {{ partial "brand.html" . }}
+            <button type="button" class="mobile-menu__close" aria-label="{{ i18n "closeMenu" }}">
+                {{ partial "icon.html" (dict "name" "close" "size" 20) }}
+            </button>
+        </div>
+        <nav class="mobile-menu__nav" aria-label="{{ i18n "mainNavigation" }}">
+            {{- $roles := dict "home" "pink" "posts" "pink" "tags" "purple" "graph" "green" "about" "orange" "other" "cyan" }}
+            <ul class="mobile-menu__list">
+                <li>
+                    <a class="mobile-menu__link" href="{{ site.Home.RelPermalink }}"{{ if .IsHome }} aria-current="page"{{ end }}>
+                        <span class="deco-block dot--pink" aria-hidden="true"></span>Home
+                    </a>
+                </li>
+                {{- range $items }}
+                <li>
+                    <a class="mobile-menu__link" href="{{ .url }}"{{ if .current }} aria-current="page"{{ end }}>
+                        <span class="deco-block dot--{{ index $roles .key }}" aria-hidden="true"></span>{{ .name }}
+                        {{- if eq .key "posts" }}<span class="mobile-menu__count">{{ i18n "postCountShort" .count }}</span>{{ end }}
+                        {{- if eq .key "tags" }}<span class="mobile-menu__count">{{ i18n "tagCountShort" .count }}</span>{{ end }}
+                    </a>
+                </li>
+                {{- end }}
+            </ul>
+        </nav>
+        {{- with partial "top-tags.html" 5 }}
+        <div class="mobile-menu__section">
+            <h2 class="mobile-menu__heading">{{ i18n "popularTags" }}</h2>
+            <div class="chip-list">
+                {{- range . }}
+                {{ partial "tag-chip.html" (dict "tag" .Page "count" .Count) }}
+                {{- end }}
+            </div>
+        </div>
+        {{- end }}
+        <div class="mobile-menu__footer">
+            <div>
+                <h2 class="mobile-menu__heading" id="mobile-theme-heading">{{ i18n "theme" }}</h2>
+                <div class="theme-switch" role="group" aria-labelledby="mobile-theme-heading">
+                    <button type="button" class="theme-switch__option" data-theme-set="dracula" aria-pressed="true">{{ partial "icon.html" (dict "name" "moon" "size" 15) }}Dracula</button>
+                    <button type="button" class="theme-switch__option" data-theme-set="alucard" aria-pressed="false">{{ partial "icon.html" (dict "name" "sun" "size" 15) }}Alucard</button>
+                </div>
+            </div>
+            {{ partial "social-links.html" dict }}
+        </div>
+    </div>
 </header>

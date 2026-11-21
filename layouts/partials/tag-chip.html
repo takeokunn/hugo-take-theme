@@ -1,0 +1,34 @@
+{{- /* Tag chip (§3.4).
+     Args (dict):
+       tag    taxonomy term page, or a tag name string
+       count  optional number shown after the name
+       size   "s" (default) | "l"
+       active bool: filled style + aria-current="page"
+       link   bool, default true. Pass false inside a card or row link: nested <a> is
+              not allowed (§8), so the chip renders as a <span>.
+     Usage: {{ partial "tag-chip.html" (dict "tag" . "count" .Count "size" "l") }} */ -}}
+{{- $tag := .tag -}}
+{{- $name := "" -}}
+{{- $url := "" -}}
+{{- if eq (printf "%T" $tag) "string" -}}
+  {{- $name = $tag -}}
+  {{- with site.GetPage (path.Join "/tags" (urlize $tag)) -}}
+    {{- $url = .RelPermalink -}}
+  {{- end -}}
+{{- else -}}
+  {{- $name = partial "tag-name.html" $tag -}}
+  {{- $url = $tag.RelPermalink -}}
+{{- end -}}
+{{- $link := true -}}
+{{- if isset . "link" }}{{ $link = .link }}{{ end -}}
+{{- $class := slice "chip" (replace (partial "tag-color.html" $name) "--tag-" "tagc-") -}}
+{{- if eq .size "l" }}{{ $class = $class | append "chip--l" }}{{ end -}}
+{{- if .active }}{{ $class = $class | append "is-active" }}{{ end -}}
+{{- if and $link $url -}}
+<a class="{{ delimit $class " " }}" href="{{ $url }}"{{ if .active }} aria-current="page"{{ end }}>
+{{- else -}}
+<span class="{{ delimit $class " " }}">
+{{- end -}}
+<span class="dot" aria-hidden="true"></span>{{ $name }}
+{{- with .count }}<span class="chip__count">{{ . }}</span>{{ end -}}
+{{- if and $link $url }}</a>{{ else }}</span>{{ end -}}

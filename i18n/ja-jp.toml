@@ -19,26 +19,11 @@ other = "ページの先頭へ戻る"
 [postTags]
 other = "記事のタグ"
 
-[publishedOn]
-other = "公開日"
-
-[featuredArticles]
-other = "Featured Articles"
-
-[publications]
-other = "Publications"
-
-[recentPosts]
-other = "Recent Posts"
-
-[seeAllPosts]
-other = "記事一覧を見る"
-
 [notFoundTitle]
-other = "404 NOT FOUND"
+other = "ページが見つかりませんでした"
 
 [notFoundMessage]
-other = "お探しのページは見つかりませんでした。"
+other = "URL が変わったか、記事が削除された可能性があります。"
 
 [backToHome]
 other = "ホームへ戻る"
@@ -54,3 +39,201 @@ other = "前の記事"
 
 [nextPost]
 other = "次の記事"
+
+[readMore]
+other = "記事を読む"
+
+[latestUpdate]
+other = "最新: {{ .Date }} に更新"
+
+[featured]
+other = "おすすめ"
+
+[featuredNote]
+other = "まず読んでほしい 3 本"
+
+[latestPosts]
+other = "最新の記事"
+
+[allPosts]
+other = "記事一覧"
+
+[totalCount]
+other = "全 {{ .Count }} 件"
+
+[talks]
+other = "登壇資料"
+
+[tags]
+other = "タグ"
+
+[postsPerMonth]
+other = "投稿数"
+
+[last12Months]
+other = "直近 12 か月"
+
+[minRead]
+other = "{{ .Count }} 分で読める"
+
+[charCount]
+other = "約 {{ .Count }} 字"
+
+[published]
+other = "公開"
+
+[updated]
+other = "更新"
+
+[whatYouLearn]
+other = "この記事でわかること"
+
+[thanks]
+other = "読んでくれてありがとう！"
+
+[editPage]
+other = "この記事を編集"
+
+[relatedPosts]
+other = "関連する記事"
+
+[writtenBy]
+other = "この記事を書いた人"
+
+[follow]
+other = "フォロー"
+
+[share]
+other = "シェア"
+
+[shareX]
+other = "X でシェア"
+
+[shareHatena]
+other = "はてブ"
+
+[copyLink]
+other = "リンクをコピー"
+
+[copied]
+other = "リンクをコピーしました"
+
+[readProgress]
+other = "読んだところ"
+
+[byYear]
+other = "年ごと"
+
+[popular]
+other = "よく読まれている"
+
+[filterByTag]
+other = "タグで絞り込む"
+
+[all]
+other = "すべて"
+
+[tagCount]
+other = "{{ .Count }} 個のタグ"
+
+[sortCount]
+other = "記事が多い順"
+
+[sortNew]
+other = "新しい順"
+
+[sortName]
+other = "あいうえお順"
+
+[shareOfTotal]
+other = "全体の {{ .Count }}%"
+
+[latest]
+other = "最新"
+
+[coTags]
+other = "一緒に使われるタグ"
+
+[firstPost]
+other = "最初の記事"
+
+[topicsOften]
+other = "よく書く話題"
+
+[timeline]
+other = "これまでの活動"
+
+[links]
+other = "リンク"
+
+[searchByTag]
+other = "タグから探す"
+
+[themeToggle]
+other = "テーマを切り替え（現在: {{ .Name }}）"
+
+[popularTags]
+other = "人気のタグ"
+
+[theme]
+other = "テーマ"
+
+[footerSite]
+other = "サイト"
+
+[postCountShort]
+other = "{{ .Count }} 件"
+
+[tagCountShort]
+other = "{{ .Count }} 個"
+
+[minReadShort]
+other = "{{ .Count }} 分"
+
+[sortLabel]
+other = "並べ替え"
+
+[breadcrumb]
+other = "パンくずリスト"
+
+[tagPostsPerYear]
+other = "#{{ .Tag }} の投稿数"
+
+[otherTags]
+other = "ほかのタグ"
+
+[postCountLabel]
+other = "記事"
+
+[writingSince]
+other = "書いている期間"
+
+[greetingBeforeName]
+other = "こんにちは、"
+
+[greetingAfterName]
+other = "です。"
+
+[greetingTopics]
+other = "{{ .Topics }} のことを書いています。"
+
+[copyFailed]
+other = "コピーできませんでした"
+
+[tocItems]
+other = "{{ .Count }} 項目"
+
+[relatedFrom]
+other = "{{ .Tags }} から"
+
+[seeMore]
+other = "もっと見る"
+
+[postUnit]
+other = "件"
+
+[tagsTotal]
+other = "のべ {{ .Count }} 件"
+
+[termPostCount]
+other = "{{ .Count }} 件の記事"

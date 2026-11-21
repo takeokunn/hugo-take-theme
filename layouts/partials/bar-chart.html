@@ -1,0 +1,24 @@
+{{- /* Bar chart (§3.4). Only the maximum bar is pink; the rest use the border color.
+     Args (dict):
+       items  slice of (dict "label" "1月" "value" 3), in display order
+       label  chart name for the accessible label, e.g. "直近 12 か月の投稿数"
+       unit   optional suffix for each value in the accessible label, e.g. " 件"
+     The chart is role="img" with an aria-label that reads every value:
+       "直近 12 か月の投稿数: 1月 1 件、2月 0 件…"
+     Usage: {{ partial "bar-chart.html" (dict "items" $items "label" (i18n "last12Months") "unit" " 件") }} */ -}}
+{{- $max := 0 -}}
+{{- range .items }}{{ if gt (int .value) $max }}{{ $max = int .value }}{{ end }}{{ end -}}
+{{- $spoken := slice -}}
+{{- range .items }}{{ $spoken = $spoken | append (printf "%s %d%s" .label (int .value) ($.unit | default "")) }}{{ end -}}
+<div class="bar-chart" role="img" aria-label="{{ .label }}: {{ delimit $spoken "、" }}">
+    {{- range .items }}
+    {{- $v := int .value }}
+    {{- $h := 0 }}
+    {{- if gt $max 0 }}{{ $h = math.Round (mul 72 (div (float $v) $max)) }}{{ end }}
+    <div class="bar-chart__item{{ if and (gt $max 0) (eq $v $max) }} is-max{{ end }}">
+        <span class="bar-chart__value">{{ $v }}</span>
+        <span class="bar-chart__bar" style="height: {{ $h }}px"></span>
+        <span class="bar-chart__label">{{ .label }}</span>
+    </div>
+    {{- end }}
+</div>

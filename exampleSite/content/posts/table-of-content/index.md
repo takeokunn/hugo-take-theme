@@ -1,7 +1,10 @@
 ---
+categories: [blog]
+author: Hugo Authors
 title: Tabela de Conteúdo
 date: 2023-05-02
 description: Configurar a tabela de conteúdo no tema "Awesome" do blog Hugo.
+points: ["目次の出し方と見出しの範囲", "1100px 未満で目次が折りたたまれる仕組み", "目次の現在地と読んだ割合"]
 ---
 
 ## Tabela de Conteúdo

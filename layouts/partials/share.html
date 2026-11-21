@@ -1,0 +1,14 @@
+{{- /* Share buttons (§3.4): X intent / Hatena Bookmark / copy link. 44×44, radius 12.
+     Argument: the page.
+     The copy button carries data-copy-link and the status region data-copy-status;
+     the click handler belongs to the post page JS (§5-4). Without JS the copy button
+     is hidden by CSS (html:not(.js)). */ -}}
+{{- $url := .Permalink -}}
+{{- $hatena := printf "https://b.hatena.ne.jp/entry/%s" (strings.TrimPrefix "http://" $url) -}}
+{{- if hasPrefix $url "https://" }}{{ $hatena = printf "https://b.hatena.ne.jp/entry/s/%s" (strings.TrimPrefix "https://" $url) }}{{ end -}}
+<ul class="share" aria-label="{{ i18n "share" }}">
+    <li><a class="icon-button--bg" href="https://x.com/intent/post?url={{ $url | urlquery }}&amp;text={{ .Title | urlquery }}" target="_blank" rel="noopener noreferrer" aria-label="{{ i18n "shareX" }}" title="{{ i18n "shareX" }}">{{ partial "icon.html" (dict "name" "x" "size" 16) }}</a></li>
+    <li><a class="icon-button--bg" href="{{ $hatena }}" target="_blank" rel="noopener noreferrer" aria-label="{{ i18n "shareHatena" }}" title="{{ i18n "shareHatena" }}"><span class="share__hatena" aria-hidden="true">B!</span></a></li>
+    <li><button type="button" class="icon-button--bg" data-copy-link aria-label="{{ i18n "copyLink" }}" title="{{ i18n "copyLink" }}">{{ partial "icon.html" (dict "name" "link" "size" 16) }}</button></li>
+</ul>
+<span class="visually-hidden" role="status" aria-live="polite" data-copy-status data-copied-label="{{ i18n "copied" }}" data-failed-label="{{ i18n "copyFailed" }}"></span>

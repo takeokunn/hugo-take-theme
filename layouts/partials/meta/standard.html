@@ -1,7 +1,28 @@
 <meta charset="utf-8">
+{{- /* Theme (§2.2): decide data-theme before first paint to avoid a flash.
+     Order: saved choice (localStorage) > prefers-color-scheme. data-theme is always
+     set, even when storage is blocked, so CSS and main.js read the same value.
+     theme-color: one meta per color scheme, so without JS the browser UI follows the OS.
+     With JS this script (and main.js on toggle) writes the chosen theme's color into
+     both, so the UI follows the toggle. data-* hold the per-theme colors. */}}
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#282a36" data-dracula="#282a36" data-alucard="#fffbeb">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#fffbeb" data-dracula="#282a36" data-alucard="#fffbeb">
+<script>
+(function () {
+    var t = null;
+    try {
+        t = localStorage.getItem("theme");
+    } catch (e) {}
+    if (t !== "dracula" && t !== "alucard") {
+        t = window.matchMedia && matchMedia("(prefers-color-scheme: light)").matches ? "alucard" : "dracula";
+    }
+    document.documentElement.dataset.theme = t;
+    var metas = document.querySelectorAll('meta[name="theme-color"]');
+    for (var i = 0; i < metas.length; i++) metas[i].setAttribute("content", metas[i].getAttribute("data-" + t));
+})();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#282a36">
+<meta name="color-scheme" content="dark light">
 
 <meta name="Hatena::Bookmark" content="nocomment">
 
@@ -27,7 +48,8 @@
 <meta name="robots" content="noindex, follow">
 {{ end }}
 
-{{ $description := or .Site.Params.description .Site.Params.heroSubtitle "" }}
+{{- /* Non-post pages: params.description, else params.author.bio (the site introduction in the redesign). */}}
+{{ $description := or .Site.Params.description (index (.Site.Params.author | default dict) "bio") "" }}
 {{ if $isPost }}
     {{ $description = or .Description (.Summary | plainify | htmlUnescape | truncate 160) }}
 {{ end }}
@@ -37,7 +59,7 @@
 <meta property="og:description" content="{{ $description }}">
 <meta name="twitter:description" content="{{ $description }}">
 
-{{ with or site.Language.LanguageCode site.Language.Lang }}
+{{ with or site.Language.Locale site.Language.Lang }}
 {{ $parts := split . "-" }}
 {{ $ogLocale := index $parts 0 }}
 {{ if gt (len $parts) 1 }}{{ $ogLocale = printf "%s_%s" (index $parts 0) (upper (index $parts 1)) }}{{ end }}
@@ -45,5 +67,5 @@
 <meta name="language" content="{{ . }}">
 {{ end }}
 {{ range .AllTranslations }}
-    <link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" title="{{ .Language.LanguageName }}">
+    <link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" title="{{ .Language.Label }}">
 {{ end }}

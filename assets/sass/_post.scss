@@ -1,227 +1,181 @@
-// Post wrapper
-.wrapper.post {
-    @include media-query($on-mobile) {
-        padding-left: $spacing-half;
-        padding-right: $spacing-half;
-    }
+// Post page (§4.2): header, key points, article body (.prose), closing bar,
+// previous / next, related posts and the sidebar. The table of contents lives in
+// _tableOfContent.scss, code blocks in _code.scss, shared parts in _components.scss.
+// Markup: layouts/_default/single.html. Canvas: Post*, Content*.
+@use "variables" as *;
+
+// ---- Page shell ---------------------------------------------------------
+// ≥1100px: article column (--measure) + sidebar (--sidebar) side by side. The sidebar
+// spans the three left-hand rows so the sticky table of contents can travel along
+// the whole article. Below 1100px everything stacks in DOM order.
+.post-page {
+    padding-bottom: var(--space-18);
 }
 
-// Post title
-.header {
-    margin-top: 7.8em;
+.post-layout {
+    display: grid;
+    grid-template-columns: minmax(0, var(--measure)) var(--sidebar);
+    column-gap: var(--space-14);
+    justify-content: space-between;
+    align-items: start;
 
-    .header-title {
-        font-size: 2.4em;
-        line-height: 1.2;
-        margin-top: 10px;
-        margin-bottom: 20px;
-        color: $dracula-pink; // Use variable
-        font-weight: 700;
-        text-shadow: 1px 1px 2px rgba($black, 0.5); // Use variable
-        letter-spacing: 0.02em;
+    > .post {
+        grid-area: 1 / 1;
+    }
 
-        &.center {
-            text-align: center;
+    > .post-thanks {
+        grid-area: 2 / 1;
+    }
+
+    > .post-nav {
+        grid-area: 3 / 1;
+    }
+
+    > .post-sidebar {
+        grid-area: 1 / 2 / 4;
+        align-self: stretch;
+    }
+
+    > .post-related {
+        grid-area: 4 / 1 / auto / -1;
+    }
+
+    > .post-comments {
+        grid-area: 5 / 1;
+    }
+
+    @include below-sidebar {
+        grid-template-columns: minmax(0, 1fr);
+
+        > .post,
+        > .post-thanks,
+        > .post-nav,
+        > .post-sidebar,
+        > .post-related,
+        > .post-comments {
+            grid-area: auto;
         }
 
-        @include media-query($on-mobile) {
-            font-size: 2em;
-        }
-    }
-
-    ul.tags {
-        display: flex;
-        flex-wrap: wrap;
-        margin: 0 0 20px 0;
-        list-style-type: none;
-        padding: 0;
-        > li {
-            background-color: $light; // Use variable
-            margin-right: 8px;
-            margin-bottom: 8px;
-            padding: 5px 10px;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba($black, 0.2); // Use variable
-            transition: all 0.3s ease;
-
-            &:hover {
-                background-color: $dracula-comment; // Use variable
-                transform: translateY(-2px);
-            }
-
-            > a {
-                font-weight: bold;
-                color: $white; // Use variable
-                text-decoration: none;
-                border-bottom: none;
-
-                &:hover {
-                    text-decoration: none;
-                    text-shadow: none;
-                    background: none;
-                }
-            }
+        // A single readable column; the related-post grid keeps the full width.
+        > :not(.post-related) {
+            width: 100%;
+            max-width: var(--measure);
+            justify-self: center;
         }
     }
 }
 
-// Post meta
-.post-meta {
-    padding: 0;
-    margin: 0 0 15px 0;
-    line-height: 1.4;
-    color: $gray;
-    font-size: $base-font-size * 0.9;
+// ---- Header -------------------------------------------------------------------
+.post-header {
+    padding: 52px 0 var(--space-6);
 
-    time {
-        position: relative;
-        padding: 3px 0;
-        font-size: 0.95em;
-        letter-spacing: 0.03em;
-        display: inline-block;
-        color: $dracula-cyan; // Use variable
-        font-weight: 400;
-    }
-
-    span[itemprop="author"] {
-        border-bottom: 1px dotted $light;
-        padding: 2px 4px;
+    @include mobile {
+        padding: var(--space-6) 0 var(--space-5);
     }
 }
 
-// Post item
-.post-item-link {
-    display: block;
-    margin-bottom: 1.2em;
-    text-decoration: none;
-    color: inherit;
-    border-bottom: none;
-
-    &:hover {
-        color: inherit;
-        text-decoration: none;
-        background: none;
-    }
+.post-breadcrumb {
+    margin-bottom: 14px;
+    font-size: 13px;
 }
 
-article.post-item {
-    padding: 0.8em 1em;
-    border-radius: 6px;
-    transition: all 0.25s ease;
-    background-color: rgba($light, 0.2); // Use variable
+.post-breadcrumb__list {
     display: flex;
-    flex-direction: column;
-    text-align: center;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 
-    &:hover {
-        background-color: rgba($light, 0.4); // Use variable
-        transform: translateY(-2px);
-        box-shadow: 0 3px 10px rgba($black, 0.1); // Use variable
+    li + li::before {
+        content: "›";
+        content: "›" / "";
+        margin: 0 6px;
+        color: var(--color-text-tertiary);
     }
 
-    .post-item-header {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-
-        .post-item-right {
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-    }
-
-    .post-item-title {
-        margin: 0.2em 0 0.4em 0;
-        font-size: 1.1em;
-        font-weight: 600;
-        color: inherit;
-        transition: all 0.2s ease;
-    }
-
-    time.post-item-meta {
-        font-size: $small-font-size;
-        color: $dracula-cyan; // Use variable
-        opacity: 0.8;
-        letter-spacing: 0.03em;
-    }
-}
-
-// Post content
-.page-content {
-    padding-top: 8px;
-
-    iframe {
-        text-align: center;
-    }
-
-    figure {
-        img {
-            border-radius: 2px;
-        }
-
-        figcaption {
-            margin-top: 5px;
-            font-style: italic;
-            font-size: $small-font-size;
-        }
-    }
-
+    // Enlarge the hit area to 44px without moving the text
     a {
-        color: $text-link-blue;
+        display: inline-block;
+        margin: -11px -4px;
+        padding: 11px 4px;
+        color: var(--color-text-secondary);
         text-decoration: none;
-        border-bottom: 1px dotted $text-link-blue;
-        padding: 0 2px;
-        transition: all 0.2s ease;
-
-        &[target="_blank"]::after {
-            content: " \2197";
-            font-size: $small-font-size;
-            line-height: 0;
-            position: relative;
-            bottom: 5px;
-            vertical-align: baseline;
-        }
 
         &:hover {
-            color: $text-link-blue-active;
-            background-color: rgba($text-link-blue-active, 0.1); // Use variable
-            border-bottom: 1px solid $text-link-blue-active;
-            text-shadow: 0 0 3px rgba($text-link-blue-active, 0.3); // Use variable
-        }
-
-        &:focus {
-            color: $text-link-blue;
-            outline: 2px solid rgba($text-link-blue, 0.4); // Use variable
-            outline-offset: 2px;
+            color: var(--color-text);
+            text-decoration: underline;
         }
     }
+}
 
-    > p {
-        margin: 0;
-        padding-top: $spacing-full - 15;
-        padding-bottom: $spacing-full - 15;
-        word-wrap: break-word;
-    }
+.post-header__tags {
+    margin-bottom: 14px;
 
-    ul.task-list {
-        list-style: none;
-        margin: 0;
+    // The canvas uses the small chip on mobile
+    @include mobile {
+        .chip--l {
+            padding: 3px 9px;
+            @include type(chip);
+            line-height: 1.2;
 
-        li::before {
-            content: "";
+            .dot {
+                width: 7px;
+                height: 7px;
+            }
+
+            .chip__count {
+                font-size: 11px;
+            }
         }
-
-        li input[type="checkbox"] {
-            margin-right: 10px;
-        }
     }
+}
 
-    dl dt {
-        font-weight: $bold-weight;
+.post-header__title {
+    margin: 0;
+    color: var(--color-text);
+    @include type(post-title);
+}
+
+.post-header__lead {
+    margin: 12px 0 0;
+    color: var(--color-text-secondary);
+    @include type(lead);
+}
+
+.post-header .meta-pills {
+    margin-top: var(--space-4);
+}
+
+// ---- "What you'll learn" --------------------------------------------------------
+.post-points {
+    margin: var(--space-2) 0;
+    padding: 18px 22px;
+}
+
+.post-points__title {
+    margin: 0 0 10px;
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1.4;
+}
+
+.post-points__list {
+    margin: 0;
+    padding: 0 0 0 20px;
+    font-size: 15px;
+    line-height: 1.85;
+
+    li::marker {
+        color: var(--color-accent);
     }
+}
+
+// ---- Article body ---------------------------------------------------------------
+.prose {
+    @include type(prose);
+    // Japanese line breaking and hanging punctuation rules (§2.3) are inherited from body.
 
     h1,
     h2,
@@ -229,127 +183,433 @@ article.post-item {
     h4,
     h5,
     h6 {
-        color: $dracula-purple; // Use variable
-        font-weight: $bold-weight;
-        margin-top: $spacing-full;
-        margin-bottom: 10px;
-        letter-spacing: 0.03rem;
-        text-shadow: 0.5px 0.5px 1px rgba($black, 0.3); // Use variable
+        margin: 32px 0 10px;
+        color: var(--color-text);
 
-        &:hover {
-            .anchor-head {
-                color: $text-link-blue;
-                opacity: 1;
-            }
+        // Anchor link emitted by a render-heading hook: shown on hover / focus
+        .anchor-head {
+            margin-left: var(--space-2);
+            color: var(--color-link);
+            text-decoration: none;
+            opacity: 0;
+            transition: opacity var(--dur) var(--ease);
         }
 
-        .anchor-head {
-            position: relative;
-            opacity: 0;
-            outline: none;
-
-            &::before {
-                content: "#";
-                position: absolute;
-                right: -3px;
-                width: 1em;
-                font-weight: $bold-weight;
-            }
+        &:hover .anchor-head,
+        .anchor-head:focus-visible {
+            opacity: 1;
         }
     }
 
     h1 {
-        @include relative-font-size(1.5);
+        font-size: 24px;
+        line-height: 1.55;
     }
 
     h2 {
-        @include relative-font-size(1.375);
+        position: relative;
+        margin: 56px 0 14px;
+        padding-left: 24px;
+        @include type(h2);
+
+        // Pink "#" before the text; hangs so wrapped lines stay aligned
+        &::before {
+            content: "#";
+            content: "#" / "";
+            position: absolute;
+            left: 0;
+            color: var(--color-accent);
+        }
     }
 
     h3 {
-        @include relative-font-size(1.25);
+        margin-top: var(--space-10);
+        color: var(--color-purple);
+        @include type(h3);
     }
 
     h4 {
-        @include relative-font-size(1.25);
+        font-size: 18px;
+        line-height: 1.55;
     }
 
     h5 {
-        @include relative-font-size(1);
+        font-size: 16px;
+        line-height: 1.55;
     }
 
     h6 {
-        @include relative-font-size(0.875);
+        font-size: 14px;
+        line-height: 1.55;
     }
-}
 
-.post-nav {
-    display: flex;
-    position: relative;
-    margin-top: 5em;
-    border-top: 1px solid $light;
-    line-height: 1.4;
+    p {
+        margin: 18px 0;
+    }
 
-    .post-nav-item {
-        border-bottom: 0;
-        font-weight: $bold-weight;
-        padding-bottom: 10px;
+    // Links: always underlined, thicker on hover (§4.2)
+    a {
+        color: var(--color-link);
+        text-decoration: underline;
+        text-decoration-color: color-mix(
+            in srgb,
+            var(--color-link) 40%,
+            transparent
+        );
+        text-decoration-thickness: 1px;
+        text-underline-offset: 4px;
 
-        .post-title {
-            color: $white;
-            transition: all 0.3s ease;
+        &:hover {
+            text-decoration-color: var(--color-link);
+            text-decoration-thickness: 2px;
         }
 
-        &:hover,
-        &:focus {
-            .post-title {
-                color: $text-link-blue;
-                opacity: 1;
-                text-shadow: 0 0 5px rgba($text-link-blue, 0.4); // Use variable
-            }
-        }
-
-        .nav-arrow {
-            font-weight: $normal-weight;
-            font-size: $small-font-size;
-            color: $gray;
-            margin-bottom: 3px;
-        }
-
-        width: 50%;
-        padding-top: 10px;
-        text-decoration: none;
-        box-sizing: border-box;
-
-        &:nth-child(odd) {
-            padding-left: 0;
-            padding-right: 20px;
-        }
-
-        &:nth-child(even) {
-            text-align: right;
-            padding-right: 0;
-            padding-left: 20px;
+        &[target="_blank"]::after {
+            content: "↗";
+            content: "↗" / "";
+            margin-left: 2px;
+            font-size: 0.8em;
         }
     }
 
-    @include media-query($on-mobile) {
-        display: block;
-        font-size: $small-font-size;
+    // Lists
+    ul,
+    ol {
+        margin: 10px 0;
+        padding: 0 0 0 24px;
+    }
 
-        .post-nav-item {
+    li {
+        padding: 3px 0;
+
+        &::marker {
+            color: var(--color-accent);
+        }
+    }
+
+    li > ul,
+    li > ol {
+        margin: 4px 0 0;
+        padding-left: 22px;
+    }
+
+    // Task list: no bullet, purple checkbox
+    ul:has(> li > input[type="checkbox"]) {
+        padding-left: 0;
+        list-style: none;
+    }
+
+    li > input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+        margin: 0 10px 0 0;
+        accent-color: var(--color-purple);
+        vertical-align: middle;
+    }
+
+    dl {
+        margin: 10px 0;
+    }
+
+    dt {
+        font-weight: 700;
+    }
+
+    dd {
+        margin: 0 0 0 24px;
+        color: var(--color-text-secondary);
+    }
+
+    hr {
+        margin: var(--space-6) 0;
+    }
+
+    // Quote: panel with a large pink opening mark
+    blockquote {
+        position: relative;
+        margin: var(--space-6) 0;
+        padding: var(--space-4) var(--space-5) var(--space-4) 48px;
+        border-radius: var(--radius-note);
+        background: var(--color-surface);
+        color: var(--color-text);
+
+        &::before {
+            content: "“";
+            content: "“" / "";
+            position: absolute;
+            top: var(--space-4);
+            left: var(--space-5);
+            color: var(--color-accent);
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        > p {
+            margin: 0;
+        }
+
+        > p + p {
+            margin-top: var(--space-3);
+        }
+
+        > :first-child {
+            margin-top: 0;
+        }
+
+        > :last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    // Tables: header cells in tertiary text on the page background, rules between rows
+    table {
+        margin: var(--space-6) 0;
+        font-size: 14.5px;
+
+        // Wide tables scroll instead of widening the page
+        @include mobile {
             display: block;
-            width: 100%;
+            max-width: 100%;
+            overflow-x: auto;
+        }
+    }
+
+    th,
+    td {
+        padding: 10px 12px 10px 0;
+        border: 0;
+        border-bottom: 1px solid var(--color-border);
+        line-height: 1.5;
+        text-align: left;
+    }
+
+    th {
+        color: var(--color-text-tertiary);
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    mark {
+        padding: 0 3px;
+        border-radius: 3px;
+    }
+
+    figure {
+        margin: var(--space-5) 0;
+
+        img {
+            display: block;
+            margin: 0 auto;
+        }
+    }
+
+    img {
+        border-radius: var(--radius-code);
+    }
+
+    figcaption {
+        margin-top: var(--space-2);
+        color: var(--color-text-tertiary);
+        font-size: 14px;
+    }
+
+    .footnotes {
+        font-size: 14px;
+    }
+
+    iframe {
+        max-width: 100%;
+    }
+
+    // youtube shortcode: _miscellaneous.scss sets the 16:9 box, this fits it to the sheet
+    .youtube-container {
+        margin: var(--space-6) 0;
+        border-radius: 10px;
+        background: var(--color-surface);
+    }
+}
+
+// ---- point shortcode ------------------------------------------------------------
+.point {
+    display: flex;
+    gap: var(--space-3);
+    margin: var(--space-6) 0;
+    padding: var(--space-4) var(--space-5);
+    border-radius: var(--radius-note);
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.point__label {
+    flex-shrink: 0;
+    color: var(--color-link);
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1.8;
+}
+
+.point__body {
+    min-width: 0;
+
+    p {
+        margin: 0;
+    }
+
+    p + p,
+    p + ul,
+    p + ol,
+    ul + p,
+    ol + p {
+        margin-top: var(--space-2);
+    }
+
+    ul,
+    ol {
+        margin: 0;
+        padding-left: 20px;
+    }
+}
+
+// ---- Closing bar: thanks + share + edit link ---------------------------------------
+.post-thanks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 48px;
+    padding: 18px var(--space-5);
+}
+
+.post-thanks__text {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.post-thanks__edit {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    color: var(--color-link);
+    font-size: 13.5px;
+}
+
+// ---- Previous / next --------------------------------------------------------------
+.post-nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 48px;
+
+    @include mobile {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+.post-nav__item {
+    display: block;
+    padding: 18px var(--space-5);
+    color: inherit;
+    text-decoration: none;
+
+    &:hover .post-nav__title {
+        color: var(--color-link);
+    }
+}
+
+.post-nav__item--prev {
+    text-align: left;
+}
+
+// A lone "next" stays in the right column
+.post-nav__item--next {
+    grid-column: 2;
+    text-align: right;
+
+    @include mobile {
+        grid-column: auto;
+    }
+}
+
+.post-nav__label {
+    display: block;
+    margin-bottom: var(--space-2);
+    color: var(--color-accent);
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.post-nav__title {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 15.5px;
+    font-weight: 700;
+    line-height: 1.55;
+    transition: color var(--dur) var(--ease);
+}
+
+.post-nav__date {
+    display: block;
+    margin-top: 6px;
+    color: var(--color-text-secondary);
+    font-size: 12px;
+}
+
+// ---- Related posts ------------------------------------------------------------------
+.post-related {
+    margin-top: 64px;
+
+    @include mobile {
+        margin-top: 48px;
+
+        .section-head {
+            margin-bottom: 14px;
         }
 
-        .post-nav-item:nth-child(even) {
-            border-left: 0;
-            padding-left: 0;
-            border-top: 1px solid $light;
+        .section-head__note,
+        .section-head__more {
+            display: none;
         }
     }
 }
 
-.post-updated-at {
-    font-family: "Ubuntu mono", "monospace";
+.post-related__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+
+    @include mobile {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+// ---- Sidebar --------------------------------------------------------------------------
+// Only the table of contents is sticky (_tableOfContent.scss).
+.post-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    min-width: 0;
+    padding-top: 52px;
+
+    // Below 1100px only the author card stays, under the closing bar
+    @include below-sidebar {
+        margin-top: var(--space-5);
+        padding-top: 0;
+
+        .post-share {
+            display: none;
+        }
+    }
+}
+
+.post-comments {
+    margin-top: var(--space-10);
 }

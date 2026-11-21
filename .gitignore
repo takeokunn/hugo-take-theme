@@ -8,3 +8,4 @@ exampleSite/.hugo_build.lock
 result
 result-*
 .playwright-mcp/
+fonts/

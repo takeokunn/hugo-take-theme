@@ -1,0 +1,33 @@
+{{- /* Talk / slide PDFs, newest first, then undated. Configured entries take
+     precedence over automatically detected files with the same URL. */ -}}
+{{- $all := slice -}}
+{{- $seen := dict -}}
+{{- range site.Params.pdfLinks -}}
+  {{- $entry := . -}}
+  {{- with .url -}}
+    {{- $url := . -}}
+    {{- if not (index $seen $url) -}}
+      {{- $date := "" -}}
+      {{- with $entry.date }}{{ $date = time . }}{{ end -}}
+      {{- $title := $entry.title | default (path.Base $url) -}}
+      {{- $all = $all | append (dict "title" $title "url" $url "date" $date "event" ($entry.event | default "")) -}}
+      {{- $seen = merge $seen (dict $url true) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- with readDir "static/pdf" -}}
+  {{- range . -}}
+    {{- if and (not .IsDir) (strings.HasSuffix .Name ".pdf") -}}
+      {{- $url := printf "/pdf/%s" .Name -}}
+      {{- if not (index $seen $url) -}}
+        {{- $all = $all | append (dict "title" (strings.TrimSuffix ".pdf" .Name) "url" $url "date" "" "event" "") -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- $dated := slice -}}
+{{- $undated := slice -}}
+{{- range $all -}}
+  {{- if .date }}{{ $dated = $dated | append . }}{{ else }}{{ $undated = $undated | append . }}{{ end -}}
+{{- end -}}
+{{- return ((sort $dated "date" "desc") | append $undated) -}}

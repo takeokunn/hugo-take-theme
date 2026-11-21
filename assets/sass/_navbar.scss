@@ -1,219 +1,377 @@
-// Navbar
-.navbar {
-    height: auto;
-    max-width: calc(#{$wide-size} - (#{$spacing-full} * 2));
+// Site header, theme toggle and mobile menu (§3.1, §3.2).
+// Progressive enhancement: html.js is set by an inline script in
+// partials/meta/standard.html. Without it the nav list stays visible and the
+// toggle buttons stay hidden.
+@use "variables" as *;
+
+.site-header {
     position: relative;
-    margin-right: auto;
-    margin-left: auto;
-    border-bottom: 1px solid $light;
-    padding: 0.5rem 0.3rem;
-    @extend %clearfix;
+    z-index: 20;
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg);
 }
-.logo {
-    float: left;
-    margin: 0.5rem 0 0 1rem;
-    display: inline-block;
-    > svg {
-        opacity: 0.7;
-        transition: opacity 0.2s ease;
-    }
+
+.site-header__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    min-height: var(--header-h);
+}
+
+// ---- Brand ---------------------------------------------------------------
+.brand {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    color: var(--color-text);
+    text-decoration: none;
+}
+
+.brand__text {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: var(--tracking-display);
+}
+
+.brand__dot {
+    color: var(--color-accent);
+}
+
+.brand__avatar {
+    width: 32px;
+    height: 32px;
+}
+
+// ---- Desktop nav pills -------------------------------------------------------
+.site-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    margin: 0 0 0 auto;
+    padding: 0;
+    list-style: none;
+}
+
+.nav-pill {
+    display: inline-flex;
+    align-items: center;
+    height: 38px;
+    padding: 0 14px;
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--color-text-secondary);
+    @include type(control);
+    text-decoration: none;
+    transition:
+        background-color var(--dur) var(--ease),
+        color var(--dur) var(--ease);
+
     &:hover {
-        > svg {
-            opacity: 1;
-        }
+        background: var(--color-surface);
+        color: var(--color-text);
     }
-    @include media-query($on-mobile) {
-        padding-top: 0.3rem;
+
+    &[aria-current="page"] {
+        background: var(--color-nav-current-bg);
+        color: var(--color-accent);
+    }
+
+    &:focus-visible {
+        outline-offset: 4px;
     }
 }
-// Navigation
-.menu {
-    user-select: none;
 
-    ul {
-        margin: 0;
-    }
+.site-header__actions {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: var(--space-2);
+}
 
-    .trigger {
-        float: right;
-        display: flex;
-        align-items: center;
-    }
+.site-header__rss {
+    width: 40px;
+    height: 40px;
+}
 
-    // Mobile menu toggle: only shown when JS is available.
-    // Without JS the nav list itself stays visible, so nothing is lost.
-    .menu-toggle {
+// ---- Theme toggle ------------------------------------------------------------
+.theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 40px;
+    padding: 0 14px;
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+
+    // Theme switching needs JS
+    html:not(.js) & {
         display: none;
-        background: none;
-        border: 0;
-        padding: 0;
-        color: $white;
-        cursor: pointer;
     }
+}
 
-    .menu-icon {
-        display: block;
-    }
+.theme-icon {
+    display: inline-flex;
+}
 
-    // Close button inside the mobile overlay (hidden on desktop)
-    .menu-close-button {
+// Show the icon of the current theme. Before JS sets data-theme the
+// tokens follow prefers-color-scheme, so the icons do the same.
+.theme-icon--sun {
+    display: none;
+}
+
+:root[data-theme="alucard"] {
+    .theme-icon--moon {
         display: none;
-        background: none;
-        border: 0;
-        color: $white;
-        cursor: pointer;
     }
 
-    li {
-        display: inline-block;
-        margin: 0;
-        padding: 0;
-        list-style: none;
-
-        @include media-query($on-mobile) {
-            display: block;
-            margin: 0;
-            padding: 0;
-            list-style: none;
-        }
+    .theme-icon--sun {
+        display: inline-flex;
     }
+}
 
-    .menu-link {
-        color: $white;
-        line-height: $base-line-height + 0.4;
-        text-decoration: none;
-        padding: 0.5rem 0.8rem;
-        opacity: 0.9;
-        letter-spacing: 0.02rem;
-        border-radius: 6px;
-        transition:
-            opacity 0.25s ease,
-            background-color 0.25s ease;
-        position: relative;
-        font-weight: 500;
-
-        &:hover {
-            opacity: 1;
-            background-color: rgba($light, 0.5);
+@media (prefers-color-scheme: light) {
+    :root:not([data-theme]) {
+        .theme-icon--moon {
+            display: none;
         }
 
-        &:not(:last-child) {
-            margin-right: 8px;
-        }
-
-        @include media-query($on-mobile) {
-            opacity: 0.9;
-        }
-    }
-
-    .menu-link.active {
-        opacity: 1;
-        font-weight: 600;
-        background-color: rgba($text-link-blue, 0.15);
-    }
-
-    @include media-query($on-mobile) {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 2;
-        text-align: center;
-        min-height: 50px;
-        background-color: $black;
-        border-bottom: 1px solid $light;
-
-        // JS available: collapse the list behind the toggle button
-        html.js & {
-            .menu-toggle {
-                display: block;
-                position: absolute;
-                right: 0;
-                top: 0;
-                margin: 0.7rem 0.5rem 0 0;
-                z-index: 1;
-
-                .menu-icon > svg {
-                    opacity: 0.7;
-                    transition: opacity 0.2s ease;
-                }
-                &:hover .menu-icon > svg {
-                    opacity: 1;
-                }
-            }
-
-            .trigger {
-                display: none;
-            }
-
-            .trigger.open {
-                position: fixed;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100vh;
-                background-color: $black;
-                z-index: 3;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                animation: 0.2s ease-in forwards fadein;
-            }
-
-            .trigger.open .menu-close-button {
-                display: block;
-                position: absolute;
-                top: 1rem;
-                right: 1rem;
-                font-size: 2rem;
-                padding: 0.5rem;
-                line-height: 1;
-                opacity: 0.7;
-                z-index: 4;
-
-                &:hover {
-                    opacity: 1;
-                }
-            }
-        }
-
-        // No JS: nav links stay visible as a static row under the logo
-        html:not(.js) & {
-            position: static;
-
-            .trigger {
-                float: none;
-                display: block;
-                padding-bottom: 0.4rem;
-            }
-
-            li {
-                display: inline-block;
-            }
-        }
-
-        .menu-link {
-            display: block;
-            box-sizing: border-box;
-            font-size: 1.1em;
-
-            &:not(:last-child) {
-                margin: 5px 0;
-                padding: 10px 0;
-            }
+        .theme-icon--sun {
+            display: inline-flex;
         }
     }
 }
 
-// The mobile navbar is position: fixed (only when JS collapses it),
-// so push page content down to keep it from sliding underneath.
-@include media-query($on-mobile) {
-    html.js body {
-        padding-top: 50px;
+// Segmented control in the mobile menu
+.theme-switch {
+    display: flex;
+    gap: var(--space-1);
+    padding: var(--space-1);
+    border-radius: var(--radius-code);
+    background: var(--color-surface);
+}
+
+.theme-switch__option {
+    display: inline-flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    min-height: 44px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--color-text-secondary);
+    font-family: var(--font-sans);
+    font-size: 14.5px;
+    font-weight: 500;
+    line-height: 1;
+    cursor: pointer;
+
+    &[aria-pressed="true"] {
+        background: var(--color-bg);
+        box-shadow: 0 0 0 1px var(--color-border);
+        color: var(--color-text);
     }
 }
 
-// Lock body scroll while the mobile overlay is open
+// ---- Menu toggle -------------------------------------------------------------
+.menu-toggle {
+    @include icon-button(transparent);
+    display: none;
+    border-radius: var(--radius-code);
+    color: var(--color-text);
+}
+
+// ---- Mobile menu overlay -----------------------------------------------------
+.mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    background: var(--color-bg);
+
+    &[hidden] {
+        display: none;
+    }
+}
+
+.mobile-menu__bar {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    padding: 0 var(--space-2) 0 var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+
+    .brand__text {
+        font-size: 16px;
+    }
+}
+
+.mobile-menu__close {
+    @include icon-button(transparent);
+    color: var(--color-text);
+}
+
+.mobile-menu__nav {
+    padding: var(--space-5) 14px 0;
+}
+
+.mobile-menu__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.mobile-menu__link {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: var(--space-3) 14px;
+    border-radius: var(--radius-note);
+    background: transparent;
+    color: var(--color-text);
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.4;
+    text-decoration: none;
+
+    &[aria-current="page"] {
+        background: var(--color-nav-current-bg);
+        color: var(--color-accent);
+    }
+}
+
+.mobile-menu__count {
+    margin-left: auto;
+    color: var(--color-text-secondary);
+    font-family: var(--font-sans);
+    font-size: 12.5px;
+    font-weight: 500;
+}
+
+.mobile-menu__section {
+    padding: var(--space-5) 28px 0;
+}
+
+.mobile-menu__heading {
+    margin: 0 0 10px;
+    color: var(--color-text-secondary);
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.mobile-menu__footer {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: auto;
+    padding: var(--space-6) 28px var(--space-8);
+
+    .social-links a {
+        @include icon-button(var(--color-surface));
+    }
+}
+
+// Lock page scroll while the overlay is open
 body.menu-is-open {
     overflow: hidden;
+}
+
+// ---- ≤768px ------------------------------------------------------------------
+@include mobile {
+    .site-header__inner {
+        gap: var(--space-2);
+        padding-right: var(--space-2);
+    }
+
+    .brand__text {
+        font-size: 16px;
+    }
+
+    .brand__avatar {
+        width: 30px;
+        height: 30px;
+    }
+
+    // Without JS the nav list wraps under the brand (nothing is unreachable)
+    html:not(.js) .site-header__inner {
+        flex-wrap: wrap;
+        padding-top: var(--space-2);
+        padding-bottom: var(--space-2);
+    }
+
+    html:not(.js) .site-nav {
+        width: 100%;
+        margin: 0;
+    }
+
+    html.js {
+        .site-header {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+        }
+
+        body {
+            padding-top: var(--header-h);
+        }
+
+        .site-header__inner {
+            height: var(--header-h);
+        }
+
+        .site-nav,
+        .site-header__rss {
+            display: none;
+        }
+
+        .site-header__actions {
+            margin-left: auto;
+            gap: 0;
+        }
+
+        .theme-toggle {
+            @include icon-button(transparent);
+            border-radius: var(--radius-code);
+        }
+
+        .theme-toggle__label {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip-path: inset(50%);
+            white-space: nowrap;
+        }
+
+        .menu-toggle {
+            display: inline-flex;
+        }
+    }
+}
+
+// The overlay only exists for the mobile layout
+@media (min-width: ($bp-mobile + 1px)) {
+    .mobile-menu {
+        display: none;
+    }
 }

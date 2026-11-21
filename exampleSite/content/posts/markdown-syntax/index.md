@@ -1,4 +1,5 @@
 ---
+categories: [blog]
 title: Guia de Sintaxe de Markdown
 date: 2023-02-11
 author: Nome do autor

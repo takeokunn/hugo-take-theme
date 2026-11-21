@@ -1,0 +1,29 @@
+{{- /* Talks list (§3.4, replaces pdf-list.html): PDF icon + title + pink "PDF" +
+     "event · date". Renders nothing when there are no talks.
+     Args (dict):
+       items  optional slice from talks-data.html (default: all talks)
+       limit  optional max number of rows
+     Usage: {{ partial "talks.html" (dict "limit" 4) }} */ -}}
+{{- $items := .items | default (partial "talks-data.html" .) -}}
+{{- with .limit }}{{ $items = first . $items }}{{ end -}}
+{{- $format := site.Params.DateForm | default "2006.01.02" -}}
+{{- with $items }}
+<ul class="talks">
+    {{- range . }}
+    {{- $meta := slice }}
+    {{- with .event }}{{ $meta = $meta | append . }}{{ end }}
+    {{- with .date }}{{ $meta = $meta | append (.Format $format) }}{{ end }}
+    <li>
+        <a class="talks__link" href="{{ .url }}" target="_blank" rel="noopener noreferrer">
+            <span class="talks__icon" aria-hidden="true">{{ partial "icon.html" (dict "name" "pdf" "size" 18) }}</span>
+            <span class="talks__body">
+                <span class="talks__title">{{ .title }}<span class="talks__badge">PDF</span></span>
+                {{- with $meta }}
+                <span class="talks__meta">{{ delimit . " · " }}</span>
+                {{- end }}
+            </span>
+        </a>
+    </li>
+    {{- end }}
+</ul>
+{{- end -}}

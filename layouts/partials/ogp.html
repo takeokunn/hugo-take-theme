@@ -1,0 +1,7 @@
+{{- $imageURL := partial "ogp-image-url.html" . }}
+<meta itemprop="image" content="{{ $imageURL }}">
+<meta property="og:image" content="{{ $imageURL }}">
+<meta name="twitter:image" content="{{ $imageURL }}">
+{{- if eq .Section "posts" }}
+<meta name="twitter:card" content="summary_large_image">
+{{- end }}

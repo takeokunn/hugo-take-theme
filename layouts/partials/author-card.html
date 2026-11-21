@@ -1,0 +1,28 @@
+{{- /* "Written by" card (§3.4): avatar 52 + label + name + bio + [About] [Follow].
+     Argument: the current page.
+     Follow links to the first of params.social.twitter / github / zenn / keyoxide. */ -}}
+{{- $name := site.Title -}}
+{{- $bio := "" -}}
+{{- with site.Params.author }}{{ $name = .name | default $name }}{{ $bio = .bio | default "" }}{{ end -}}
+{{- $follow := "" -}}
+{{- with site.Params.social }}{{ $follow = or .twitter .github .zenn .keyoxide "" }}{{ end -}}
+<section class="panel author-card" aria-label="{{ i18n "writtenBy" }}">
+    <div class="author-card__head">
+        {{ partial "avatar" (dict "size" "104x104" "class" "avatar-ring author-card__avatar" "context" . "alt" "") }}
+        <div>
+            <div class="author-card__label">{{ i18n "writtenBy" }}</div>
+            <p class="author-card__name">{{ $name }}</p>
+        </div>
+    </div>
+    {{- with $bio }}
+    <p class="author-card__bio">{{ . }}</p>
+    {{- end }}
+    <div class="author-card__actions">
+        {{- with partial "about-page.html" . }}
+        <a class="button" href="{{ .RelPermalink }}">About</a>
+        {{- end }}
+        {{- with $follow }}
+        <a class="button" href="{{ . }}" target="_blank" rel="noopener noreferrer me">{{ i18n "follow" }}</a>
+        {{- end }}
+    </div>
+</section>

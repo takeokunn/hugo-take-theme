@@ -1,0 +1,155 @@
+@use "variables" as *;
+
+.tags-sort {
+    margin-top: 20px;
+}
+
+// Sort controls: filled surface pills (not tag chips). .is-active keeps the
+// shared chip active style, which wins on specificity.
+.chip--sort {
+    min-height: 28px;
+    padding: 7px 14px;
+    border-color: transparent;
+    background: var(--color-surface);
+    font-size: 13px;
+}
+
+.tag-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 22px 20px;
+
+    @include mobile {
+        grid-template-columns: 1fr;
+    }
+}
+
+.tag-card {
+    display: block;
+    padding: 18px 20px;
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-offset);
+    color: var(--color-text);
+    text-decoration: none;
+    transition:
+        transform var(--dur) var(--ease),
+        box-shadow var(--dur) var(--ease);
+
+    &:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: var(--shadow-offset-hover);
+    }
+
+    &__row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-3);
+    }
+
+    &__heading {
+        display: flex;
+        min-width: 0;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--font-display);
+        font-size: 19px;
+        font-weight: 800;
+        overflow-wrap: anywhere;
+
+        .dot {
+            width: 10px;
+            height: 10px;
+        }
+    }
+
+    &__count {
+        flex: none;
+        font-family: var(--font-display);
+        font-size: 26px;
+        font-weight: 800;
+        line-height: 1;
+    }
+
+    &__unit {
+        margin-left: 3px;
+        color: var(--color-text-secondary);
+        font-family: var(--font-sans);
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    &__track {
+        display: block;
+        height: 6px;
+        margin-top: 10px;
+        overflow: hidden;
+        border-radius: var(--radius-pill);
+        background: var(--color-border);
+    }
+
+    &__bar {
+        display: block;
+        height: 100%;
+        border-radius: inherit;
+        background: var(--tag-color);
+    }
+
+    &__share,
+    &__latest-label {
+        display: block;
+        color: var(--color-text-secondary);
+    }
+
+    &__share {
+        margin-top: 6px;
+        font-family: var(--font-mono);
+        font-size: 11.5px;
+    }
+
+    &__latest-label {
+        margin-top: 12px;
+        font-size: 12px;
+    }
+
+    &__latest {
+        display: block;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+}
+
+.term-page {
+    &__breadcrumb {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 10px;
+        color: var(--color-text-secondary);
+        font-size: 13px;
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+    }
+
+    &__related {
+        margin-top: 16px;
+        color: var(--color-text-secondary);
+        font-size: 13px;
+    }
+
+    &__sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tag-card:hover {
+        transform: none;
+        box-shadow: 5px 5px 0 var(--tag-color, var(--color-accent));
+    }
+}

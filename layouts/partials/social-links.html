@@ -1,0 +1,28 @@
+{{- /* Icon links for site.Params.social (FR-007: github, zenn, twitter, keyoxide, rss).
+     Args (dict):
+       class    extra classes for the <ul> (e.g. "social-links--grid")
+       variant  link class: "icon-button" (surface bg, default) or "icon-button--bg"
+       rss      bool, default true: append the RSS link (params.social.rss or /index.xml)
+     Containers may restyle the links (footer and mobile menu set their own backgrounds).
+     Usage: {{ partial "social-links.html" (dict "class" "social-links--grid") }} */ -}}
+{{- $social := site.Params.social | default dict -}}
+{{- $variant := .variant | default "icon-button" -}}
+{{- $withRSS := true -}}
+{{- if isset . "rss" }}{{ $withRSS = .rss }}{{ end -}}
+{{- $services := slice
+    (dict "key" "github" "label" "GitHub")
+    (dict "key" "zenn" "label" "Zenn")
+    (dict "key" "twitter" "label" "X (Twitter)")
+    (dict "key" "keyoxide" "label" "Keyoxide")
+-}}
+<ul class="social-links{{ with .class }} {{ . }}{{ end }}" aria-label="{{ i18n "socialLinks" }}">
+    {{- range $services }}
+    {{- $service := . }}
+    {{- with index $social .key }}
+    <li><a class="{{ $variant }}" href="{{ . }}" target="_blank" rel="noopener noreferrer me" aria-label="{{ $service.label }}">{{ partial "icon.html" (dict "name" $service.key) }}</a></li>
+    {{- end }}
+    {{- end }}
+    {{- if $withRSS }}
+    <li><a class="{{ $variant }}" href="{{ $social.rss | default ("index.xml" | relURL) }}" aria-label="{{ i18n "subscribeRss" }}">{{ partial "icon.html" (dict "name" "rss") }}</a></li>
+    {{- end }}
+</ul>

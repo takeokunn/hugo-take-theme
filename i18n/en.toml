@@ -19,26 +19,11 @@ other = "Back to top"
 [postTags]
 other = "Post tags"
 
-[publishedOn]
-other = "Published on"
-
-[featuredArticles]
-other = "Featured Articles"
-
-[publications]
-other = "Publications"
-
-[recentPosts]
-other = "Recent Posts"
-
-[seeAllPosts]
-other = "See all posts"
-
 [notFoundTitle]
-other = "404 NOT FOUND"
+other = "Page not found"
 
 [notFoundMessage]
-other = "You just hit a route that doesn't exist."
+other = "The URL may have changed, or the post may have been removed."
 
 [backToHome]
 other = "Back to home"
@@ -54,3 +39,204 @@ other = "Previous post"
 
 [nextPost]
 other = "Next post"
+
+[readMore]
+other = "Read posts"
+
+[latestUpdate]
+other = "Updated {{ .Date }}"
+
+[featured]
+other = "Featured"
+
+[featuredNote]
+other = "Start here"
+
+[latestPosts]
+other = "Latest posts"
+
+[allPosts]
+other = "All posts"
+
+[totalCount]
+other = "{{ .Count }} posts"
+
+[talks]
+other = "Talks & slides"
+
+[tags]
+other = "Tags"
+
+[postsPerMonth]
+other = "Posts"
+
+[last12Months]
+other = "Last 12 months"
+
+[minRead]
+other = "{{ .Count }} min read"
+
+[charCount]
+other = "~{{ .Count }} chars"
+
+[published]
+other = "Published"
+
+[updated]
+other = "Updated"
+
+[whatYouLearn]
+other = "What you'll learn"
+
+[thanks]
+other = "Thanks for reading!"
+
+[editPage]
+other = "Edit this page"
+
+[relatedPosts]
+other = "Related posts"
+
+[writtenBy]
+other = "Written by"
+
+[follow]
+other = "Follow"
+
+[share]
+other = "Share"
+
+[shareX]
+other = "Share on X"
+
+[shareHatena]
+other = "Hatena"
+
+[copyLink]
+other = "Copy link"
+
+[copied]
+other = "Link copied"
+
+[readProgress]
+other = "Progress"
+
+[byYear]
+other = "By year"
+
+[popular]
+other = "Popular"
+
+[filterByTag]
+other = "Filter by tag"
+
+[all]
+other = "All"
+
+[tagCount]
+other = "{{ .Count }} tags"
+
+[sortCount]
+other = "Most posts"
+
+[sortNew]
+other = "Newest"
+
+[sortName]
+other = "A–Z"
+
+[shareOfTotal]
+other = "{{ .Count }}% of posts"
+
+[latest]
+other = "Latest"
+
+[coTags]
+other = "Often used with"
+
+[firstPost]
+other = "First post"
+
+[topicsOften]
+other = "Topics"
+
+[timeline]
+other = "Timeline"
+
+[links]
+other = "Links"
+
+[searchByTag]
+other = "Browse by tag"
+
+[themeToggle]
+other = "Switch theme (current: {{ .Name }})"
+
+[popularTags]
+other = "Popular tags"
+
+[theme]
+other = "Theme"
+
+[footerSite]
+other = "Site"
+
+[postCountShort]
+other = "{{ .Count }} posts"
+
+[tagCountShort]
+other = "{{ .Count }} tags"
+
+[minReadShort]
+other = "{{ .Count }} min"
+
+[sortLabel]
+other = "Sort"
+
+[breadcrumb]
+other = "Breadcrumb"
+
+[tagPostsPerYear]
+other = "Posts tagged #{{ .Tag }}"
+
+[otherTags]
+other = "Other tags"
+
+[postCountLabel]
+other = "Posts"
+
+[writingSince]
+other = "Writing since"
+
+[greetingBeforeName]
+other = "Hello, I'm"
+
+[greetingAfterName]
+other = "."
+
+[greetingTopics]
+other = "I write about {{ .Topics }}."
+
+[copyFailed]
+other = "Could not copy"
+
+[tocItems]
+other = "{{ .Count }} items"
+
+[relatedFrom]
+other = "Based on {{ .Tags }}"
+
+[seeMore]
+other = "See more"
+
+[postUnit]
+one = "post"
+other = "posts"
+
+[tagsTotal]
+one = "{{ .Count }} tagged post in total"
+other = "{{ .Count }} tagged posts in total"
+
+[termPostCount]
+one = "{{ .Count }} post"
+other = "{{ .Count }} posts"

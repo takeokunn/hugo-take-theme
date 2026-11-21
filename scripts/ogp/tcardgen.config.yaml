@@ -1,0 +1,41 @@
+# tcardgen (github.com/Ladicle/tcardgen) の描画設定。scripts/ogp/preview.py の CONF と同じ値にしておくこと。
+# 座標は 1200x630 の左上が原点。py は文字の上端 (ベースライン = py + fontSize)。
+template: assets/ogp/tcard-template.png
+title:
+  start:
+    px: 116
+    py: 158
+  fgHexColor: "#F8F8F2"
+  fontSize: 60
+  fontStyle: ExtraBold
+  maxWidth: 956
+  lineSpacing: 25        # 行送り = 60 + 25 = 85px (行の高さ 1.42)
+category:
+  enabled: false
+  fgHexColor: "#343746"
+info:                    # 「著者 · 日付」(tcardgen の仕様で著者は消せない)
+  start:
+    px: 116
+    py: 108
+  fgHexColor: "#C3C6D4"
+  fontSize: 22
+  fontStyle: Medium
+  separator: " · "
+  timeFormat: "2006.01.02"
+tags:
+  start:
+    px: 116
+    py: 464
+  fgHexColor: "#F8F8F2"
+  bgHexColor: "#44475A"
+  fontSize: 20
+  fontStyle: Bold
+  boxAlign: Left
+  boxSpacing: 10
+  boxPadding:
+    top: 8
+    right: 14
+    bottom: 8
+    left: 14
+  limit: 3
+  titleCaseEnabled: false

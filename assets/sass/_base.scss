@@ -1,7 +1,23 @@
+@use "variables" as *;
+
+// Mobile overrides for layout tokens (_tokens.scss documents both values).
+:root {
+    @include mobile {
+        --gutter: 16px;
+        --header-h: 60px;
+    }
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 html {
     overflow-x: hidden;
     width: 100%;
-    color-scheme: dark; // native form controls / scrollbars match the dark theme
+    -webkit-text-size-adjust: 100%;
 }
 
 // Accessibility: honor OS-level reduced motion preference
@@ -13,44 +29,6 @@ html {
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
-    }
-}
-
-// Accessibility: consistent, clearly visible keyboard focus indicator
-:focus-visible {
-    outline: 2px solid $text-link-blue;
-    outline-offset: 2px;
-    border-radius: 2px;
-}
-
-// Accessibility: visually hidden but available to screen readers
-.visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-    border: 0;
-}
-
-// Accessibility: skip link - first focusable element, visible on focus
-.skip-link {
-    position: absolute;
-    top: -100px;
-    left: $spacing-half;
-    z-index: 100;
-    padding: 0.6rem 1rem;
-    color: $black;
-    background-color: $text-link-blue;
-    border-radius: 0 0 6px 6px;
-    font-weight: $bold-weight;
-    text-decoration: none;
-
-    &:focus {
-        top: 0;
     }
 }
 
@@ -74,299 +52,207 @@ figure {
     padding: 0;
 }
 
-// Basic styling
 body {
     min-height: 100vh;
     overflow-x: hidden;
+    // hidden turns body into a scroll container (html already carries hidden), which
+    // stops position: sticky; clip crops the same way without one.
+    overflow-x: clip;
     position: relative;
-    color: $text-base-color;
-    background-color: $black;
-    font: $normal-weight #{$base-font-size}/#{$base-line-height} $sans-family;
-    -webkit-text-size-adjust: 100%; // Keep for iOS Safari
-    -webkit-font-smoothing: antialiased; // Keep for better rendering control
-    font-feature-settings: "kern" 1; // Standard property is sufficient
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: var(--lh-body);
+    letter-spacing: var(--tracking-body);
+    -webkit-font-smoothing: antialiased;
     font-kerning: normal;
-    box-sizing: border-box;
-    letter-spacing: 0.01em;
-    // line-height: 1.8; // Redundant, already set in font shorthand above
     text-rendering: optimizeLegibility;
+    // Japanese line breaking (§2.3)
+    line-break: strict;
+    overflow-wrap: anywhere;
+    text-wrap: pretty;
 }
 
-// Set `margin-bottom` to maintain vertical rhythm
+// Display face: headings and every element tagged .font-display (§2.3)
 h1,
 h2,
 h3,
 h4,
 h5,
 h6,
-p,
-blockquote,
-pre,
-ul,
-ol,
-dl,
-figure,
-%vertical-rhythm {
-    margin-top: $spacing-full - 20;
-    margin-bottom: $spacing-full - 20;
+.font-display {
+    font-family: var(--font-display);
+    font-feature-settings: "palt";
+    letter-spacing: var(--tracking-display);
+    text-wrap: balance;
 }
 
-// strong | bold
-strong,
-b {
-    font-weight: $bold-weight;
-    color: $white;
-}
-
-// horizontal rule
-hr {
-    border-bottom: 0;
-    border-style: solid;
-    border-color: $light;
-}
-
-// Image
-img {
-    max-width: 100%;
-    vertical-align: middle;
-    -webkit-user-drag: none;
-    margin: 0 auto;
-    text-align: center;
-}
-
-// Figure
-figure {
-    position: relative;
-}
-
-// Image inside Figure tag
-figure > img {
-    display: block;
-    position: relative;
-}
-
-// Image caption
-figcaption {
-    font-size: 15px;
-    text-align: center;
-    color: $gray;
-    margin-top: 8px;
-    padding: 5px;
-}
-
-// Lists
-ul {
-    li {
-        display: list-item;
-        text-align: -webkit-match-parent;
-        word-wrap: break-word;
-    }
-}
-
-ol {
-    li {
-        position: relative;
-    }
-}
-
-ul,
-ol {
-    margin-top: 0;
-    margin-left: $spacing-full;
-}
-
-li {
-    padding-bottom: 4px;
-    padding-top: 4px;
-
-    &:before {
-        color: $text-base-color; // Use text color for visibility on dark background
-    }
-
-    > ul,
-    > ol {
-        margin-bottom: 2px;
-        margin-top: 0;
-    }
-}
-
-// Headings
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-    color: $white;
-    font-weight: $bold-weight;
-    text-wrap: balance;
-    & + ul,
-    & + ol {
-        margin-top: 10px;
-    }
-
-    @include media-query($on-mobile) {
-        scroll-margin-top: 65px;
-    }
+    color: var(--color-text);
+    font-weight: 800;
+    scroll-margin-top: calc(var(--header-h) + var(--space-4));
 }
 
-// Headings with link
-h1 > a,
-h2 > a,
-h3 > a,
-h4 > a,
-h5 > a,
-h6 > a {
-    text-decoration: none;
-    border: none;
-
-    &:hover {
-        text-decoration: none;
-        border: none;
-    }
+// Dates and counts: monospaced tabular figures (§2.3)
+.num {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
 }
 
-// Link
-a {
-    color: inherit;
-    text-decoration-color: $light;
-
-    transition:
-        color 0.2s ease,
-        text-decoration-color 0.2s ease;
-
-    &:hover {
-        color: $text-link-blue;
-        text-decoration: underline;
-    }
+strong,
+b {
+    font-weight: 700;
 }
 
-// Del
-del {
-    color: inherit;
-}
-
-// Em
+// em is not italicised in Japanese text (§2.3)
 em {
-    color: inherit;
+    font-style: normal;
+    font-weight: 500;
 }
 
-// Blockquotes
-blockquote {
-    color: $blockquote-text;
-    opacity: 0.9;
-    border-left: 5px solid $bloquote-border;
-    padding: 0 0 0 1rem;
-    margin-left: 0.3rem;
-    margin-right: 0.3rem;
-    font-size: 1em;
-
-    > :last-child {
-        margin-bottom: 0;
-        margin-top: 0;
-    }
+a {
+    color: var(--color-link);
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
+    transition:
+        color var(--dur) var(--ease),
+        background-color var(--dur) var(--ease),
+        text-decoration-color var(--dur) var(--ease);
 }
 
-// Wrapper
-.wrapper {
-    max-width: calc(#{$narrow-size} - (#{$spacing-full} * 2));
+hr {
+    border: 0;
+    border-top: 1px solid var(--color-border);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+}
+
+figure {
     position: relative;
-    margin-right: auto;
-    margin-left: auto;
-    padding-right: $spacing-full;
-    padding-left: $spacing-full;
-    @extend %clearfix;
-
-    @include media-query($on-mobile) {
-        max-width: calc(#{$narrow-size} - (#{$spacing-full}));
-        padding-right: $spacing-full - 10;
-        padding-left: $spacing-full - 10;
-
-        &.blurry {
-            animation: 0.2s ease-in forwards blur; // Standard property is sufficient
-        }
-    }
 }
 
-// Underline
-u {
-    text-decoration-color: $light; // Use variable for consistency
-}
-
-// Small
-small {
-    font-size: $small-font-size;
-}
-
-// Superscript
-sup {
-    border-radius: 10%;
-    top: -3px;
-    left: 2px;
-    font-size: $small-font-size; // Use variable for consistency
-    position: relative;
-    margin-right: 2px;
-}
-
-// Table
-.overflow-table {
-    overflow-x: auto;
+figcaption {
+    margin-top: var(--space-2);
+    color: var(--color-text-secondary);
+    font-size: 13px;
+    text-align: center;
 }
 
 table {
     width: 100%;
-    margin-top: $spacing-half;
     border-collapse: collapse;
-    font-size: $small-font-size;
-    background-color: rgba($black, 0.5); // Use variable
-    box-shadow: 0 2px 6px rgba($black, 0.2); // Use variable
-    border-radius: 4px;
-
-    thead {
-        font-weight: $bold-weight;
-        color: $white;
-        background-color: $light; // Use variable
-        border-bottom: 1px solid $light;
-    }
-
-    th,
-    td,
-    tr {
-        border: 1px solid $light;
-        padding: 8px 12px;
-        line-height: 1.5;
-    }
 }
 
-// Clearfix
-%clearfix:after {
-    content: "";
-    display: table;
-    clear: both;
+th,
+td {
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-border);
 }
 
-// When mouse block a text set this color
-::selection {
-    background: $light;
-    color: $white;
+sub,
+sup {
+    position: relative;
+    font-size: 75%;
+    line-height: 0;
+    vertical-align: baseline;
 }
 
-// Highlighted text: readable dark-on-yellow
+sup {
+    top: -0.5em;
+}
+
+sub {
+    bottom: -0.25em;
+}
+
 mark {
-    background: $dracula-yellow;
-    color: $black;
-    border-radius: 3px;
     padding: 0 2px;
+    border-radius: var(--radius-inline);
+    background: var(--color-mark-bg);
+    color: var(--color-mark-text);
 }
 
-// Github Gist clear border
-.gist {
-    table {
-        border: 0;
+kbd {
+    display: inline-block;
+    padding: 2px 6px;
+    border: 1px solid var(--color-border);
+    border-bottom-width: 2px;
+    border-radius: var(--radius-inline);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    line-height: 1.2;
+    white-space: nowrap;
+}
 
-        tr,
-        td {
-            border: 0;
-        }
+::selection {
+    background: var(--color-selection);
+    color: var(--color-text);
+}
+
+// Accessibility: consistent keyboard focus indicator (§8)
+:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-offset);
+}
+
+// Accessibility: visually hidden but available to screen readers
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+
+// Accessibility: skip link - first focusable element, visible on focus
+.skip-link {
+    position: absolute;
+    top: -100px;
+    left: var(--gutter);
+    z-index: 100;
+    padding: var(--space-2) var(--space-4);
+    border-radius: 0 0 var(--radius-code) var(--radius-code);
+    background-color: var(--color-link);
+    color: var(--color-bg);
+    font-weight: 700;
+    text-decoration: none;
+
+    &:focus {
+        top: 0;
+    }
+}
+
+// Page width helper shared by header, footer, home and list pages
+.container {
+    max-width: calc(var(--container) + var(--gutter) * 2);
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: var(--gutter);
+    padding-left: var(--gutter);
+}
+
+// GitHub Gist: drop table borders inside embeds
+.gist {
+    table,
+    tr,
+    td {
+        border: 0;
     }
 }

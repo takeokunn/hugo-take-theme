@@ -1,0 +1,16 @@
+{{- /* The site's About page, or false. Lookup order (FR-003):
+       1. a page with `layout: about` in front matter
+       2. /pages/about/ (exampleSite)
+       3. /about/
+     Usage: {{ with partial "about-page.html" . }}<a href="{{ .RelPermalink }}">…{{ end }} */ -}}
+{{- $about := false -}}
+{{- with where site.Pages "Layout" "about" -}}
+  {{- $about = index . 0 -}}
+{{- end -}}
+{{- if not $about -}}
+  {{- with site.GetPage "/pages/about" }}{{ $about = . }}{{ end -}}
+{{- end -}}
+{{- if not $about -}}
+  {{- with site.GetPage "/about" }}{{ $about = . }}{{ end -}}
+{{- end -}}
+{{- return $about -}}

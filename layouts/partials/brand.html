@@ -1,0 +1,18 @@
+{{- /* Brand link: avatar + "{name}.blog" with a pink dot (§3.1). Links to Home.
+     The text comes from site.Params.brand (default "{name}.blog"); {name} is
+     site.Params.author.name (fallback: site title). The "." right after {name} is pink.
+     Argument: the current page. */ -}}
+{{- $name := site.Title -}}
+{{- with site.Params.author }}{{ with .name }}{{ $name = . }}{{ end }}{{ end -}}
+{{- $pattern := site.Params.brand | default "{name}.blog" -}}
+<a class="brand" href="{{ site.Home.RelPermalink }}"{{ if .IsHome }} aria-current="page"{{ end }}>
+    {{ partial "avatar" (dict "size" "64x64" "class" "avatar-ring brand__avatar" "context" . "alt" "") }}
+    <span class="brand__text">
+    {{- if strings.Contains $pattern "{name}." -}}
+        {{- $parts := split $pattern "{name}." -}}
+        {{- index $parts 0 }}{{ $name }}<span class="brand__dot">.</span>{{ delimit (after 1 $parts) "{name}." -}}
+    {{- else -}}
+        {{- replace $pattern "{name}" $name -}}
+    {{- end -}}
+    </span>
+</a>

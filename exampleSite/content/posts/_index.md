@@ -1,3 +1,3 @@
 ---
-title: "Publicações"
+title: "Posts"
 ---

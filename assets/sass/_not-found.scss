@@ -1,0 +1,92 @@
+@use "variables" as *;
+
+.not-found {
+    padding-top: 72px;
+    text-align: center;
+
+    @include mobile {
+        padding-top: 40px;
+    }
+}
+
+.not-found__number {
+    font-family: var(--font-display);
+    font-size: 180px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 0.02em;
+
+    @include mobile {
+        font-size: 120px;
+    }
+
+    span {
+        display: inline-block;
+    }
+
+    span:nth-child(1) {
+        transform: rotate(-6deg);
+    }
+
+    span:nth-child(2) {
+        color: var(--color-accent);
+        transform: rotate(4deg);
+    }
+
+    span:nth-child(3) {
+        transform: rotate(-3deg);
+    }
+}
+
+.not-found__title {
+    margin: 20px 0 8px;
+    font-size: 30px;
+    line-height: 1.5;
+
+    @include mobile {
+        font-size: 24px;
+    }
+}
+
+.not-found__message {
+    margin-bottom: 24px;
+    color: var(--color-text-secondary);
+}
+
+.not-found__actions,
+.not-found__tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.not-found__actions {
+    gap: 10px;
+}
+
+.not-found__tags {
+    gap: 8px;
+    margin-top: 28px;
+    color: var(--color-text-secondary);
+    font-size: 13px;
+
+    @media (pointer: coarse) {
+        row-gap: 22px;
+    }
+}
+
+.not-found__latest {
+    margin-top: 56px;
+    text-align: left;
+}
+
+.not-found__cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+
+    @include mobile {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
