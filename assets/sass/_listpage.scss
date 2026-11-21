@@ -1,9 +1,12 @@
+// TEMPORARY: old Sass variables via the legacy bridge; drop when this file is rewritten.
+@use "legacy" as *;
+
 .list-page .post-year {
     padding-bottom: 0.8rem;
     margin-bottom: 1rem;
     color: $dracula-pink; // Use variable
     font-size: 1.6em;
-    border-bottom: 1px solid rgba($dracula-pink, 0.2); // Use variable
+    border-bottom: 1px solid color-mix(in srgb, $dracula-pink 20%, transparent); // Use variable
     font-weight: 700;
     letter-spacing: 0.03em;
 }
@@ -14,7 +17,9 @@
     margin-right: 1rem;
     width: 16px;
     display: block;
-    filter: drop-shadow(0 0 2px rgba($dracula-orange, 0.5)); // Use variable
+    filter: drop-shadow(
+        0 0 2px color-mix(in srgb, $dracula-orange 50%, transparent)
+    ); // Use variable
 }
 
 .post-item-right {

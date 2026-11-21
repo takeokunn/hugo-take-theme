@@ -1,16 +1,15 @@
-//////////////// 5. Import all sass files /////////////////
+// Entry point. Tokens load first so their :root rules lead the stylesheet.
+@use "tokens";
+@use "base";
+@use "code";
+@use "components";
+@use "navbar";
+@use "footer";
+@use "goToTop";
+@use "miscellaneous";
 
-// Import variables first
-@import "variables";
-
-// Import base styles and components
-@import "fonts";
-@import "base";
-@import "navbar";
-@import "layout";
-@import "post";
-@import "code";
-@import "tableOfContent";
-@import "miscellaneous";
-@import "listpage";
-@import "goToTop";
+// Page stylesheets (still on the legacy bridge until each page is rewritten)
+@use "layout";
+@use "post";
+@use "tableOfContent";
+@use "listpage";

@@ -1,83 +1,68 @@
-//////////////// Colors (Dracula Theme) /////////////////
-$text-base-color: #f8f8f2; // Dracula前景色 (通常のテキスト)
-$text-link-blue: #8be9fd; // Draculaシアン (リンク色)
-$text-link-blue-active: #50fa7b; // Dracula緑 (アクティブリンク)
-$bloquote-border: #ff79c6; // Draculaピンク (引用の枠線)
-$blockquote-text: #ffb86c; // Draculaオレンジ (引用のテキスト)
-$inline-code-text: #f1fa8c; // Dracula黄色 (インラインコードのテキスト)
-$inline-code-bg: #44475a; // Dracula現在行背景 (インラインコードの背景)
-$toc-bg: #282a36; // Dracula背景 (目次背景)
-$go-top-bg: #44475a; // Dracula現在行背景 (トップに戻るボタン背景)
-$go-top-bg-hover: #6272a4; // Draculaコメント (トップに戻るボタンホバー)
+// Sass-side API shared by every partial: breakpoints, the $type map and mixins.
+// Colors, spacing and radii are CSS custom properties defined in _tokens.scss;
+// never reintroduce Sass color variables here.
+@use "sass:list";
+@use "sass:map";
+@forward "tokens" show $type, $bp-mobile, $bp-sidebar;
+@use "tokens" as *;
 
-$black: #282a36; // Dracula背景 (メイン背景)
-$white: #f8f8f2; // Dracula前景色 (テキスト白)
-$light: #44475a; // Dracula現在行背景 (セカンダリ背景)
-$smoke: #ff5555; // Dracula赤 (スモークの色) - ::selection background
-$gray: #f8f8f2; // Dracula紫 (グレー系テキスト, post-meta)
-
-// Specific Dracula colors not aliased above (used directly in _code.scss, _post.scss etc.)
-$dracula-pink: #ff79c6;
-$dracula-purple: #bd93f9;
-$dracula-cyan: #8be9fd;
-$dracula-green: #50fa7b;
-$dracula-orange: #ffb86c;
-$dracula-yellow: #f1fa8c;
-$dracula-red: #ff9592;
-$dracula-comment: #9a9a9a;
-$dracula-current-line: #44475a;
-$dracula-foreground: #f8f8f2;
-$dracula-background: #282a36;
-
-// Muted text that still meets WCAG AA on $light card backgrounds
-$muted-on-light: #c3c6d4;
-
-//////////////// 3. Fonts preferences /////////////////
-$sans-family:
-    Roboto,
-    system-ui,
-    -apple-system,
-    "Hiragino Sans",
-    "Hiragino Kaku Gothic ProN",
-    "Noto Sans JP",
-    Meiryo,
-    sans-serif;
-$mono-family: "Fira Code", ui-monospace, "SFMono-Regular", Consolas, monospace;
-$base-font-size: 16px;
-$medium-font-size: $base-font-size * 0.95;
-$small-font-size: $base-font-size * 0.9;
-$base-line-height: 1.8;
-
-// Font weight
-// $light-weight: 300; // uncomment if necessary
-$normal-weight: 400;
-$bold-weight: 700;
-// $black-weight: 900; // uncomment if necessary
-
-//////////////// 4.Responsive design (media queries) /////////////////
-$wide-size: 890px;
-$narrow-size: 720px;
-
-// Padding unit
-$spacing-full: 30px;
-$spacing-half: 15px; // = $spacing-full / 2 (precomputed: slash-division is deprecated in dart-sass)
-
-// Screen sizes
-$on-mobile: 768px;
-$on-tablet: 769px;
-$on-desktop: 1024px;
-$on-widescreen: 1152px;
-
-@mixin media-query($device) {
-    @media screen and (max-width: $device) {
+// ≤768px: mobile navigation, single column.
+@mixin mobile {
+    @media (max-width: $bp-mobile) {
         @content;
     }
 }
 
-@mixin relative-font-size($ratio) {
-    font-size: $base-font-size * $ratio;
+// <1100px: sidebars move below the content and the TOC becomes <details>.
+@mixin below-sidebar {
+    @media (max-width: ($bp-sidebar - 1px)) {
+        @content;
+    }
 }
 
-// Placeholder for clearfix to avoid duplicate definition errors if moved from _base.scss
-%clearfix {
+// Typography role from the $type map: (desktop size, ≤768px size, weight, line-height, family).
+@mixin type($role) {
+    $spec: map.get($type, $role);
+    @if not $spec {
+        @error "Unknown type role: #{$role}";
+    }
+    $desktop: list.nth($spec, 1);
+    $mobile: list.nth($spec, 2);
+    font-family: var(--font-#{list.nth($spec, 5)});
+    font-size: $desktop;
+    font-weight: list.nth($spec, 3);
+    line-height: list.nth($spec, 4);
+
+    @if $mobile != $desktop {
+        @include mobile {
+            font-size: $mobile;
+        }
+    }
+    @if list.nth($spec, 5) == display {
+        font-feature-settings: "palt";
+        letter-spacing: var(--tracking-display);
+    }
+}
+
+// Icon-only control: 44×44 hit area (§8), rounded, surface background.
+@mixin icon-button($bg: var(--color-surface)) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-icon);
+    background: $bg;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    text-decoration: none;
+    transition:
+        color var(--dur) var(--ease),
+        background-color var(--dur) var(--ease);
+
+    &:hover {
+        color: var(--color-text);
+    }
 }

@@ -1,3 +1,22 @@
+// TEMPORARY: old Sass variables via the legacy bridge; drop when this file is rewritten.
+@use "legacy" as *;
+
+// Page column used by the pre-redesign templates (moved from _base.scss)
+.wrapper {
+    max-width: calc(#{$narrow-size} - (#{$spacing-full} * 2));
+    position: relative;
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: $spacing-full;
+    padding-left: $spacing-full;
+
+    @include media-query($on-mobile) {
+        max-width: calc(#{$narrow-size} - (#{$spacing-full}));
+        padding-right: $spacing-full - 10;
+        padding-left: $spacing-full - 10;
+    }
+}
+
 // Author
 .author {
     margin-top: 6.3rem;
@@ -84,87 +103,6 @@
     }
 }
 
-// Footer
-.footer {
-    max-width: calc(#{$wide-size} - (#{$spacing-full} * 2));
-    margin-top: 8em;
-    margin-bottom: 2em;
-    margin-right: auto;
-    margin-left: auto;
-    text-align: center;
-    padding-top: 2em;
-    border-top: 1px solid $light;
-
-    @include media-query($on-mobile) {
-        margin-top: 3em;
-    }
-
-    span.footer_item {
-        opacity: 1;
-        font-weight: $bold-weight;
-        font-size: $base-font-size * 0.9;
-    }
-
-    a.footer_item {
-        opacity: 1;
-        text-decoration: none;
-        padding: 0.3rem 0.5rem;
-        border-radius: 4px;
-        transition: all 0.2s ease;
-
-        &:not(:last-child) {
-            margin-right: 10px;
-            &:hover {
-                opacity: 1;
-                background-color: $light;
-                text-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
-            }
-        }
-    }
-
-    &_copyright {
-        font-size: $small-font-size;
-        display: block;
-        color: rgba($white, 0.8); // Use variable with opacity
-        opacity: 1;
-        margin-top: 1.5rem;
-        padding: 0.5rem 1rem;
-        letter-spacing: 0.02em;
-    }
-
-    &_divider {
-        margin: 0 0.5rem;
-        color: $dracula-pink; // Use variable
-        opacity: 0.7;
-    }
-
-    &_social-icons {
-        a {
-            text-decoration: none;
-            margin: 0 0.5rem;
-            padding: 5px;
-            display: inline-block;
-            border-radius: 4px;
-            transition: all 0.2s ease;
-
-            &:hover {
-                background-color: $light;
-            }
-        }
-        svg {
-            color: $white;
-            height: 28px;
-            width: 28px;
-            transition: transform 0.2s ease;
-
-            &:hover {
-                color: $text-link-blue;
-                transform: scale(1.1);
-            }
-        }
-    }
-}
-
 .not-found {
     text-align: center;
     display: flex;
@@ -212,10 +150,14 @@
         color: $text-base-color;
         -webkit-appearance: none;
         font-size: $base-font-size;
-        background-color: rgba($light, 0.1); // Use variable
-        border: 1px solid rgba($light, 0.1); // Use variable
+        background-color: color-mix(
+            in srgb,
+            $light 10%,
+            transparent
+        ); // Use variable
+        border: 1px solid color-mix(in srgb, $light 10%, transparent); // Use variable
         &::-webkit-input-placeholder {
-            color: rgba($gray, 0.8); // Use variable
+            color: color-mix(in srgb, $gray 80%, transparent); // Use variable
         }
         &::-webkit-search-decoration,
         &::-webkit-search-results-decoration {
@@ -308,7 +250,8 @@ kbd {
         opacity: 1;
         object-fit: cover;
         border: 3px solid $dracula-purple;
-        box-shadow: 0 4px 20px rgba($dracula-purple, 0.3);
+        box-shadow: 0 4px 20px
+            color-mix(in srgb, $dracula-purple 30%, transparent);
 
         @include media-query($on-mobile) {
             width: 100px;
@@ -361,7 +304,8 @@ kbd {
         &:hover {
             background-color: $dracula-purple;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba($dracula-purple, 0.4);
+            box-shadow: 0 4px 12px
+                color-mix(in srgb, $dracula-purple 40%, transparent);
         }
     }
 
@@ -511,7 +455,11 @@ kbd {
             transform 0.2s ease;
 
         &:hover {
-            background-color: rgba($dracula-purple, 0.2);
+            background-color: color-mix(
+                in srgb,
+                $dracula-purple 20%,
+                transparent
+            );
             transform: translateX(4px);
 
             .pdf-title {

@@ -1,11 +1,14 @@
+// TEMPORARY: old Sass variables via the legacy bridge; drop when this file is rewritten.
+@use "legacy" as *;
+
 /* Table of contents */
 .toc {
     margin: 0.8rem 0 2rem 0;
     padding: 1.2rem 1.5rem;
     border-radius: 0.6rem;
-    background-color: rgba($black, 0.5);
-    border: 1px solid rgba($light, 0.5);
-    box-shadow: 0 4px 12px rgba($black, 0.2);
+    background-color: color-mix(in srgb, $black 50%, transparent);
+    border: 1px solid color-mix(in srgb, $light 50%, transparent);
+    box-shadow: 0 4px 12px color-mix(in srgb, $black 20%, transparent);
     // Enables animating block-size to/from `auto` (Chrome 129+, safe no-op elsewhere)
     interpolate-size: allow-keywords;
 

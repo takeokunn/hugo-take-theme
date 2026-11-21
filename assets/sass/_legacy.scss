@@ -1,0 +1,73 @@
+// TEMPORARY bridge for page stylesheets that predate the redesign
+// (_layout, _post, _listpage, _tableOfContent). It maps the removed Sass
+// variables onto the CSS custom properties from _tokens.scss so those files
+// keep compiling. Delete a file's `@use "legacy"` when it is rewritten, and
+// delete this module once nothing uses it.
+@use "variables" as *;
+
+$text-base-color: var(--color-text);
+$text-link-blue: var(--color-link);
+$text-link-blue-active: var(--color-green);
+$bloquote-border: var(--color-accent);
+$blockquote-text: var(--color-orange);
+$inline-code-text: var(--color-code-inline);
+$inline-code-bg: var(--color-code-inline-bg);
+$toc-bg: var(--color-bg);
+$go-top-bg: var(--color-border);
+$go-top-bg-hover: var(--color-surface);
+
+$black: var(--color-bg);
+$white: var(--color-text);
+$light: var(--color-border);
+$smoke: var(--color-red);
+$gray: var(--color-text-secondary);
+
+$dracula-pink: var(--color-accent);
+$dracula-purple: var(--color-purple);
+$dracula-cyan: var(--color-cyan);
+$dracula-green: var(--color-green);
+$dracula-orange: var(--color-orange);
+$dracula-yellow: var(--color-yellow);
+$dracula-red: var(--color-red);
+$dracula-comment: var(--color-text-tertiary);
+$dracula-current-line: var(--color-border);
+$dracula-foreground: var(--color-text);
+$dracula-background: var(--color-bg);
+$muted-on-light: var(--color-text-secondary);
+
+$sans-family: var(--font-sans);
+$mono-family: var(--font-mono);
+$base-font-size: 16px;
+$medium-font-size: $base-font-size * 0.95;
+$small-font-size: $base-font-size * 0.9;
+$base-line-height: 1.8;
+$normal-weight: 400;
+$bold-weight: 700;
+
+$wide-size: 890px;
+$narrow-size: 720px;
+$spacing-full: 30px;
+$spacing-half: 15px;
+
+$on-mobile: $bp-mobile;
+$on-tablet: $bp-mobile + 1px;
+$on-desktop: 1024px;
+$on-widescreen: 1152px;
+
+@mixin media-query($device) {
+    @media screen and (max-width: $device) {
+        @content;
+    }
+}
+
+@mixin relative-font-size($ratio) {
+    font-size: $base-font-size * $ratio;
+}
+
+%clearfix {
+    &::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+}

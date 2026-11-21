@@ -1,0 +1,386 @@
+// =====================================================================
+// hugo-take-theme — design tokens (pop, restrained color)
+// Source of truth: Design canvas "hugo-take-theme — 情報設計と全画面"
+// Place at: assets/sass/_tokens.scss and load it first in main.scss (@use "tokens").
+// All text colors pass WCAG AA (4.5:1) on --color-bg and --color-code-block.
+// =====================================================================
+
+// ---- Themes ---------------------------------------------------------
+// <html data-theme="dracula|alucard">. Default follows prefers-color-scheme.
+:root,
+:root[data-theme="dracula"] {
+    --color-bg: #282a36;
+    --color-surface: #343746;
+    --color-code-block: #21222c;
+    --color-border: #44475a;
+    --color-selection: #44475a;
+    --color-text: #f8f8f2;
+    --color-text-secondary: #c3c6d4;
+    --color-text-tertiary: #9a9a9a;
+    --color-link: #8be9fd;
+    --color-accent: #ff79c6;
+    --color-purple: #bd93f9;
+    --color-cyan: #8be9fd;
+    --color-green: #50fa7b;
+    --color-orange: #ffb86c;
+    --color-yellow: #f1fa8c;
+    --color-red: #ff9592;
+    --color-code-inline: #f1fa8c;
+    --color-code-inline-bg: #44475a;
+    --color-mark-bg: #f1fa8c;
+    --color-mark-text: #282a36;
+    --color-on-accent: #282a36;
+    --color-nav-current-bg: #48364c; /* pink を背景に混ぜた色 (文字比 4.6) */
+    color-scheme: dark;
+}
+
+:root[data-theme="alucard"] {
+    --color-bg: #fffbeb;
+    --color-surface: #f5f0dc;
+    --color-code-block: #f7f2dd;
+    --color-border: #cfcfde;
+    --color-selection: #cfcfde;
+    --color-text: #1f1f1f;
+    --color-text-secondary: #4f4b3c;
+    --color-text-tertiary: #6c664b;
+    --color-link: #036a96;
+    --color-accent: #a3144d;
+    --color-purple: #644ac9;
+    --color-cyan: #036a96;
+    --color-green: #14710a;
+    --color-orange: #a34d14;
+    --color-yellow: #756210;
+    --color-red: #b8321f;
+    --color-code-inline: #a34d14;
+    --color-code-inline-bg: #efe9d3;
+    --color-mark-bg: #f6e7a1;
+    --color-mark-text: #1f1f1f;
+    --color-on-accent: #fffbeb;
+    --color-nav-current-bg: #eed1cf; /* pink を背景に混ぜた色 (文字比 5.3) */
+    color-scheme: light;
+}
+
+@media (prefers-color-scheme: light) {
+    :root:not([data-theme]) {
+        --color-bg: #fffbeb;
+        --color-surface: #f5f0dc;
+        --color-code-block: #f7f2dd;
+        --color-border: #cfcfde;
+        --color-selection: #cfcfde;
+        --color-text: #1f1f1f;
+        --color-text-secondary: #4f4b3c;
+        --color-text-tertiary: #6c664b;
+        --color-link: #036a96;
+        --color-accent: #a3144d;
+        --color-purple: #644ac9;
+        --color-cyan: #036a96;
+        --color-green: #14710a;
+        --color-orange: #a34d14;
+        --color-yellow: #756210;
+        --color-red: #b8321f;
+        --color-code-inline: #a34d14;
+        --color-code-inline-bg: #efe9d3;
+        --color-mark-bg: #f6e7a1;
+        --color-mark-text: #1f1f1f;
+        --color-on-accent: #fffbeb;
+        --color-nav-current-bg: #eed1cf; /* pink を背景に混ぜた色 (文字比 5.3) */
+        color-scheme: light;
+    }
+}
+
+// ---- Tag colors (dot + share bar only; chips stay neutral) ------------
+// params.tagColors overrides; otherwise hash(tag) mod 6 → this order.
+:root {
+    --tag-1: var(--color-accent); // pink
+    --tag-2: var(--color-cyan);
+    --tag-3: var(--color-purple);
+    --tag-4: var(--color-green);
+    --tag-5: var(--color-orange);
+    --tag-6: var(--color-yellow);
+}
+
+// ---- Typography -----------------------------------------------------
+:root {
+    --font-display:
+        "M PLUS Rounded 1c", "Hiragino Maru Gothic ProN", "Noto Sans JP",
+        sans-serif; // 700 / 800 (500 for small numerals)
+    --font-sans:
+        "Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN",
+        "Yu Gothic UI", Meiryo, system-ui, sans-serif; // 400 / 500 / 700
+    --font-mono:
+        "Fira Code", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; // 400 / 500
+
+    --tracking-body: 0.02em;
+    --tracking-display: 0.01em;
+    --lh-body: 1.8; // UI text
+    --lh-prose: 1.95; // article body
+}
+
+// size tokens: desktop / ≤768px
+$type: (
+    hero: (
+        46px,
+        32px,
+        800,
+        1.35,
+        display,
+    ),
+    page-title: (
+        40px,
+        30px,
+        800,
+        1.3,
+        display,
+    ),
+    post-title: (
+        38px,
+        28px,
+        800,
+        1.45,
+        display,
+    ),
+    section: (
+        21px,
+        19px,
+        800,
+        1.4,
+        display,
+    ),
+    h2: (
+        22px,
+        20px,
+        800,
+        1.5,
+        display,
+    ),
+    h3: (
+        18px,
+        18px,
+        800,
+        1.55,
+        display,
+    ),
+    card-title-l: (
+        22px,
+        22px,
+        800,
+        1.5,
+        display,
+    ),
+    card-title: (
+        17.5px,
+        17.5px,
+        800,
+        1.5,
+        display,
+    ),
+    row-title: (
+        16.5px,
+        16px,
+        700,
+        1.6,
+        display,
+    ),
+    stat: (
+        28px,
+        28px,
+        800,
+        1.1,
+        display,
+    ),
+    control: (
+        14.5px,
+        14.5px,
+        700,
+        1,
+        display,
+    ),
+    chip: (
+        12.5px,
+        12.5px,
+        700,
+        1.2,
+        display,
+    ),
+    chip-l: (
+        14px,
+        14px,
+        700,
+        1.2,
+        display,
+    ),
+    lead: (
+        17px,
+        15.5px,
+        400,
+        1.85,
+        sans,
+    ),
+    prose: (
+        17px,
+        16px,
+        400,
+        1.95,
+        sans,
+    ),
+    body: (
+        16px,
+        16px,
+        400,
+        1.8,
+        sans,
+    ),
+    summary: (
+        14px,
+        13.5px,
+        400,
+        1.75,
+        sans,
+    ),
+    meta: (
+        12.5px,
+        12.5px,
+        400,
+        1.5,
+        sans,
+    ),
+    code: (
+        14px,
+        14px,
+        400,
+        1.75,
+        mono,
+    ),
+);
+
+// ---- Space / shape / motion ------------------------------------------
+:root {
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-10: 40px;
+    --space-14: 56px;
+    --space-18: 72px;
+    --space-24: 96px;
+
+    --container: 1080px; // header / footer / home / lists
+    --measure: 680px; // article column
+    --sidebar: 300px; // post / posts / term sidebars
+    --gutter: 32px; // page side padding (≤768px: 16px)
+    --header-h: 76px; // ≤768px: 60px, fixed
+
+    --radius-card: 16px;
+    --radius-note: 14px;
+    --radius-icon: 12px;
+    --radius-code: 8px;
+    --radius-inline: 4px;
+    --radius-pill: 999px;
+
+    --shadow-offset: 5px 5px 0 var(--color-border); // cards
+    --shadow-offset-sm: 3px 3px 0 var(--color-border); // buttons
+    --shadow-offset-hover: 7px 7px 0 var(--tag-color, var(--color-accent));
+
+    --focus-ring: 2px solid var(--color-link);
+    --focus-offset: 2px;
+
+    --dur: 150ms;
+    --ease: ease-out;
+}
+
+$bp-mobile: 768px; // ≤: mobile nav, 1 column
+$bp-sidebar: 1100px; // <: sidebars drop below content, TOC becomes <details>
+
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --dur: 0ms;
+    }
+}
+
+// ---- Syntax highlighting (Chroma, markup.highlight.noClasses = false) --
+.highlight {
+    .k,
+    .kd,
+    .kn,
+    .kp,
+    .kr,
+    .kv,
+    .o,
+    .ow,
+    .nt,
+    .cp {
+        color: var(--color-accent);
+    }
+    .nf,
+    .fm {
+        color: var(--color-green);
+        font-weight: 700;
+    }
+    .na,
+    .nc {
+        color: var(--color-green);
+    }
+    .s,
+    .sa,
+    .sb,
+    .sc,
+    .sd,
+    .s1,
+    .s2,
+    .se,
+    .sh,
+    .si,
+    .sr,
+    .ss,
+    .sx {
+        color: var(--color-yellow);
+    }
+    .m,
+    .mb,
+    .mf,
+    .mh,
+    .mi,
+    .il,
+    .mo,
+    .kc,
+    .no {
+        color: var(--color-purple);
+    }
+    .kt,
+    .nn,
+    .nb {
+        color: var(--color-cyan);
+        font-style: italic;
+    }
+    .nv,
+    .vc,
+    .vg,
+    .vi,
+    .nx {
+        color: var(--color-orange);
+        font-style: italic;
+    }
+    .c,
+    .ch,
+    .cm,
+    .c1,
+    .cs,
+    .cpf {
+        color: var(--color-text-tertiary);
+        font-style: italic;
+    }
+    .gi {
+        color: var(--color-green);
+        background: color-mix(in srgb, var(--color-green) 15%, transparent);
+    }
+    .gd {
+        color: var(--color-red);
+        background: color-mix(in srgb, var(--color-red) 15%, transparent);
+    }
+    .err {
+        color: var(--color-red);
+    }
+}
