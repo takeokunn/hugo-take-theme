@@ -19,7 +19,7 @@
     <meta property="article:section" content="{{ index . 0 }}">
     {{ end }}
     {{ range .GetTerms "tags" }}
-    <meta property="article:tag" content="{{ .LinkTitle }}">
+    <meta property="article:tag" content="{{ partial "tag-name.html" . }}">
     {{ end }}
 
     {{ $imageUrl := partial "ogp-image-url.html" . }}
