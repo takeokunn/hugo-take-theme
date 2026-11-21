@@ -10,6 +10,116 @@ https://www.takeokunn.org/
   $ cd exampleSite
   $ hugo server --themesDir ../..
 #+end_src
+** Configuration
+
+Theme settings go in the =[params]= table of the site's =hugo.toml=. Each key is optional. The table below gives the default where the theme sets one. The block below is a trimmed copy of =exampleSite/hugo.toml=.
+
+#+begin_src toml
+[params]
+DateForm = "2006.01.02"
+brand = "{name}.blog"
+mainSections = ["posts"]
+featuredArticles = ["/posts/table-of-content", "/posts/markdown-syntax", "/posts/rich-content"]
+popularPosts = []  # an empty list hides the Popular panel
+editURL = "https://github.com/OWNER/REPO/edit/main/content"
+selfHostFonts = false
+
+[params.author]
+name = "Author"
+role = "Software engineer · Tokyo"
+bio = "A short bio shown on Home, the footer, and About."
+topics = ["Hugo", "Emacs", "Nix"]
+
+[params.home]
+greeting = ""
+
+[params.social]
+github = "https://github.com/..."
+zenn = "https://zenn.dev/..."
+twitter = "https://x.com/..."
+
+[params.socialHandles]
+github = "@..."
+
+[params.tagColors]
+Hugo = "pink"
+Nix = "orange"
+
+[[params.pdfLinks]]
+title = "sample-slides"
+url = "/pdf/sample-slides.pdf"
+date = "2024-03-08"
+event = "Event name 2024"
+#+end_src
+
+| Key | Meaning |
+|---|---|
+| =DateForm= | Go time layout for dates in lists and articles. Default: =2006.01.02=. |
+| =brand= | Text of the header and footer brand. The placeholder ={name}= is replaced by =author.name=. Default: ={name}.blog=. |
+| =mainSections= | Sections whose pages count as articles on Home and in the post count. |
+| =featuredArticles= | Site-relative URL paths of up to three articles shown under "Featured" on Home. |
+| =popularPosts= | Paths shown under "Popular" in the Posts sidebar. An empty list hides the panel. |
+| =editURL= | Base URL of the "edit this page" link. The article's path relative to =content/=, such as =posts/x/index.md=, is appended. |
+| =selfHostFonts= | When =true=, the theme links the site's own =static/fonts/fonts.css= instead of Google Fonts. The theme does not ship that file; the site must provide it with the @font-face rules for the three families. |
+| =author.name= | Name in the header brand and the footer. |
+| =author.role= | Role line on Home and About. |
+| =author.bio= | Bio in the footer and the author card. |
+| =author.topics= | Topics listed in the default Home greeting. |
+| =home.greeting= | Home heading. An empty string uses the default greeting. |
+| =social.<service>= | Link for each icon. Services: =github=, =zenn=, =twitter=, =keyoxide=, =rss=. Without =rss=, the feed at =/index.xml= is linked. |
+| =socialHandles.<service>= | Handle text for a service, using the same service names as =social=. |
+| =tagColors.<tag>= | Color of a tag: =pink=, =cyan=, =purple=, =green=, =orange=, or =yellow=. Tags without an entry get a color from a hash of their name. |
+| =pdfLinks= | Slides listed under "Talks". Each entry has =title=, =url=, =date=, and =event=. |
+
+Some site settings outside =[params]= change how the theme renders. =hasCJKLanguage = true= counts Japanese characters in word counts. =[markup.highlight] noClasses = false= makes code colors come from the theme's CSS, so they follow the selected theme. =[related]= chooses related articles; the example weights the tags index at 100 and the date index at 10.
+
+To check that the theme builds with no params, run this in =exampleSite=. =hugo.unset.toml= is =hugo.toml= without =[params]=, =[menus]=, and =[Languages.ja-jp.params]=.
+
+#+begin_src console
+  $ cd exampleSite
+  $ hugo --config hugo.unset.toml --themesDir ../..
+#+end_src
+
+** i18n
+
+UI text comes from =i18n/ja.toml=, =i18n/ja-jp.toml=, and =i18n/en.toml=. =ja-jp.toml= is for the =ja-jp= language, the exampleSite's default. =ja.toml= is for =ja=. Each key is a table with an =other= value. Templates call the key with =i18n "key"=.
+
+Keys with a placeholder take data. Pass a number for =.Count= (=i18n "minRead" .ReadingTime=), or a dict for named values (=i18n "themeToggle" (dict "Name" "Dracula")=).
+
+When you add or rename a key, change all three files so they hold the same keys. To check for missing keys, run =hugo --printI18nWarnings --themesDir ../..= in =exampleSite=.
+
+** Theme switching
+
+The theme has two palettes: Dracula (dark, the default) and Alucard (light). The header button and the mobile menu switch between them and save the choice in =localStorage= under =theme=. Without a saved choice, the theme follows the OS =prefers-color-scheme= setting. An inline script in =layouts/partials/meta/standard.html= sets =data-theme= on =<html>= before the first paint.
+
+Colors are CSS custom properties defined in =assets/sass/_tokens.scss=. Use the role names (for example =--color-text= or =--color-surface=) in other Sass files instead of hex colors.
+
+** About page
+
+Set =layout: about= in the front matter of the About page. The exampleSite uses =content/pages/about.md=.
+
+#+begin_src yaml
+layout: about
+timeline:
+  - { date: "2024.03", title: "Talk title", note: "sample-slides" }
+#+end_src
+
+=timeline= is optional. Each entry has =date=, =title=, and =note=.
+
+** Article front matter
+
+The following front matter keys are optional.
+
+#+begin_src yaml
+description: "Lead text for lists and the article header"
+points: ["First takeaway", "Second takeaway", "Third takeaway"]
+lastmod: 2024-01-10
+#+end_src
+
+- =description= is the lead text. Without it, Hugo's =.Summary=, as plain text cut to 80 characters, is used.
+- =points= fills the "What you'll learn" panel. The panel is hidden when =points= is absent.
+- =lastmod= adds an "Updated" pill. The pill appears only when the date differs from the publish date.
+
 ** OGP images
 
 Post images are generated in =static/ogp/=. For =content/posts/example.md= the filename is =example.png=; for =content/posts/example/index.md= it is also =example.png=, based on the bundle directory name. Names must be unique because identical names overwrite the same PNG. Other pages use =assets/ogp/site.png=.
