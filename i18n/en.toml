@@ -19,26 +19,11 @@ other = "Back to top"
 [postTags]
 other = "Post tags"
 
-[publishedOn]
-other = "Published on"
-
-[featuredArticles]
-other = "Featured Articles"
-
-[publications]
-other = "Publications"
-
-[recentPosts]
-other = "Recent Posts"
-
-[seeAllPosts]
-other = "See all posts"
-
 [notFoundTitle]
 other = "Page not found"
 
 [notFoundMessage]
-other = "You just hit a route that doesn't exist."
+other = "The URL may have changed, or the post may have been removed."
 
 [backToHome]
 other = "Back to home"
