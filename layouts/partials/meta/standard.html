@@ -1,21 +1,26 @@
 <meta charset="utf-8">
 {{- /* Theme (§2.2): decide data-theme before first paint to avoid a flash.
-     Order: saved choice (localStorage) > prefers-color-scheme > Dracula. */}}
+     Order: saved choice (localStorage) > prefers-color-scheme. data-theme is always
+     set, even when storage is blocked, so CSS and main.js read the same value.
+     One theme-color meta follows data-theme (two media-scoped metas would follow the
+     OS instead of the chosen theme); its data-* attributes hold the per-theme colors. */}}
+<meta name="theme-color" content="#282a36" data-dracula="#282a36" data-alucard="#fffbeb">
 <script>
 (function () {
+    var t = null;
     try {
-        var t = localStorage.getItem("theme");
-        if (t !== "dracula" && t !== "alucard") {
-            t = matchMedia("(prefers-color-scheme: light)").matches ? "alucard" : "dracula";
-        }
-        document.documentElement.dataset.theme = t;
+        t = localStorage.getItem("theme");
     } catch (e) {}
+    if (t !== "dracula" && t !== "alucard") {
+        t = window.matchMedia && matchMedia("(prefers-color-scheme: light)").matches ? "alucard" : "dracula";
+    }
+    document.documentElement.dataset.theme = t;
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute("content", meta.getAttribute("data-" + t));
 })();
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark light">
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#282a36">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#fffbeb">
 
 <meta name="Hatena::Bookmark" content="nocomment">
 

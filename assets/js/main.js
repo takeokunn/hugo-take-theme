@@ -15,9 +15,17 @@
     // ---------------------------------------------------------------
     const THEMES = { dracula: 'Dracula', alucard: 'Alucard' };
 
+    // data-theme is the single source of truth: the head script always sets it.
     const currentTheme = () => (document.documentElement.dataset.theme === 'alucard' ? 'alucard' : 'dracula');
 
+    const syncThemeColor = (theme) => {
+        const meta = document.querySelector('meta[name="theme-color"]');
+        const color = meta && meta.getAttribute(`data-${theme}`);
+        if (color) meta.setAttribute('content', color);
+    };
+
     const syncThemeControls = (theme) => {
+        syncThemeColor(theme);
         document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
             const template = button.dataset.labelTemplate;
             if (template) button.setAttribute('aria-label', template.replace('{name}', THEMES[theme]));
@@ -139,9 +147,16 @@
             }
         });
 
-        // Following a link closes the overlay (the page is about to change)
+        // Following a link closes the overlay. Links that keep this page open
+        // (new tab, or an in-page #anchor) return focus to the toggle; for a
+        // real navigation the page is about to change, so focus is left alone.
         menu.addEventListener('click', (event) => {
-            if (event.target.closest('a')) setOpen(false, { restoreFocus: false });
+            const link = event.target.closest('a');
+            if (!link) return;
+            const staysOnPage =
+                link.target === '_blank' ||
+                (link.hash !== '' && link.origin === location.origin && link.pathname === location.pathname);
+            setOpen(false, { restoreFocus: staysOnPage });
         });
 
         // The overlay only exists below 769px; reset when widening

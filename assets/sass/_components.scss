@@ -173,6 +173,34 @@ $dot-roles: (
     list-style: none;
 }
 
+// Touch: extend each linked chip's hit area to at least 44×44 (§8) without
+// changing how it looks. Small chips are 23px tall and large ones 33px, so rows of
+// linked chips get enough row gap for the extended areas not to overlap. Chips
+// are at least ~40px wide, so the 6px column gap already separates them.
+@media (pointer: coarse) {
+    a.chip {
+        position: relative;
+
+        &::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: max(100%, 44px);
+            height: 44px;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    .chip-list:has(> a.chip) {
+        row-gap: 22px;
+    }
+
+    .chip-list:has(> a.chip--l) {
+        row-gap: 12px;
+    }
+}
+
 // ---- Pills (meta pills, badges) ------------------------------------------
 .pill {
     display: inline-flex;
