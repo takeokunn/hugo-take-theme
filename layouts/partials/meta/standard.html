@@ -2,9 +2,11 @@
 {{- /* Theme (§2.2): decide data-theme before first paint to avoid a flash.
      Order: saved choice (localStorage) > prefers-color-scheme. data-theme is always
      set, even when storage is blocked, so CSS and main.js read the same value.
-     One theme-color meta follows data-theme (two media-scoped metas would follow the
-     OS instead of the chosen theme); its data-* attributes hold the per-theme colors. */}}
-<meta name="theme-color" content="#282a36" data-dracula="#282a36" data-alucard="#fffbeb">
+     theme-color: one meta per color scheme, so without JS the browser UI follows the OS.
+     With JS this script (and main.js on toggle) writes the chosen theme's color into
+     both, so the UI follows the toggle. data-* hold the per-theme colors. */}}
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#282a36" data-dracula="#282a36" data-alucard="#fffbeb">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#fffbeb" data-dracula="#282a36" data-alucard="#fffbeb">
 <script>
 (function () {
     var t = null;
@@ -15,8 +17,8 @@
         t = window.matchMedia && matchMedia("(prefers-color-scheme: light)").matches ? "alucard" : "dracula";
     }
     document.documentElement.dataset.theme = t;
-    var meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute("content", meta.getAttribute("data-" + t));
+    var metas = document.querySelectorAll('meta[name="theme-color"]');
+    for (var i = 0; i < metas.length; i++) metas[i].setAttribute("content", metas[i].getAttribute("data-" + t));
 })();
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1">

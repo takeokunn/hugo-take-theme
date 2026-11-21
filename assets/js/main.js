@@ -18,10 +18,12 @@
     // data-theme is the single source of truth: the head script always sets it.
     const currentTheme = () => (document.documentElement.dataset.theme === 'alucard' ? 'alucard' : 'dracula');
 
+    // Both media-scoped theme-color metas take the chosen theme's color.
     const syncThemeColor = (theme) => {
-        const meta = document.querySelector('meta[name="theme-color"]');
-        const color = meta && meta.getAttribute(`data-${theme}`);
-        if (color) meta.setAttribute('content', color);
+        document.querySelectorAll('meta[name="theme-color"]').forEach((meta) => {
+            const color = meta.getAttribute(`data-${theme}`);
+            if (color) meta.setAttribute('content', color);
+        });
     };
 
     const syncThemeControls = (theme) => {
