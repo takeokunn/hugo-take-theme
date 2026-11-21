@@ -169,7 +169,29 @@
     // Page features (TOC progress, copy link, tag sorting, ...) go here.
     // ---------------------------------------------------------------
 
-    const features = [setupTheme, setupGoToTop, setupMenu];
+    const setupTagSort = () => {
+        const grid = document.querySelector('[data-tag-grid]');
+        if (!grid) return;
+
+        const requested = new URLSearchParams(window.location.search).get('sort');
+        const sort = ['new', 'kana'].includes(requested) ? requested : 'count';
+        const cards = [...grid.querySelectorAll('[data-tag-card]')];
+        if (sort === 'new') {
+            cards.sort((a, b) => Date.parse(b.dataset.date) - Date.parse(a.dataset.date));
+        } else if (sort === 'kana') {
+            cards.sort((a, b) => a.dataset.name.localeCompare(b.dataset.name, 'ja'));
+        }
+        grid.append(...cards);
+
+        document.querySelectorAll('[data-tag-sort]').forEach((link) => {
+            const active = link.dataset.tagSort === sort;
+            link.classList.toggle('is-active', active);
+            if (active) link.setAttribute('aria-current', 'page');
+            else link.removeAttribute('aria-current');
+        });
+    };
+
+    const features = [setupTheme, setupGoToTop, setupMenu, setupTagSort];
 
     const init = () => features.forEach((setup) => setup());
 
