@@ -3,7 +3,7 @@
 {{ $talks := partial "talks-data.html" . }}
 {{ $featured := slice }}
 {{ with site.Params.featuredArticles }}{{ range first 3 . }}{{ with site.GetPage . }}{{ $featured = $featured | append . }}{{ end }}{{ end }}{{ end }}
-{{ $empty := and (not site.Params.featuredArticles) (not $talks) }}
+{{ $empty := and (not $featured) (not $talks) }}
 {{ $author := site.Params.author | default dict }}
 {{ $name := $author.name | default site.Title }}
 {{ $about := partial "about-page.html" . }}
@@ -26,11 +26,7 @@
                     <div><strong>{{ $name }}</strong>{{ with $author.role }}<div class="home-profile__role">{{ . }}</div>{{ end }}</div>
                 </div>
                 <div class="stats">
-                    {{ partial "stat.html" (dict "value" (len $posts) "label" (i18n "postCountLabel") "color" "pink") }}
-                    {{ partial "stat.html" (dict "value" (len site.Taxonomies.tags) "label" (i18n "tags") "color" "purple") }}
-                    {{ partial "stat.html" (dict "value" (len $talks) "label" (i18n "talks") "color" "cyan") }}
-                    {{ $since := "–" }}{{ range $posts.ByDate }}{{ if not .Date.IsZero }}{{ $since = printf "%s〜" (.Date.Format "2006") }}{{ break }}{{ end }}{{ end }}
-                    {{ partial "stat.html" (dict "value" $since "label" (i18n "writingSince") "color" "orange") }}
+                    {{ partial "site-stats.html" (dict "posts" $posts "talks" $talks) }}
                 </div>
                 {{ partial "social-links.html" (dict "class" "home-profile__social" "variant" "icon-button--bg") }}
             </div>

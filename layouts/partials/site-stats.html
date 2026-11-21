@@ -1,0 +1,7 @@
+{{- $posts := .posts -}}
+{{- $since := "–" -}}
+{{- range $posts.ByDate }}{{ if not .Date.IsZero }}{{ $since = printf "%s〜" (.Date.Format "2006") }}{{ break }}{{ end }}{{ end -}}
+{{ partial "stat.html" (dict "value" (len $posts) "label" (i18n "postCountLabel") "color" "pink") }}
+{{ partial "stat.html" (dict "value" (len site.Taxonomies.tags) "label" (i18n "tags") "color" "purple") }}
+{{ partial "stat.html" (dict "value" (len .talks) "label" (i18n "talks") "color" "cyan") }}
+{{ partial "stat.html" (dict "value" $since "label" (i18n "writingSince") "color" "orange") }}

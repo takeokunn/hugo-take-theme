@@ -11,21 +11,17 @@
             <span class="pill about__badge">About</span>
             <h1 class="about__name">{{ site.Params.author.name | default .Title }}</h1>
             {{ with site.Params.author.role }}<p class="about__role">{{ . }}</p>{{ end }}
-            {{ with $tags }}<div class="about__header-tags">{{ range first 4 . }}{{ partial "tag-chip.html" (dict "tag" .Page "size" "l") }}{{ end }}</div>{{ end }}
+            {{ with $tags }}<div class="chip-list">{{ range first 4 . }}{{ partial "tag-chip.html" (dict "tag" .Page "size" "l") }}{{ end }}</div>{{ end }}
         </div>
     </header>
     <div class="about__stats stats">
-        {{ partial "stat.html" (dict "value" (len $posts) "label" (i18n "postCountLabel") "color" "pink") }}
-        {{ partial "stat.html" (dict "value" (len site.Taxonomies.tags) "label" (i18n "tags") "color" "purple") }}
-        {{ partial "stat.html" (dict "value" (len $talks) "label" (i18n "talks") "color" "cyan") }}
-        {{ $since := "–" }}{{ range $posts.ByDate }}{{ if not .Date.IsZero }}{{ $since = printf "%s〜" (.Date.Format "2006") }}{{ break }}{{ end }}{{ end }}
-        {{ partial "stat.html" (dict "value" $since "label" (i18n "writingSince") "color" "orange") }}
+        {{ partial "site-stats.html" (dict "posts" $posts "talks" $talks) }}
     </div>
     <article class="about__content">{{ .Content }}</article>
     {{ with $tags }}
     <section class="about__section">
         <h2 class="about__heading">{{ i18n "topicsOften" }}</h2>
-        <div class="about__topics">{{ range . }}{{ partial "tag-chip.html" (dict "tag" .Page "count" .Count "size" "l") }}{{ end }}</div>
+        <div class="chip-list">{{ range . }}{{ partial "tag-chip.html" (dict "tag" .Page "count" .Count "size" "l") }}{{ end }}</div>
     </section>
     {{ end }}
     {{ with .Params.timeline }}

@@ -44,17 +44,6 @@
     color: var(--color-text-secondary);
 }
 
-.about__header-tags,
-.about__topics {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-
-    .chip {
-        min-height: 44px;
-    }
-}
-
 .about__stats {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 12px;
