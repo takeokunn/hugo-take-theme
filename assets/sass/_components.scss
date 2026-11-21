@@ -597,6 +597,7 @@ html:not(.js) [data-copy-link] {
 
 .talks__icon {
     @include icon-button(var(--color-bg));
+    flex: none;
     width: 40px;
     height: 40px;
     cursor: inherit;
