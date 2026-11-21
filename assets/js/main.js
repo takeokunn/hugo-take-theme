@@ -283,8 +283,10 @@
 
         // The rootMargin puts the top edge of the observed area on the read
         // line, so a heading crossing it (threshold 1 = fully visible) fires
-        // the callback. Positions are re-read from every heading there, which
-        // keeps fast scrolling and anchor jumps from skipping a section.
+        // the callback, which re-reads the position of every heading. A jump
+        // longer than the observed area (smooth scroll to a far anchor) can
+        // cross a heading between two frames without any callback, so the
+        // scroll handler below re-reads the positions as well.
         let observer = null;
         const observe = () => {
             observer?.disconnect();
@@ -306,8 +308,8 @@
                 if (layoutChanged) {
                     layoutChanged = false;
                     observe();
-                    updateCurrent();
                 }
+                updateCurrent();
                 updateProgress();
             });
         };
