@@ -1,0 +1,7 @@
+{{- /* Reading progress inside a table of contents (§4.2).
+     main.js writes aria-valuenow, the --progress custom property (0-100) and the
+     number in [data-toc-percent]; without JS it stays at 0. */ -}}
+<div class="toc__progress" data-toc-progress role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="{{ i18n "readProgress" }}">
+    <div class="toc__progress-label"><span>{{ i18n "readProgress" }}</span><span class="num"><span data-toc-percent>0</span>%</span></div>
+    <div class="toc__bar" aria-hidden="true"><span class="toc__fill"></span></div>
+</div>

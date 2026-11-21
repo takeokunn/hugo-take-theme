@@ -1,11 +1,36 @@
-{{/* Table of contents - rendered only when the page opts in (params.toc != false)
-     and the generated TOC actually has entries */}}
+{{- /* Table of contents (§4.2). Renders nothing when params.toc / front matter toc is false
+     or the page has no headings in the configured level range.
+     Args (dict):
+       page     the page
+       variant  "panel"   sidebar panel, shown from 1100px (sticky)
+                "details" <details> before the body, shown below 1100px
+     Hugo's .TableOfContents is wrapped in <nav id="TableOfContents">. The id would be
+     duplicated by the two variants, so the wrapper is stripped and the list is wrapped
+     in a <nav data-toc> of our own; the heading links keep Hugo's unique ids.
+     Both variants stay in the DOM and CSS picks one, so the layout needs no JS.
+     main.js fills [data-toc-progress] and marks the current link. */ -}}
+{{- $page := .page -}}
 {{- $enabled := true -}}
-{{- if isset .Site.Params "toc" }}{{ $enabled = .Site.Params.toc }}{{ end -}}
-{{- if isset .Params "toc" }}{{ $enabled = .Params.toc }}{{ end -}}
-{{- if and $enabled (in .TableOfContents "<li") -}}
-<details class="toc">
-    <summary><b>{{ i18n "tableOfContents" }}</b></summary>
-    {{ .TableOfContents }}
+{{- if isset site.Params "toc" }}{{ $enabled = site.Params.toc }}{{ end -}}
+{{- if isset $page.Params "toc" }}{{ $enabled = $page.Params.toc }}{{ end -}}
+{{- $list := $page.TableOfContents | replaceRE `^\s*<nav id="TableOfContents">\s*` "" | replaceRE `\s*</nav>\s*$` "" -}}
+{{- $count := len (findRE `<a href="#` $list) -}}
+{{- if and $enabled (gt $count 0) -}}
+{{- if eq .variant "details" }}
+<details class="toc toc--details">
+    <summary class="toc__summary"><span class="toc__summary-title">{{ i18n "tableOfContents" }}</span><span class="toc__summary-meta">{{ i18n "tocItems" (dict "Count" $count) }} · {{ i18n "minReadShort" $page.ReadingTime }}</span></summary>
+    <nav class="toc__nav" data-toc aria-label="{{ i18n "tableOfContents" }}">
+        <div class="toc__scroll">{{ $list | safeHTML }}</div>
+        {{ partial "toc-progress.html" . }}
+    </nav>
 </details>
+{{- else }}
+<div class="panel toc toc--panel">
+    <nav class="toc__nav" data-toc aria-labelledby="toc-title">
+        <h2 class="panel__title" id="toc-title">{{ i18n "tableOfContents" }}</h2>
+        <div class="toc__scroll">{{ $list | safeHTML }}</div>
+        {{ partial "toc-progress.html" . }}
+    </nav>
+</div>
+{{- end }}
 {{- end -}}

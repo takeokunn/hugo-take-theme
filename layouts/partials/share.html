@@ -11,4 +11,4 @@
     <li><a class="icon-button--bg" href="{{ $hatena }}" target="_blank" rel="noopener noreferrer" aria-label="{{ i18n "shareHatena" }}" title="{{ i18n "shareHatena" }}"><span class="share__hatena" aria-hidden="true">B!</span></a></li>
     <li><button type="button" class="icon-button--bg" data-copy-link aria-label="{{ i18n "copyLink" }}" title="{{ i18n "copyLink" }}">{{ partial "icon.html" (dict "name" "link" "size" 16) }}</button></li>
 </ul>
-<span class="visually-hidden" role="status" aria-live="polite" data-copy-status></span>
+<span class="visually-hidden" role="status" aria-live="polite" data-copy-status data-copied-label="{{ i18n "copied" }}" data-failed-label="{{ i18n "copyFailed" }}"></span>

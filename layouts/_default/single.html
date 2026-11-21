@@ -1,46 +1,116 @@
 {{ define "main" }}
-<div class="wrapper post">
-    <main id="main-content" tabindex="-1" class="page-content">
-        <article>
-            <header class="header">
-                <h1 class="header-title">{{ .Title }}</h1>
-                <div class="post-meta">
-                    <time datetime="{{ .Date.Format "2006-01-02T15:04:05-07:00" }}" itemprop="datePublished">
-                        <span class="visually-hidden">{{ i18n "publishedOn" }}: </span>{{ .Date.Format (.Site.Params.DateForm | default "2006.01.02") }}
-                    </time>
+{{- $dateForm := site.Params.DateForm | default "2006.01.02" -}}
+{{- $section := .FirstSection -}}
+{{- $tags := .GetTerms "tags" -}}
+<main id="main-content" tabindex="-1" class="post-page">
+    <div class="container">
+        <div class="post-layout">
+            <article class="post" data-post>
+                <header class="post-header">
+                    <nav class="post-breadcrumb" aria-label="{{ i18n "breadcrumb" }}">
+                        <ol class="post-breadcrumb__list">
+                            <li><a href="{{ site.Home.RelPermalink }}">Home</a></li>
+                            {{- if not $section.IsHome }}
+                            <li><a href="{{ $section.RelPermalink }}">{{ $section.LinkTitle }}</a></li>
+                            {{- end }}
+                            {{- if and (not .Date.IsZero) (not $section.IsHome) }}
+                            <li><a href="{{ $section.RelPermalink }}#year-{{ .Date.Format "2006" }}">{{ .Date.Format "2006" }}</a></li>
+                            {{- end }}
+                        </ol>
+                    </nav>
+                    {{- with $tags }}
+                    <ul class="chip-list post-header__tags" aria-label="{{ i18n "postTags" }}">
+                        {{- range . }}
+                        <li>{{ partial "tag-chip.html" (dict "tag" . "size" "l") }}</li>
+                        {{- end }}
+                    </ul>
+                    {{- end }}
+                    <h1 class="post-header__title">{{ .Title }}</h1>
+                    {{- with .Description }}
+                    <p class="post-header__lead">{{ . }}</p>
+                    {{- end }}
+                    {{ partial "meta-pills.html" . }}
+                </header>
+
+                {{ partial "toc.html" (dict "page" . "variant" "details") }}
+
+                {{- with .Params.points }}
+                {{- $points := . }}
+                {{- if not (reflect.IsSlice .) }}{{ $points = slice . }}{{ end }}
+                <section class="panel post-points" aria-labelledby="post-points-title">
+                    <h2 class="post-points__title" id="post-points-title">{{ i18n "whatYouLearn" }}</h2>
+                    <ul class="post-points__list">
+                        {{- range $points }}
+                        <li>{{ . }}</li>
+                        {{- end }}
+                    </ul>
+                </section>
+                {{- end }}
+
+                <div class="prose">
+                    {{ .Content }}
                 </div>
-                {{ with .GetTerms "tags" }}
-                <ul class="tags" aria-label="{{ i18n "postTags" }}">
-                    {{ range . }}
-                        <li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>
-                    {{ end }}
-                </ul>
-                {{ end }}
-            </header>
-            {{ partial "toc.html" . }}
-            <div class="page-content">
-                {{ .Content }}
+            </article>
+
+            <div class="panel post-thanks">
+                <p class="post-thanks__text font-display">{{ i18n "thanks" }}</p>
+                {{ partial "share.html" . }}
+                {{- with and site.Params.editURL .File }}
+                <a class="post-thanks__edit" href="{{ strings.TrimSuffix "/" site.Params.editURL }}/{{ .Path }}" target="_blank" rel="noopener noreferrer">
+                    {{- partial "icon.html" (dict "name" "github" "size" 15) }}{{ i18n "editPage" -}}
+                </a>
+                {{- end }}
             </div>
-        </article>
-        {{ if or .PrevInSection .NextInSection }}
-        <nav class="post-nav" aria-label="{{ i18n "prevPost" }} / {{ i18n "nextPost" }}">
-            {{ with .PrevInSection }}
-            <a class="post-nav-item" href="{{ .RelPermalink }}" rel="prev">
-                <div class="nav-arrow">← {{ i18n "prevPost" }}</div>
-                <span class="post-title">{{ .Title }}</span>
-            </a>
-            {{ else }}
-            <span class="post-nav-item" aria-hidden="true"></span>
-            {{ end }}
-            {{ with .NextInSection }}
-            <a class="post-nav-item" href="{{ .RelPermalink }}" rel="next">
-                <div class="nav-arrow">{{ i18n "nextPost" }} →</div>
-                <span class="post-title">{{ .Title }}</span>
-            </a>
-            {{ end }}
-        </nav>
-        {{ end }}
-        {{- partial "comments.html" . -}}
-    </main>
-</div>
+
+            <aside class="post-sidebar">
+                {{ partial "toc.html" (dict "page" . "variant" "panel") }}
+                {{ partial "author-card.html" . }}
+                <section class="panel post-share" aria-labelledby="post-share-title">
+                    {{ partial "section-head.html" (dict "title" (i18n "share") "id" "post-share-title") }}
+                    {{ partial "share.html" . }}
+                </section>
+            </aside>
+
+            {{- if or .PrevInSection .NextInSection }}
+            <nav class="post-nav" aria-label="{{ i18n "prevPost" }} / {{ i18n "nextPost" }}">
+                {{- with .PrevInSection }}
+                <a class="panel post-nav__item post-nav__item--prev" href="{{ .RelPermalink }}" rel="prev">
+                    <span class="post-nav__label">← {{ i18n "prevPost" }}</span>
+                    <span class="post-nav__title">{{ .LinkTitle }}</span>
+                    <time class="post-nav__date num" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format $dateForm }}</time>
+                </a>
+                {{- end }}
+                {{- with .NextInSection }}
+                <a class="panel post-nav__item post-nav__item--next" href="{{ .RelPermalink }}" rel="next">
+                    <span class="post-nav__label">{{ i18n "nextPost" }} →</span>
+                    <span class="post-nav__title">{{ .LinkTitle }}</span>
+                    <time class="post-nav__date num" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format $dateForm }}</time>
+                </a>
+                {{- end }}
+            </nav>
+            {{- end }}
+
+            {{- with first 3 (site.RegularPages.Related .) }}
+            {{- $head := dict "title" (i18n "relatedPosts") "id" "post-related-title" }}
+            {{- with $tags }}
+            {{- $names := slice }}
+            {{- range first 2 . }}{{ $names = $names | append (printf "#%s" .LinkTitle) }}{{ end }}
+            {{- $head = merge $head (dict "note" (i18n "relatedFrom" (dict "Tags" (delimit $names " "))) "link" (index . 0).RelPermalink "label" (i18n "seeMore")) }}
+            {{- end }}
+            <section class="post-related" aria-labelledby="post-related-title">
+                {{ partial "section-head.html" $head }}
+                <div class="post-related__grid">
+                    {{- range . }}
+                    {{ partial "post-card.html" (dict "page" .) }}
+                    {{- end }}
+                </div>
+            </section>
+            {{- end }}
+
+            {{- with partial "comments.html" . }}
+            <div class="post-comments">{{ . }}</div>
+            {{- end }}
+        </div>
+    </div>
+</main>
 {{ end }}
