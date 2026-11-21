@@ -243,3 +243,12 @@ other = "{{ .Tags }} から"
 
 [seeMore]
 other = "もっと見る"
+
+[postUnit]
+other = "件"
+
+[tagsTotal]
+other = "のべ {{ .Count }} 件"
+
+[termPostCount]
+other = "{{ .Count }} 件の記事"

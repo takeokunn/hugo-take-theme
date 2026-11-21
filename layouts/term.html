@@ -17,7 +17,7 @@
     <header class="list-page__header">
         <nav class="term-page__breadcrumb" aria-label="{{ i18n "breadcrumb" }}"><a href="{{ site.Home.RelPermalink }}">Home</a><span aria-hidden="true">›</span><a href="{{ $taxonomy.RelPermalink }}">{{ $taxonomy.LinkTitle }}</a></nav>
         <h1 class="list-page__title">#{{ $name }}</h1>
-        <p class="list-page__subtitle">{{ i18n "totalCount" (dict "Count" (len $pages)) }} · {{ i18n "firstPost" }} {{ (index $pages (sub (len $pages) 1)).Date.Format "2006.01.02" }} · {{ i18n "latest" }} {{ (index $pages 0).Date.Format "2006.01.02" }}</p>
+        <p class="list-page__subtitle">{{ i18n "termPostCount" (dict "Count" (len $pages)) }} · {{ i18n "firstPost" }} {{ (index $pages (sub (len $pages) 1)).Date.Format "2006.01.02" }} · {{ i18n "latest" }} {{ (index $pages 0).Date.Format "2006.01.02" }}</p>
         {{- with $related }}
         <div class="term-page__related chip-list"><span>{{ i18n "coTags" }}</span>{{ range . }}{{ partial "tag-chip.html" (dict "tag" .page "count" .count) }}{{ end }}</div>
         {{- end }}

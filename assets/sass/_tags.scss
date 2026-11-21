@@ -31,8 +31,16 @@
         box-shadow: var(--shadow-offset-hover);
     }
 
+    &__row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-3);
+    }
+
     &__heading {
         display: flex;
+        min-width: 0;
         align-items: center;
         gap: 8px;
         font-family: var(--font-display);
@@ -47,12 +55,19 @@
     }
 
     &__count {
-        display: block;
-        margin-top: 12px;
+        flex: none;
         font-family: var(--font-display);
         font-size: 26px;
         font-weight: 800;
         line-height: 1;
+    }
+
+    &__unit {
+        margin-left: 3px;
+        color: var(--color-text-secondary);
+        font-family: var(--font-sans);
+        font-size: 12px;
+        font-weight: 500;
     }
 
     &__track {
