@@ -194,25 +194,17 @@
     // ---------------------------------------------------------------
     // Post: TOC current section and reading progress (§4.2, §5-3)
     // Every [data-toc] (sidebar panel and the <details> below 1100px; one of
-    // them is not rendered) is updated together. Links keep the browser's
-    // default anchor jump. Without IntersectionObserver nothing is enhanced.
+    // them is not rendered) is updated together. The tracked headings are
+    // the targets of the links in the TOC, so the TOC levels set by the site
+    // (markup.tableOfContents) and the script cannot disagree. Links keep the
+    // browser's default anchor jump.
     // ---------------------------------------------------------------
     const setupToc = () => {
         const article = document.querySelector('[data-post]');
         const tocs = [...document.querySelectorAll('[data-toc]')];
-        if (!article || tocs.length === 0 || !('IntersectionObserver' in window)) return;
+        if (!article || tocs.length === 0) return;
 
-        const headings = [...article.querySelectorAll('.prose h2, .prose h3')].filter((heading) => heading.id);
-        if (headings.length === 0) return;
-
-        // The first heading carrying an id decides the link's position
-        // (Hugo makes ids unique; this only keeps duplicates harmless).
-        const indexById = new Map();
-        headings.forEach((heading, index) => {
-            if (!indexById.has(heading.id)) indexById.set(heading.id, index);
-        });
-
-        const links = [];
+        const targets = [];
         tocs.forEach((toc) => {
             toc.querySelectorAll('a[href^="#"]').forEach((link) => {
                 let id = link.getAttribute('href').slice(1);
@@ -221,9 +213,16 @@
                 } catch (e) {
                     // Malformed escape: compare the raw fragment.
                 }
-                if (indexById.has(id)) links.push({ link, index: indexById.get(id) });
+                const heading = document.getElementById(id);
+                if (heading && article.contains(heading)) targets.push({ link, heading });
             });
         });
+        if (targets.length === 0) return;
+
+        const headings = [...new Set(targets.map(({ heading }) => heading))].sort((a, b) =>
+            a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1
+        );
+        const links = targets.map(({ link, heading }) => ({ link, index: headings.indexOf(heading) }));
 
         const bars = tocs.flatMap((toc) =>
             [...toc.querySelectorAll('[data-toc-progress]')].map((bar) => ({
@@ -250,13 +249,12 @@
             headings.forEach((heading, i) => {
                 if (heading.getBoundingClientRect().top <= line) index = i;
             });
-            const effective = index < 0 ? -1 : indexById.get(headings[index].id);
-            if (effective === currentIndex) return;
-            currentIndex = effective;
+            if (index === currentIndex) return;
+            currentIndex = index;
             links.forEach(({ link, index: linkIndex }) => {
-                const isCurrent = linkIndex === effective;
+                const isCurrent = linkIndex === index;
                 link.classList.toggle('is-current', isCurrent);
-                link.classList.toggle('is-read', linkIndex < effective);
+                link.classList.toggle('is-read', linkIndex < index);
                 if (isCurrent) {
                     link.setAttribute('aria-current', 'location');
                 } else {
@@ -281,44 +279,24 @@
             });
         };
 
-        // The rootMargin puts the top edge of the observed area on the read
-        // line, so a heading crossing it (threshold 1 = fully visible) fires
-        // the callback, which re-reads the position of every heading. A jump
-        // longer than the observed area (smooth scroll to a far anchor) can
-        // cross a heading between two frames without any callback, so the
-        // scroll handler below re-reads the positions as well.
-        let observer = null;
-        const observe = () => {
-            observer?.disconnect();
-            observer = new IntersectionObserver(updateCurrent, {
-                rootMargin: `-${readLine()}px 0px 0px 0px`,
-                threshold: [0, 1],
-            });
-            headings.forEach((heading) => observer.observe(heading));
-        };
-
+        // Heading positions are re-read on every frame that scrolls or
+        // resizes. Reading them all is cheap (no layout write in between), and
+        // it cannot skip a section on a long smooth scroll or an anchor jump.
         let ticking = false;
-        let layoutChanged = false;
-        const schedule = (relayout) => {
-            layoutChanged = layoutChanged || relayout;
+        const update = () => {
             if (ticking) return;
             ticking = true;
             requestAnimationFrame(() => {
                 ticking = false;
-                if (layoutChanged) {
-                    layoutChanged = false;
-                    observe();
-                }
                 updateCurrent();
                 updateProgress();
             });
         };
 
-        window.addEventListener('scroll', () => schedule(false), { passive: true });
-        window.addEventListener('resize', () => schedule(true), { passive: true });
-        if ('ResizeObserver' in window) new ResizeObserver(() => schedule(true)).observe(article);
+        window.addEventListener('scroll', update, { passive: true });
+        window.addEventListener('resize', update, { passive: true });
+        if ('ResizeObserver' in window) new ResizeObserver(update).observe(article);
 
-        observe();
         updateCurrent();
         updateProgress();
     };
