@@ -44,7 +44,9 @@
                 {{ with $talks }}<section class="panel">{{ partial "section-head.html" (dict "title" (i18n "talks")) }}{{ partial "talks.html" (dict "items" .) }}</section>{{ end }}
                 <section class="panel">
                     {{ partial "section-head.html" (dict "title" (i18n "tags") "link" ("tags/" | relURL) "label" (i18n "all")) }}
-                    <div class="home-tags chip-list">{{ range site.Taxonomies.tags.ByCount }}{{ partial "tag-chip.html" (dict "tag" .Page "count" .Count "size" "l") }}{{ end }}</div>
+                    {{- /* Top tags only (HANDOFF §4.1 says all tags); the Tags page lists every tag. */}}
+                    {{- $homeTagLimit := 20 }}
+                    <div class="home-tags chip-list">{{ range partial "top-tags.html" $homeTagLimit }}{{ partial "tag-chip.html" (dict "tag" .Page "count" .Count "size" "l") }}{{ end }}</div>
                 </section>
                 <section class="panel">
                     {{ partial "section-head.html" (dict "title" (i18n "postsPerMonth") "note" (i18n "last12Months")) }}

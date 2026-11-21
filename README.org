@@ -71,6 +71,8 @@ event = "Event name 2024"
 | =tagColors.<tag>= | Color of a tag: =pink=, =cyan=, =purple=, =green=, =orange=, or =yellow=. Tags without an entry get a color from a hash of their name. |
 | =pdfLinks= | Slides listed under "Talks". Each entry has =title=, =url=, =date=, and =event=. |
 
+Home lists the 20 most used tags with a link to the Tags page, which lists every tag.
+
 Some site settings outside =[params]= change how the theme renders. =hasCJKLanguage = true= counts Japanese characters in word counts. =[markup.highlight] noClasses = false= makes code colors come from the theme's CSS, so they follow the selected theme. =[related]= chooses related articles; the example weights the tags index at 100 and the date index at 10.
 
 To check that the theme builds with no params, run this in =exampleSite=. =hugo.unset.toml= is =hugo.toml= without =[params]=, =[menus]=, and =[Languages.ja-jp.params]=.
