@@ -1,4 +1,6 @@
 ---
+categories: [blog]
+author: Hugo Authors
 title: Tabela de Conteúdo
 date: 2023-05-02
 description: Configurar a tabela de conteúdo no tema "Awesome" do blog Hugo.

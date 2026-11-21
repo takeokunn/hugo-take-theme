@@ -1,0 +1,25 @@
+{{- $imageURL := "" -}}
+{{- with .Params.images -}}
+    {{- $imageURL = index . 0 | absURL -}}
+{{- else -}}
+    {{- with .Params.image -}}
+        {{- $imageURL = . | absURL -}}
+    {{- else -}}
+        {{- if and .IsPage (eq .Section "posts") -}}
+            {{- $imageURL = printf "ogp/%s.png" .File.ContentBaseName | absURL -}}
+        {{- else -}}
+            {{- with resources.Get "ogp/site.png" -}}
+                {{- $imageURL = .Permalink -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+{{- .Scratch.Set "ogpImageURL" $imageURL -}}
+{{- with $imageURL }}
+<meta itemprop="image" content="{{ . }}">
+<meta property="og:image" content="{{ . }}">
+<meta name="twitter:image" content="{{ . }}">
+{{- end }}
+{{- if and .IsPage (eq .Section "posts") }}
+<meta name="twitter:card" content="summary_large_image">
+{{- end }}

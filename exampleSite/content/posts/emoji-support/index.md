@@ -1,4 +1,7 @@
 ---
+categories: [blog]
+images: ["https://example.com/ogp/site.png"]
+image: "https://example.com/ogp/site.png?legacy=1"
 title: Emoji Support
 date: 2023-02-01
 author: Hugo Authors

@@ -1,4 +1,5 @@
 ---
+categories: [blog]
 author: Autor
 title: Notação Matemática - use a notação matemática em postagens de blog.
 date: 2023-04-01
