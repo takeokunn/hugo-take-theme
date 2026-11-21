@@ -1,12 +1,48 @@
-<footer class="footer">
-    {{ with .Site.Params.social }}
-    <div class="footer_social-icons">
-        {{ partial "social-icons-inline" . }}
+{{/* Site footer (§3.3): brand + bio | site links | top 6 tags | follow icons,
+     then © and "Powered by" with llms.txt / sitemap.xml links. */}}
+{{- $name := site.Title -}}
+{{- $bio := "" -}}
+{{- with site.Params.author }}{{ $name = .name | default $name }}{{ $bio = .bio | default "" }}{{ end -}}
+<footer class="site-footer">
+    <div class="site-footer__inner container">
+        <div class="site-footer__grid">
+            <div>
+                {{ partial "brand.html" . }}
+                {{- with $bio }}
+                <p class="site-footer__bio">{{ . }}</p>
+                {{- end }}
+            </div>
+            <nav aria-labelledby="footer-site-heading">
+                <h2 class="site-footer__heading" id="footer-site-heading">{{ i18n "footerSite" }}</h2>
+                <ul class="site-footer__links">
+                    <li><a href="{{ site.Home.RelPermalink }}">Home</a></li>
+                    {{- range partial "nav-items.html" . }}
+                    <li><a href="{{ .url }}">{{ .name }}</a></li>
+                    {{- end }}
+                </ul>
+            </nav>
+            {{- with partial "top-tags.html" 6 }}
+            <div>
+                <h2 class="site-footer__heading">{{ i18n "tags" }}</h2>
+                <div class="chip-list">
+                    {{- range . }}
+                    {{ partial "tag-chip.html" (dict "tag" .Page "count" .Count) }}
+                    {{- end }}
+                </div>
+            </div>
+            {{- end }}
+            <div>
+                <h2 class="site-footer__heading">{{ i18n "follow" }}</h2>
+                {{ partial "social-links.html" (dict "class" "social-links--grid") }}
+            </div>
+        </div>
+        <div class="site-footer__bottom">
+            <span>© {{ now.Format "2006" }} {{ or site.Params.copyright $name }}</span>
+            <span>
+                Powered by <a href="https://github.com/takeokunn/hugo-take-theme" target="_blank" rel="noopener noreferrer">hugo-take-theme</a>
+                {{- with site.Home.OutputFormats.Get "llms" }} · <a href="{{ .RelPermalink }}">llms.txt</a>{{ end }}
+                · <a href="{{ "sitemap.xml" | relURL }}">sitemap.xml</a>
+            </span>
+        </div>
     </div>
-    {{ end }}
-    <small class="footer_copyright">
-        <span>© {{ now.Format "2006" }} {{ or .Site.Params.copyright .Site.Params.author.name .Site.Title }}</span>
-        <span class="footer_divider" aria-hidden="true">•</span>
-        <span>Powered by <a href="https://github.com/takeokunn/hugo-take-theme" target="_blank" rel="noopener noreferrer">hugo-take-theme</a></span>
-    </small>
 </footer>
