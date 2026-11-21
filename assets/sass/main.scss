@@ -10,6 +10,8 @@
 
 // Page stylesheets (still on the legacy bridge until each page is rewritten)
 @use "layout";
+@use "home";
+@use "about";
 @use "post";
 @use "tableOfContent";
 @use "listpage";

@@ -1,31 +1,68 @@
 {{ define "main" }}
-<div class="wrapper portfolio-wrapper">
-    {{/* Hero Section - Avatar, Title, Subtitle, Social Links */}}
-    {{ partial "hero" . }}
-
-    <main id="main-content" tabindex="-1" aria-label="Content">
-        {{/* Featured Articles Section */}}
-        {{ partial "featured-articles" . }}
-
-        {{/* PDF Publications Section */}}
-        {{ partial "pdf-list" . }}
-
-        {{/* Recent Posts Section - Fallback when no featured articles configured */}}
-        {{ if not .Site.Params.featuredArticles }}
-        <section class="recent-posts">
-            <h2 class="section-title">{{ i18n "recentPosts" }}</h2>
-            {{ range first 10 (where .Site.RegularPages "Section" "in" .Site.MainSections) }}
-                {{ partial "postCard" . }}
-            {{ end }}
-            {{ with .Site.MainSections }}
-            {{ with site.GetPage (printf "/%s" (index . 0)) }}
-            <p>
-                <a href="{{ .RelPermalink }}">{{ i18n "seeAllPosts" }}</a>
-            </p>
-            {{ end }}
-            {{ end }}
+{{ $posts := (where site.RegularPages "Section" "in" site.MainSections).ByDate.Reverse }}
+{{ $talks := partial "talks-data.html" . }}
+{{ $featured := slice }}
+{{ with site.Params.featuredArticles }}{{ range first 3 . }}{{ with site.GetPage . }}{{ $featured = $featured | append . }}{{ end }}{{ end }}{{ end }}
+{{ $empty := and (not site.Params.featuredArticles) (not $talks) }}
+{{ $author := site.Params.author | default dict }}
+{{ $name := $author.name | default site.Title }}
+{{ $about := partial "about-page.html" . }}
+{{ $dateFormat := site.Params.DateForm | default "2006.01.02" }}
+<div class="container home">
+    <main id="main-content" tabindex="-1">
+        <section class="home-hero">
+            <div class="home-hero__intro">
+                {{ with first 1 $posts }}{{ range . }}<p class="home-hero__latest"><span class="dot dot--green" aria-hidden="true"></span>{{ i18n "latestUpdate" (dict "Date" (.Date.Format $dateFormat)) }}</p>{{ end }}{{ end }}
+                <h1 class="home-hero__title">{{ with site.Params.home.greeting }}{{ . }}{{ else }}{{ i18n "greetingBeforeName" }}<span>{{ $name }}</span>{{ i18n "greetingAfterName" }}{{ with $author.topics }}<br>{{ i18n "greetingTopics" (dict "Topics" (delimit . "・")) }}{{ end }}{{ end }}</h1>
+                {{ with $author.bio }}<p class="home-hero__bio">{{ . }}</p>{{ end }}
+                <div class="home-hero__actions">
+                    <a class="button button--primary" href="{{ "posts/" | relURL }}">{{ i18n "readMore" }}</a>
+                    {{ with $about }}<a class="button" href="{{ .RelPermalink }}">About</a>{{ end }}
+                </div>
+            </div>
+            <div class="panel home-profile">
+                <div class="home-profile__author">
+                    {{ partial "avatar.html" (dict "size" "112x112" "class" "home-profile__avatar" "context" . "priority" true "alt" "") }}
+                    <div><strong>{{ $name }}</strong>{{ with $author.role }}<div class="home-profile__role">{{ . }}</div>{{ end }}</div>
+                </div>
+                <div class="stats">
+                    {{ partial "stat.html" (dict "value" (len $posts) "label" (i18n "postCountLabel") "color" "pink") }}
+                    {{ partial "stat.html" (dict "value" (len site.Taxonomies.tags) "label" (i18n "tags") "color" "purple") }}
+                    {{ partial "stat.html" (dict "value" (len $talks) "label" (i18n "talks") "color" "cyan") }}
+                    {{ $since := "–" }}{{ range $posts.ByDate }}{{ if not .Date.IsZero }}{{ $since = printf "%s〜" (.Date.Format "2006") }}{{ break }}{{ end }}{{ end }}
+                    {{ partial "stat.html" (dict "value" $since "label" (i18n "writingSince") "color" "orange") }}
+                </div>
+                {{ partial "social-links.html" (dict "class" "home-profile__social" "variant" "icon-button--bg") }}
+            </div>
         </section>
-        {{ end }}
+        {{ with $featured }}<section class="home-featured">
+            {{ partial "section-head.html" (dict "title" (i18n "featured") "note" (i18n "featuredNote")) }}
+            <div class="home-featured__grid">{{ range $i, $page := . }}{{ partial "post-card.html" (dict "page" $page "size" (cond (eq $i 0) "l" "")) }}{{ end }}</div>
+        </section>{{ end }}
+        <div class="home-content">
+            <section class="home-latest">
+                {{ partial "section-head.html" (dict "title" (i18n "latestPosts") "note" (i18n "totalCount" (dict "Count" (len $posts))) "link" ("posts/" | relURL) "label" (i18n "allPosts")) }}
+                <ul class="post-rows">{{ range first (cond $empty 10 5) $posts }}{{ partial "post-row.html" (dict "page" .) }}{{ end }}</ul>
+            </section>
+            <aside class="home-sidebar">
+                {{ with $talks }}<section class="panel">{{ partial "section-head.html" (dict "title" (i18n "talks")) }}{{ partial "talks.html" (dict "items" .) }}</section>{{ end }}
+                <section class="panel">
+                    {{ partial "section-head.html" (dict "title" (i18n "tags") "link" ("tags/" | relURL) "label" (i18n "all")) }}
+                    <div class="home-tags">{{ range site.Taxonomies.tags.ByCount }}{{ partial "tag-chip.html" (dict "tag" .Page "count" .Count "size" "l") }}{{ end }}</div>
+                </section>
+                <section class="panel">
+                    {{ partial "section-head.html" (dict "title" (i18n "postsPerMonth") "note" (i18n "last12Months")) }}
+                    {{ $groups := $posts.GroupByDate "2006-01" }}{{ $bars := slice }}
+                    {{ $month := time.AsTime (printf "%s-01" (now.Format "2006-01")) }}
+                    {{ range seq 11 -1 0 }}
+                        {{ $date := $month.AddDate 0 (mul . -1) 0 }}{{ $key := $date.Format "2006-01" }}{{ $count := 0 }}
+                        {{ range $groups }}{{ if eq .Key $key }}{{ $count = len .Pages }}{{ end }}{{ end }}
+                        {{ $bars = $bars | append (dict "label" ($date.Format "1") "value" $count) }}
+                    {{ end }}
+                    {{ partial "bar-chart.html" (dict "items" $bars "label" (i18n "last12Months")) }}
+                </section>
+            </aside>
+        </div>
     </main>
 </div>
 {{ end }}
