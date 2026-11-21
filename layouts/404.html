@@ -1,7 +1,5 @@
 {{ define "main" }}
-{{ $section := index (site.MainSections | default (slice "posts")) 0 }}
-{{ $postsURL := printf "%s/" $section | relURL }}
-{{ with site.GetPage (printf "/%s" $section) }}{{ $postsURL = .RelPermalink }}{{ end }}
+{{ $postsURL := "posts/" | relURL }}
 {{ $posts := where site.RegularPages "Section" "in" site.MainSections }}
 {{ $tags := partial "top-tags.html" 5 }}
 <main id="main-content" tabindex="-1" class="container not-found">
