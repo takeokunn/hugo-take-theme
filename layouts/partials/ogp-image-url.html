@@ -1,0 +1,15 @@
+{{- $imageURL := "" -}}
+{{- with .Params.images -}}
+    {{- $imageURL = index . 0 | absURL -}}
+{{- else -}}
+    {{- with .Params.image -}}
+        {{- $imageURL = . | absURL -}}
+    {{- else -}}
+        {{- if and .IsPage (eq .Section "posts") -}}
+            {{- $imageURL = printf "ogp/%s.png" .File.ContentBaseName | absURL -}}
+        {{- else -}}
+            {{- $imageURL = (resources.Get "ogp/site.png").Permalink -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+{{- return $imageURL -}}

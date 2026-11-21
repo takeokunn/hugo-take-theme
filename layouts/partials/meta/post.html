@@ -1,4 +1,3 @@
-{{ partial "ogp.html" . }}
 {{ if eq .Section "posts" }}
     {{ $ISO_date := .Date.Format "2006-01-02T15:04:05-07:00" }}
     {{ $ISO_lastmod := .Lastmod.Format "2006-01-02T15:04:05-07:00" }}
@@ -23,7 +22,7 @@
     <meta property="article:tag" content="{{ .LinkTitle }}">
     {{ end }}
 
-    {{ $imageUrl := .Scratch.Get "ogpImageURL" }}
+    {{ $imageUrl := partial "ogp-image-url.html" . }}
 
     {{ $description := or .Description (.Summary | plainify | htmlUnescape | truncate 160) }}
     {{ $authorName := or .Site.Params.author.name .Site.Title }}
