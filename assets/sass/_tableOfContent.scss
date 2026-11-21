@@ -1,75 +1,196 @@
-// TEMPORARY: old Sass variables via the legacy bridge; drop when this file is rewritten.
-@use "legacy" as *;
+// Table of contents (§4.2). layouts/partials/toc.html renders two variants and CSS
+// shows one: a sticky sidebar panel from 1100px, a <details> below it (no JS needed).
+// main.js marks the current link ([aria-current] / .is-current), earlier links
+// (.is-read) and writes --progress (0-100) on [data-toc-progress].
+@use "variables" as *;
 
-/* Table of contents */
-.toc {
-    margin: 0.8rem 0 2rem 0;
-    padding: 1.2rem 1.5rem;
-    border-radius: 0.6rem;
-    background-color: color-mix(in srgb, $black 50%, transparent);
-    border: 1px solid color-mix(in srgb, $light 50%, transparent);
-    box-shadow: 0 4px 12px color-mix(in srgb, $black 20%, transparent);
-    // Enables animating block-size to/from `auto` (Chrome 129+, safe no-op elsewhere)
-    interpolate-size: allow-keywords;
+.toc__nav {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
 
-    summary {
-        font-weight: bold;
-        color: $dracula-pink;
-        font-size: 1.1em;
-        letter-spacing: 0.02em;
-        cursor: pointer;
-        user-select: none;
-        transition: color 0.3s ease;
-
-        &:hover {
-            color: $dracula-orange;
-        }
-
-        &::marker {
-            color: $dracula-pink;
-        }
-    }
-
-    // CSS-only open/close animation via ::details-content
-    // (progressive enhancement: unsupported browsers toggle instantly)
-    &::details-content {
-        opacity: 0;
-        block-size: 0;
-        overflow-y: clip;
-        transition:
-            content-visibility 0.4s allow-discrete,
-            opacity 0.4s ease,
-            block-size 0.4s ease;
-    }
-
-    &[open]::details-content {
-        opacity: 1;
-        block-size: auto;
-    }
+.toc__scroll {
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-width: thin;
 
     ul {
-        padding-top: 0.8rem;
-        margin-left: 0.8rem;
-        padding-left: 1.2rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
 
-        li {
-            margin-bottom: 0.8em;
-            line-height: 1.6;
+    // Each level indents by 14px; the dot follows the link
+    ul ul {
+        padding-left: 14px;
+    }
 
-            &::marker {
-                color: $dracula-purple;
+    li {
+        margin: 0;
+        padding: 0;
+    }
+
+    a {
+        position: relative;
+        display: block;
+        padding: var(--space-1) 0 var(--space-1) 18px;
+        color: var(--color-text-secondary);
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.65;
+        text-decoration: none;
+
+        // Unread: border-colored dot
+        &::before {
+            content: "";
+            position: absolute;
+            top: 13px;
+            left: 0;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--color-border);
+        }
+
+        &:hover {
+            color: var(--color-text);
+        }
+
+        // Keep the ring inside the scroll area so it is not clipped
+        &:focus-visible {
+            border-radius: var(--radius-inline);
+            outline-offset: -2px;
+        }
+
+        // Read: body color, pink dot
+        &.is-read {
+            color: var(--color-text);
+
+            &::before {
+                background: var(--color-accent);
             }
+        }
 
-            a {
-                text-decoration: none;
-                color: $dracula-cyan;
-                transition: color 0.2s ease;
+        // Current: pink and bold
+        &[aria-current],
+        &.is-current {
+            color: var(--color-accent);
+            font-weight: 700;
 
-                &:hover {
-                    color: $dracula-green;
-                    text-decoration: underline;
-                }
+            &::before {
+                background: var(--color-accent);
             }
         }
     }
+}
+
+// ---- Reading progress -------------------------------------------------------
+.toc__progress {
+    flex: none;
+    margin-top: var(--space-3);
+}
+
+.toc__progress-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    color: var(--color-text-secondary);
+    font-size: 12px;
+}
+
+.toc__bar {
+    height: 6px;
+    overflow: hidden;
+    border-radius: var(--radius-pill);
+    background: var(--color-bg);
+}
+
+.toc__fill {
+    display: block;
+    width: calc(var(--progress, 0) * 1%);
+    height: 100%;
+    border-radius: inherit;
+    background: var(--color-accent);
+    transition: width var(--dur) var(--ease);
+}
+
+// ---- Sidebar panel (≥1100px) ---------------------------------------------------
+// The only sticky element of the sidebar; later panels slide under it.
+.toc--panel {
+    position: sticky;
+    top: var(--space-6);
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - var(--space-6) * 2);
+
+    .panel__title {
+        flex: none;
+    }
+
+    @include below-sidebar {
+        display: none;
+    }
+}
+
+// ---- <details> (<1100px) -------------------------------------------------------
+.toc--details {
+    display: none;
+    margin: 0 0 var(--space-2);
+    border-radius: var(--radius-note);
+    background: var(--color-surface);
+
+    @include below-sidebar {
+        display: block;
+    }
+
+    &[open] > .toc__summary {
+        padding-bottom: var(--space-2);
+    }
+
+    .toc__nav {
+        padding: 0 var(--space-4) var(--space-4);
+    }
+
+    .toc__scroll {
+        max-height: 50vh;
+
+        // 44px rows (§8)
+        a {
+            padding-block: 10px;
+
+            &::before {
+                top: 18px;
+            }
+        }
+    }
+}
+
+.toc__summary {
+    min-height: 44px;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-note);
+    cursor: pointer;
+    list-style-position: inside;
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1.6;
+
+    &::marker {
+        color: var(--color-accent);
+    }
+}
+
+.toc__summary-title {
+    margin-left: 6px;
+}
+
+.toc__summary-meta {
+    margin-left: var(--space-2);
+    color: var(--color-text-secondary);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 400;
 }

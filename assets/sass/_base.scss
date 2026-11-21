@@ -55,6 +55,9 @@ figure {
 body {
     min-height: 100vh;
     overflow-x: hidden;
+    // hidden turns body into a scroll container (html already carries hidden), which
+    // stops position: sticky; clip crops the same way without one.
+    overflow-x: clip;
     position: relative;
     color: var(--color-text);
     background-color: var(--color-bg);
