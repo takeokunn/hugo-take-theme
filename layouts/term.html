@@ -1,8 +1,10 @@
 {{- define "main" -}}
 {{- $term := . -}}
+{{- $name := partial "tag-name.html" $term -}}
+{{- $taxonomy := $term.Parent -}}
 {{- $pages := .Pages.ByDate.Reverse -}}
 {{- $related := slice -}}
-{{- range site.Taxonomies.tags.ByCount -}}
+{{- range $taxonomy.Data.Terms.ByCount -}}
     {{- if ne .Page.RelPermalink $term.RelPermalink -}}
         {{- $count := len (intersect $pages .Page.Pages) -}}
         {{- if gt $count 0 }}{{ $related = $related | append (dict "page" .Page "count" $count) }}{{ end -}}
@@ -12,29 +14,27 @@
 {{- $years := slice -}}
 {{- range $pages.GroupByDate "2006" "asc" }}{{ $years = $years | append (dict "label" .Key "value" (len .Pages)) }}{{ end -}}
 <div class="container term-page">
-    <header class="term-page__header">
-        <nav class="term-page__breadcrumb" aria-label="{{ i18n "breadcrumb" }}"><a href="{{ site.Home.RelPermalink }}">Home</a><span aria-hidden="true">›</span>{{ with site.GetPage "/tags" }}<a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>{{ end }}</nav>
-        <h1 class="term-page__title">#{{ .Title }}</h1>
-        <p class="term-page__description">{{ i18n "totalCount" (dict "Count" (len $pages)) }}{{ with $pages }} · {{ i18n "firstPost" }} {{ (index . (sub (len .) 1)).Date.Format "2006.01.02" }} · {{ i18n "latest" }} {{ (index . 0).Date.Format "2006.01.02" }}{{ end }}</p>
+    <header class="list-page__header">
+        <nav class="term-page__breadcrumb" aria-label="{{ i18n "breadcrumb" }}"><a href="{{ site.Home.RelPermalink }}">Home</a><span aria-hidden="true">›</span><a href="{{ $taxonomy.RelPermalink }}">{{ $taxonomy.LinkTitle }}</a></nav>
+        <h1 class="list-page__title">#{{ $name }}</h1>
+        <p class="list-page__subtitle">{{ i18n "totalCount" (dict "Count" (len $pages)) }} · {{ i18n "firstPost" }} {{ (index $pages (sub (len $pages) 1)).Date.Format "2006.01.02" }} · {{ i18n "latest" }} {{ (index $pages 0).Date.Format "2006.01.02" }}</p>
         {{- with $related }}
-        <div class="term-page__related"><span>{{ i18n "coTags" }}</span>{{ range . }}{{ partial "tag-chip.html" (dict "tag" .page "count" .count) }}{{ end }}</div>
+        <div class="term-page__related chip-list"><span>{{ i18n "coTags" }}</span>{{ range . }}{{ partial "tag-chip.html" (dict "tag" .page "count" .count) }}{{ end }}</div>
         {{- end }}
     </header>
-    <div class="term-page__layout">
+    <div class="list-page__layout">
         <main id="main-content" tabindex="-1"><ul class="post-rows">{{ range $pages }}{{ partial "post-row.html" (dict "page" .) }}{{ end }}</ul></main>
         <aside class="term-page__sidebar">
-            {{- with $years }}
             <section class="panel">
-                {{ partial "section-head.html" (dict "title" (i18n "tagPostsPerYear" (dict "Tag" $term.Title))) }}
-                {{ partial "bar-chart.html" (dict "items" . "label" (i18n "tagPostsPerYear" (dict "Tag" $term.Title))) }}
+                {{ partial "section-head.html" (dict "title" (i18n "tagPostsPerYear" (dict "Tag" $name))) }}
+                {{ partial "bar-chart.html" (dict "items" $years "label" (i18n "tagPostsPerYear" (dict "Tag" $name))) }}
             </section>
-            {{- end }}
             {{- $other := slice -}}
-            {{- range site.Taxonomies.tags.ByCount }}{{ if ne .Page.RelPermalink $term.RelPermalink }}{{ $other = $other | append . }}{{ end }}{{ end -}}
+            {{- range $taxonomy.Data.Terms.ByCount }}{{ if ne .Page.RelPermalink $term.RelPermalink }}{{ $other = $other | append . }}{{ end }}{{ end -}}
             {{- with $other }}
             <section class="panel">
-                {{ partial "section-head.html" (dict "title" (i18n "otherTags") "link" (site.GetPage "/tags").RelPermalink "label" (i18n "all")) }}
-                <div class="term-page__other-tags">{{ range first 6 . }}{{ partial "tag-chip.html" (dict "tag" .Page "count" .Count) }}{{ end }}</div>
+                {{ partial "section-head.html" (dict "title" (i18n "otherTags") "link" $taxonomy.RelPermalink "label" (i18n "all")) }}
+                <div class="term-page__other-tags chip-list">{{ range first 6 . }}{{ partial "tag-chip.html" (dict "tag" .Page "count" .Count) }}{{ end }}</div>
             </section>
             {{- end }}
         </aside>

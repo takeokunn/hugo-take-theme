@@ -1,15 +1,15 @@
 {{- define "main" -}}
-{{- $tags := site.Taxonomies.tags.ByCount -}}
+{{- $tags := .Data.Terms.ByCount -}}
 {{- $total := 0 -}}
 {{- range $tags }}{{ $total = add $total .Count }}{{ end -}}
-{{- $postCount := len site.RegularPages -}}
+{{- $postCount := len (where site.RegularPages "Section" "in" site.MainSections) -}}
 {{- $max := 0 -}}
 {{- with first 1 $tags }}{{ $max = (index . 0).Count }}{{ end -}}
 <div class="container tags-page">
-    <header class="tags-page__header">
-        <h1 class="tags-page__title">{{ .Title }}</h1>
-        <p class="tags-page__description">{{ i18n "tagCount" (dict "Count" (len $tags)) }} · {{ i18n "totalCount" (dict "Count" $total) }}</p>
-        <nav class="tags-sort" aria-label="{{ i18n "sortLabel" }}">
+    <header class="list-page__header">
+        <h1 class="list-page__title list-page__title--purple">{{ .Title }}</h1>
+        <p class="list-page__subtitle">{{ i18n "tagCount" (dict "Count" (len $tags)) }} · {{ i18n "totalCount" (dict "Count" $total) }}</p>
+        <nav class="tags-sort chip-list" aria-label="{{ i18n "sortLabel" }}">
             <a class="chip is-active" data-tag-sort="count" href="?sort=count" aria-current="page">{{ i18n "sortCount" }}</a>
             <a class="chip" data-tag-sort="new" href="?sort=new">{{ i18n "sortNew" }}</a>
             <a class="chip" data-tag-sort="kana" href="?sort=kana">{{ i18n "sortName" }}</a>
@@ -19,13 +19,12 @@
         <div class="tag-grid" data-tag-grid>
             {{- range $tags }}
             {{- $term := .Page -}}
+            {{- $name := partial "tag-name.html" $term -}}
             {{- $latest := index $term.Pages.ByDate.Reverse 0 -}}
-            {{- $width := 0 -}}
-            {{- $share := 0 -}}
-            {{- if gt $max 0 }}{{ $width = math.Round (mul 100 (div (float .Count) $max)) }}{{ end -}}
-            {{- if gt $postCount 0 }}{{ $share = math.Round (mul 100 (div (float .Count) $postCount)) }}{{ end -}}
-            <a class="tag-card {{ replace (partial "tag-color.html" $term.LinkTitle) "--tag-" "tagc-" }}" href="{{ $term.RelPermalink }}" data-tag-card data-count="{{ .Count }}" data-date="{{ $latest.Date.Format "2006-01-02T15:04:05Z07:00" }}" data-name="{{ $term.LinkTitle }}">
-                <span class="tag-card__heading"><span class="dot" aria-hidden="true"></span>{{ $term.LinkTitle }}</span>
+            {{- $width := math.Round (mul 100 (div (float .Count) $max)) -}}
+            {{- $share := math.Round (mul 100 (div (float .Count) $postCount)) -}}
+            <a class="tag-card {{ replace (partial "tag-color.html" $name) "--tag-" "tagc-" }}" href="{{ $term.RelPermalink }}" data-tag-card data-date="{{ $latest.Date.Format "2006-01-02T15:04:05Z07:00" }}" data-name="{{ $name }}">
+                <span class="tag-card__heading"><span class="dot" aria-hidden="true"></span>{{ $name }}</span>
                 <span class="tag-card__count">{{ .Count }}</span>
                 <span class="tag-card__track" aria-hidden="true"><span class="tag-card__bar" style="width: {{ $width }}%"></span></span>
                 <span class="tag-card__share">{{ i18n "shareOfTotal" (dict "Count" $share) }}</span>

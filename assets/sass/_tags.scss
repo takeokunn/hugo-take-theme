@@ -1,38 +1,6 @@
 @use "variables" as *;
 
-.tags-page,
-.term-page {
-    &__header {
-        padding: 56px 0 28px;
-    }
-
-    &__title {
-        @include type(page-title);
-
-        margin: 0;
-    }
-
-    &__description {
-        margin: 8px 0 0;
-        color: var(--color-text-secondary);
-        font-size: 15px;
-    }
-
-    @include mobile {
-        &__header {
-            padding-top: 32px;
-        }
-    }
-}
-
-.tags-page__title {
-    color: var(--color-purple);
-}
-
 .tags-sort {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
     margin-top: 20px;
 }
 
@@ -128,10 +96,6 @@
 }
 
 .term-page {
-    &__title {
-        color: var(--color-accent);
-    }
-
     &__breadcrumb {
         display: flex;
         gap: 6px;
@@ -145,29 +109,10 @@
         }
     }
 
-    &__related,
-    &__other-tags {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 8px;
-    }
-
     &__related {
         margin-top: 16px;
         color: var(--color-text-secondary);
         font-size: 13px;
-    }
-
-    &__layout {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) 300px;
-        gap: 40px;
-        align-items: start;
-
-        @include below-sidebar {
-            grid-template-columns: minmax(0, 1fr);
-        }
     }
 
     &__sidebar {
@@ -180,5 +125,6 @@
 @media (prefers-reduced-motion: reduce) {
     .tag-card:hover {
         transform: none;
+        box-shadow: 5px 5px 0 var(--tag-color, var(--color-accent));
     }
 }
