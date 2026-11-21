@@ -15,7 +15,8 @@
     overflow-y: auto;
     scrollbar-width: thin;
 
-    // main.js sets .has-more while entries remain below the visible part
+    // main.js sets .has-more while entries remain below the visible part.
+    // Keep the 32px in sync with FADE_HEIGHT in main.js.
     &.has-more {
         mask-image: linear-gradient(
             to bottom,

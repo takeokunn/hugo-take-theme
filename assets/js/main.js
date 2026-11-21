@@ -253,22 +253,39 @@
             box.classList.toggle('has-more', box.scrollTop + box.clientHeight < box.scrollHeight - 1);
         };
         const REVEAL_MARGIN = 24;
-        const revealCurrent = () => {
-            scrollers.forEach((box) => {
-                const link = box.querySelector('[aria-current="location"]');
-                if (link && box.clientHeight > 0 && box.scrollHeight > box.clientHeight) {
-                    const top = link.getBoundingClientRect().top - box.getBoundingClientRect().top + box.scrollTop;
-                    const bottom = top + link.offsetHeight;
-                    if (top < box.scrollTop) {
-                        box.scrollTop = Math.max(0, top - REVEAL_MARGIN);
-                    } else if (bottom > box.scrollTop + box.clientHeight) {
-                        box.scrollTop = bottom - box.clientHeight + REVEAL_MARGIN;
-                    }
+        // Height of the bottom fade (.toc__scroll.has-more in _tableOfContent.scss):
+        // an entry under it is not counted as visible.
+        const FADE_HEIGHT = 32;
+        const revealIn = (box) => {
+            const link = box.querySelector('[aria-current="location"]');
+            if (link && box.clientHeight > 0 && box.scrollHeight > box.clientHeight) {
+                const top = link.getBoundingClientRect().top - box.getBoundingClientRect().top + box.scrollTop;
+                const bottom = top + link.offsetHeight;
+                const fade = box.classList.contains('has-more') ? FADE_HEIGHT : 0;
+                if (top < box.scrollTop) {
+                    box.scrollTop = Math.max(0, top - REVEAL_MARGIN);
+                } else if (bottom > box.scrollTop + box.clientHeight - fade) {
+                    box.scrollTop = bottom - box.clientHeight + FADE_HEIGHT + REVEAL_MARGIN;
                 }
-                updateFade(box);
+            }
+            updateFade(box);
+        };
+        const revealCurrent = () => scrollers.forEach(revealIn);
+        scrollers.forEach((box) => box.addEventListener('scroll', () => updateFade(box), { passive: true }));
+
+        // A TOC hidden by the layout (the sidebar below 1100px, a closed
+        // <details>) has no height, so it cannot scroll while hidden. Reveal the
+        // current entry once when it becomes visible; otherwise leave the list
+        // where the reader scrolled it.
+        const shown = new Map();
+        const revealNewlyShown = () => {
+            scrollers.forEach((box) => {
+                const visible = box.clientHeight > 0;
+                if (visible && !shown.get(box)) revealIn(box);
+                else updateFade(box); // the list height follows the viewport
+                shown.set(box, visible);
             });
         };
-        scrollers.forEach((box) => box.addEventListener('scroll', () => updateFade(box), { passive: true }));
 
         let currentIndex = -2; // -1 = above the first heading; -2 = not yet applied
         const updateCurrent = () => {
@@ -317,11 +334,8 @@
             ticking = true;
             requestAnimationFrame(() => {
                 ticking = false;
-                if (updateCurrent()) {
-                    revealCurrent();
-                } else {
-                    scrollers.forEach(updateFade); // the list height follows the viewport
-                }
+                if (updateCurrent()) revealCurrent();
+                revealNewlyShown();
                 updateProgress();
             });
         };
@@ -332,6 +346,7 @@
 
         updateCurrent();
         revealCurrent();
+        scrollers.forEach((box) => shown.set(box, box.clientHeight > 0));
         updateProgress();
     };
 
