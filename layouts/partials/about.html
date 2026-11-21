@@ -1,0 +1,54 @@
+{{- $posts := where site.RegularPages "Section" "in" site.MainSections -}}
+{{- $tags := partial "top-tags.html" 6 -}}
+{{- $talks := partial "talks-data.html" . -}}
+{{- $social := site.Params.social | default dict -}}
+{{- $handles := site.Params.socialHandles | default dict -}}
+{{- $services := slice (dict "key" "github" "label" "GitHub") (dict "key" "zenn" "label" "Zenn") (dict "key" "twitter" "label" "Twitter") (dict "key" "keyoxide" "label" "Keyoxide") (dict "key" "rss" "label" "RSS") -}}
+<main id="main-content" tabindex="-1" class="about">
+    <header class="about__header">
+        {{ partial "avatar.html" (dict "size" "240x240" "class" "about__avatar" "context" . "alt" "" "priority" true) }}
+        <div>
+            <span class="pill about__badge">About</span>
+            <h1 class="about__name">{{ site.Params.author.name | default .Title }}</h1>
+            {{ with site.Params.author.role }}<p class="about__role">{{ . }}</p>{{ end }}
+            {{ with $tags }}<div class="about__header-tags">{{ range first 4 . }}{{ partial "tag-chip.html" (dict "tag" .Page "size" "l") }}{{ end }}</div>{{ end }}
+        </div>
+    </header>
+    <div class="about__stats stats">
+        {{ partial "stat.html" (dict "value" (len $posts) "label" (i18n "postCountLabel") "color" "pink") }}
+        {{ partial "stat.html" (dict "value" (len site.Taxonomies.tags) "label" (i18n "tags") "color" "purple") }}
+        {{ partial "stat.html" (dict "value" (len $talks) "label" (i18n "talks") "color" "cyan") }}
+        {{ $since := "–" }}{{ range $posts.ByDate }}{{ if not .Date.IsZero }}{{ $since = printf "%s〜" (.Date.Format "2006") }}{{ break }}{{ end }}{{ end }}
+        {{ partial "stat.html" (dict "value" $since "label" (i18n "writingSince") "color" "orange") }}
+    </div>
+    <article class="about__content">{{ .Content }}</article>
+    {{ with $tags }}
+    <section class="about__section">
+        <h2 class="about__heading">{{ i18n "topicsOften" }}</h2>
+        <div class="about__topics">{{ range . }}{{ partial "tag-chip.html" (dict "tag" .Page "count" .Count "size" "l") }}{{ end }}</div>
+    </section>
+    {{ end }}
+    {{ with .Params.timeline }}
+    <section class="about__section">
+        <h2 class="about__heading">{{ i18n "timeline" }}</h2>
+        <ol class="about__timeline">
+            {{ range sort . "date" "desc" }}
+            <li class="about__event"><time class="about__date">{{ .date }}</time><div class="about__event-title">{{ .title }}</div>{{ with .note }}<div class="about__event-note">{{ . }}</div>{{ end }}</li>
+            {{ end }}
+        </ol>
+    </section>
+    {{ end }}
+    {{ with $social }}
+    <section class="about__section">
+        <h2 class="about__heading">{{ i18n "links" }}</h2>
+        <div class="about__links">
+            {{ range $services }}{{ $service := . }}{{ with index $social .key }}
+            <a class="about__link" href="{{ . }}"{{ if ne $service.key "rss" }} target="_blank" rel="noopener noreferrer me"{{ end }}>
+                <span class="about__link-icon">{{ partial "icon.html" (dict "name" $service.key) }}</span>
+                <span><span class="about__link-name">{{ $service.label }}</span><span class="about__link-handle">{{ index $handles $service.key | default (replaceRE `^https?://` "" .) }}</span></span>
+            </a>
+            {{ end }}{{ end }}
+        </div>
+    </section>
+    {{ end }}
+</main>
