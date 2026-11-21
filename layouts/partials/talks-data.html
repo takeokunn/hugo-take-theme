@@ -1,8 +1,8 @@
 {{- /* Talk / slide PDFs, newest first, then undated (FR-007: keeps pdf-list.html behavior).
      Sources:
        1. PDFs found in the site's static/pdf/ directory (title = file name)
-       2. site.Params.pdfLinks entries {title, url, date, event}; a URL already found in
-          step 1 is not repeated
+       2. site.Params.pdfLinks entries {title, url, date, event}; matching entries
+          supply metadata for detected PDFs without repeating their URL
      Returns a slice of dicts: title, url, date (time or ""), event.
      Usage: {{ $talks := partial "talks-data.html" . }} (len $talks for the stat) */ -}}
 {{- $all := slice -}}
@@ -11,7 +11,18 @@
   {{- range . -}}
     {{- if and (not .IsDir) (strings.HasSuffix .Name ".pdf") -}}
       {{- $url := printf "/pdf/%s" .Name -}}
-      {{- $all = $all | append (dict "title" (strings.TrimSuffix ".pdf" .Name) "url" $url "date" "" "event" "") -}}
+      {{- $title := strings.TrimSuffix ".pdf" .Name -}}
+      {{- $date := "" -}}
+      {{- $event := "" -}}
+      {{- range site.Params.pdfLinks -}}
+        {{- if eq .url $url -}}
+          {{- with .title }}{{ $title = . }}{{ end -}}
+          {{- with .date }}{{ $date = time . }}{{ end -}}
+          {{- with .event }}{{ $event = . }}{{ end -}}
+          {{- break -}}
+        {{- end -}}
+      {{- end -}}
+      {{- $all = $all | append (dict "title" $title "url" $url "date" $date "event" $event) -}}
       {{- $seen = merge $seen (dict $url true) -}}
     {{- end -}}
   {{- end -}}
