@@ -16,7 +16,7 @@
     {{- $url = .RelPermalink -}}
   {{- end -}}
 {{- else -}}
-  {{- $name = $tag.LinkTitle -}}
+  {{- $name = partial "tag-name.html" $tag -}}
   {{- $url = $tag.RelPermalink -}}
 {{- end -}}
 {{- $link := true -}}

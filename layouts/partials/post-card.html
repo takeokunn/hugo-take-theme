@@ -8,7 +8,7 @@
 {{- $tags := $p.GetTerms "tags" -}}
 {{- $class := slice "post-card" -}}
 {{- if eq .size "l" }}{{ $class = $class | append "post-card--l" }}{{ end -}}
-{{- with $tags }}{{ $class = $class | append (replace (partial "tag-color.html" (index . 0).LinkTitle) "--tag-" "tagc-") }}{{ end -}}
+{{- with $tags }}{{ $class = $class | append (replace (partial "tag-color.html" (partial "tag-name.html" (index . 0))) "--tag-" "tagc-") }}{{ end -}}
 <article class="{{ delimit $class " " }}">
     <a class="post-card__link" href="{{ $p.RelPermalink }}">
         <span class="post-card__meta">

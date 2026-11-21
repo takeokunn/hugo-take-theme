@@ -46,7 +46,8 @@
 <meta name="robots" content="noindex, follow">
 {{ end }}
 
-{{ $description := or .Site.Params.description .Site.Params.heroSubtitle "" }}
+{{- /* Non-post pages: params.description, else params.author.bio (the site introduction in the redesign). */}}
+{{ $description := or .Site.Params.description (index (.Site.Params.author | default dict) "bio") "" }}
 {{ if $isPost }}
     {{ $description = or .Description (.Summary | plainify | htmlUnescape | truncate 160) }}
 {{ end }}

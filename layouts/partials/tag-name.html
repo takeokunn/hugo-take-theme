@@ -1,0 +1,13 @@
+{{- /* Display name of a taxonomy term page, as the author wrote it.
+     Hugo 0.170 gives a generated term page a title-cased .Title/.LinkTitle
+     ("org-mode" -> "Org-Mode") and lower-cases the taxonomy key ("Hugo" -> "hugo");
+     only .Data.Term keeps the original spelling. A term page backed by a content
+     file (content/tags/<term>/_index.md) uses its own title instead, since the
+     author wrote that too. Use this wherever a tag name is shown, instead of
+     .LinkTitle or the taxonomy key.
+     Usage: {{ partial "tag-name.html" $termPage }} */ -}}
+{{- $name := .LinkTitle -}}
+{{- if not .File -}}
+  {{- with .Data.Term }}{{ $name = . }}{{ end -}}
+{{- end -}}
+{{- return $name -}}
