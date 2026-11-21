@@ -1,0 +1,30 @@
+{{- /* Post card (§3.4): surface card with offset shadow; on hover the shadow takes the
+     color of the first tag (.tagc-N sets --tag-color).
+     Args (dict):
+       page  the post
+       size  "l" for the large featured card (22px title), default normal (17.5px)
+     Usage: {{ partial "post-card.html" (dict "page" . "size" "l") }} */ -}}
+{{- $p := .page -}}
+{{- $tags := $p.GetTerms "tags" -}}
+{{- $class := slice "post-card" -}}
+{{- if eq .size "l" }}{{ $class = $class | append "post-card--l" }}{{ end -}}
+{{- with $tags }}{{ $class = $class | append (replace (partial "tag-color.html" (index . 0).LinkTitle) "--tag-" "tagc-") }}{{ end -}}
+<article class="{{ delimit $class " " }}">
+    <a class="post-card__link" href="{{ $p.RelPermalink }}">
+        <span class="post-card__meta">
+            <time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date.Format (site.Params.DateForm | default "2006.01.02") }}</time>
+            <span>· {{ i18n "minReadShort" $p.ReadingTime }}</span>
+        </span>
+        <h3 class="post-card__title">{{ $p.LinkTitle }}</h3>
+        {{- with partial "summary.html" $p }}
+        <p class="post-card__summary">{{ . }}</p>
+        {{- end }}
+        {{- with $tags }}
+        <span class="post-card__tags chip-list">
+            {{- range . }}
+            {{ partial "tag-chip.html" (dict "tag" . "link" false) }}
+            {{- end }}
+        </span>
+        {{- end }}
+    </a>
+</article>

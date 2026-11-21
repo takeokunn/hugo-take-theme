@@ -1,0 +1,32 @@
+{{- /* Talk / slide PDFs, newest first, then undated (FR-007: keeps pdf-list.html behavior).
+     Sources:
+       1. PDFs found in the site's static/pdf/ directory (title = file name)
+       2. site.Params.pdfLinks entries {title, url, date, event}; a URL already found in
+          step 1 is not repeated
+     Returns a slice of dicts: title, url, date (time or ""), event.
+     Usage: {{ $talks := partial "talks-data.html" . }} (len $talks for the stat) */ -}}
+{{- $all := slice -}}
+{{- $seen := dict -}}
+{{- with readDir "static/pdf" -}}
+  {{- range . -}}
+    {{- if and (not .IsDir) (strings.HasSuffix .Name ".pdf") -}}
+      {{- $url := printf "/pdf/%s" .Name -}}
+      {{- $all = $all | append (dict "title" (strings.TrimSuffix ".pdf" .Name) "url" $url "date" "" "event" "") -}}
+      {{- $seen = merge $seen (dict $url true) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- range site.Params.pdfLinks -}}
+  {{- if and .url .title (not (index $seen .url)) -}}
+    {{- $date := "" -}}
+    {{- with .date }}{{ $date = time . }}{{ end -}}
+    {{- $all = $all | append (dict "title" .title "url" .url "date" $date "event" (.event | default "")) -}}
+  {{- end -}}
+{{- end -}}
+{{- $dated := slice -}}
+{{- $undated := slice -}}
+{{- range $all -}}
+  {{- if .date }}{{ $dated = $dated | append . }}{{ else }}{{ $undated = $undated | append . }}{{ end -}}
+{{- end -}}
+{{- $sorted := (sort $dated "date" "desc") | append $undated -}}
+{{- return $sorted -}}

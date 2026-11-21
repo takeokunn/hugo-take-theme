@@ -1,0 +1,20 @@
+{{- /* Section heading (§3.4): pink rotated block + title + optional note + "label →" link.
+     Args (dict):
+       title  heading text (required)
+       id     optional id for the heading (use with aria-labelledby on the section)
+       note   optional supplementary text (13px, secondary)
+       link   optional URL for the right-hand link
+       label  link text; " →" is appended
+       level  heading level 2 or 3, default 2 (html/template cannot build tag names)
+     Usage: {{ partial "section-head.html" (dict "title" (i18n "latestPosts") "note" … "link" "/posts/" "label" (i18n "allPosts")) }} */ -}}
+{{- $inner := partial "section-head-inner.html" . -}}
+<div class="section-head">
+    {{- if eq (.level | default 2) 3 }}
+    <h3 class="section-head__title"{{ with .id }} id="{{ . }}"{{ end }}>{{ $inner }}</h3>
+    {{- else }}
+    <h2 class="section-head__title"{{ with .id }} id="{{ . }}"{{ end }}>{{ $inner }}</h2>
+    {{- end }}
+    {{- with .link }}
+    <a class="section-head__more" href="{{ . }}">{{ $.label }} →</a>
+    {{- end }}
+</div>

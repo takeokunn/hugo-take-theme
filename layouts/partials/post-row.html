@@ -1,0 +1,29 @@
+{{- /* Post row (§3.4): <li> for a <ul class="post-rows">. The whole row is one link,
+     so tags render as <span> chips.
+     Args (dict):
+       page        the post
+       dateFormat  optional Go layout; default site.Params.DateForm. Use "01.02" under
+                   a year heading.
+     Usage:
+       <ul class="post-rows">
+         {{ range $pages }}{{ partial "post-row.html" (dict "page" .) }}{{ end }}
+       </ul> */ -}}
+{{- $p := .page -}}
+{{- $format := .dateFormat | default (site.Params.DateForm | default "2006.01.02") -}}
+<li class="post-row">
+    <a class="post-row__link" href="{{ $p.RelPermalink }}">
+        <time class="post-row__date" datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date.Format $format }}</time>
+        <span class="post-row__body">
+            <span class="post-row__title">{{ $p.LinkTitle }}</span>
+            {{- with partial "summary.html" $p }}
+            <span class="post-row__summary">{{ . }}</span>
+            {{- end }}
+            <span class="post-row__meta">
+                {{- range $p.GetTerms "tags" }}
+                {{ partial "tag-chip.html" (dict "tag" . "link" false) }}
+                {{- end }}
+                <span class="post-row__reading">{{ i18n "minRead" $p.ReadingTime }}</span>
+            </span>
+        </span>
+    </a>
+</li>

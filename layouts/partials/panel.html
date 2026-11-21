@@ -1,0 +1,24 @@
+{{- /* Generic box (§3.4): surface, radius 16, padding 20.
+     Hugo partials cannot take an inner block, so pass the content as HTML; or write
+     <section class="panel"> … </section> directly in the template.
+     Args (dict):
+       content  HTML (a partial's output, or a string passed through safeHTML)
+       title    optional heading text (h2.panel__title)
+       id       optional id for the heading; the box gets aria-labelledby
+       class    optional extra classes
+       tag      wrapping element: "section" (default) or "div"
+     Usage:
+       {{ $body := partial "bar-chart.html" (dict …) }}
+       {{ partial "panel.html" (dict "title" (i18n "postsPerMonth") "id" "chart" "content" $body) }} */ -}}
+{{- $class := trim (printf "panel %s" (.class | default "")) " " -}}
+{{- if eq .tag "div" -}}
+<div class="{{ $class }}"{{ with .id }} aria-labelledby="{{ . }}"{{ end }}>
+    {{- with .title }}<h2 class="panel__title"{{ with $.id }} id="{{ . }}"{{ end }}>{{ . }}</h2>{{ end }}
+    {{- .content -}}
+</div>
+{{- else -}}
+<section class="{{ $class }}"{{ with .id }} aria-labelledby="{{ . }}"{{ end }}>
+    {{- with .title }}<h2 class="panel__title"{{ with $.id }} id="{{ . }}"{{ end }}>{{ . }}</h2>{{ end }}
+    {{- .content -}}
+</section>
+{{- end -}}

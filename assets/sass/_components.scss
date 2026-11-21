@@ -1,0 +1,617 @@
+// Shared components (§3.4, §3.5). Markup lives in layouts/partials/*.html;
+// .reinloom/handoffs/foundation.md documents each partial's arguments.
+@use "variables" as *;
+
+// ---- Tag colors ------------------------------------------------------
+// partials/tag-color.html returns --tag-N; markup adds .tagc-N so both the
+// dot and the card hover shadow (--shadow-offset-hover) pick up the color.
+@for $i from 1 through 6 {
+    .tagc-#{$i} {
+        --tag-color: var(--tag-#{$i});
+    }
+}
+
+// Role dots for stats and decorations (.dot--pink etc.)
+$dot-roles: (
+    "pink": --color-accent,
+    "cyan": --color-cyan,
+    "purple": --color-purple,
+    "green": --color-green,
+    "orange": --color-orange,
+    "yellow": --color-yellow,
+);
+
+.dot {
+    display: inline-block;
+    flex-shrink: 0;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--tag-color, var(--color-accent));
+}
+
+@each $name, $var in $dot-roles {
+    .dot--#{$name} {
+        --tag-color: var(#{$var});
+    }
+}
+
+// Rotated square used before section titles and menu items
+.deco-block {
+    display: inline-block;
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    background: var(--tag-color, var(--color-accent));
+    transform: rotate(12deg);
+}
+
+// ---- Buttons (§3.5) ---------------------------------------------------
+.button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 44px;
+    padding: 0 18px;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--color-text);
+    font-family: var(--font-display);
+    font-size: 14.5px;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+        background-color var(--dur) var(--ease),
+        border-color var(--dur) var(--ease),
+        transform var(--dur) var(--ease),
+        box-shadow var(--dur) var(--ease);
+
+    &:hover {
+        border-color: var(--color-text-secondary);
+    }
+}
+
+// Primary: pink fill. At most one per screen.
+.button--primary {
+    padding: 0 20px;
+    border: 0;
+    background: var(--color-accent);
+    box-shadow: var(--shadow-offset-sm);
+    color: var(--color-on-accent);
+    font-weight: 800;
+
+    &:hover {
+        transform: translate(-1px, -1px);
+        box-shadow: 4px 4px 0 var(--color-border);
+    }
+}
+
+// Icon-only button / link (44×44)
+.icon-button {
+    @include icon-button;
+}
+
+.icon-button--bg {
+    @include icon-button(var(--color-bg));
+}
+
+.icon-button--plain {
+    @include icon-button(transparent);
+    border-radius: var(--radius-code);
+}
+
+// ---- Tag chip ---------------------------------------------------------
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 9px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--color-text);
+    @include type(chip);
+    line-height: 1.2;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+        background-color var(--dur) var(--ease),
+        border-color var(--dur) var(--ease);
+
+    .dot {
+        width: 7px;
+        height: 7px;
+    }
+
+    &:is(a):hover {
+        border-color: var(--color-text-secondary);
+    }
+}
+
+.chip__count {
+    color: var(--color-text-secondary);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 400;
+}
+
+.chip--l {
+    padding: 7px 13px;
+    @include type(chip-l);
+    line-height: 1.2;
+
+    .dot {
+        width: 8px;
+        height: 8px;
+    }
+
+    .chip__count {
+        font-size: 12px;
+    }
+}
+
+.chip.is-active {
+    border-color: var(--color-text);
+    background: var(--color-text);
+    color: var(--color-bg);
+
+    .chip__count {
+        color: var(--color-bg);
+    }
+}
+
+.chip-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+// ---- Pills (meta pills, badges) ------------------------------------------
+.pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    background: var(--color-surface);
+    color: var(--color-text-secondary);
+    font-size: 12.5px;
+    line-height: 1.4;
+    white-space: nowrap;
+
+    svg {
+        flex-shrink: 0;
+    }
+}
+
+.pill--published {
+    color: var(--color-link);
+}
+
+.pill--updated {
+    color: var(--color-green);
+}
+
+.pill--reading {
+    color: var(--color-orange);
+}
+
+.meta-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+// ---- Panel -----------------------------------------------------------------
+.panel {
+    padding: var(--space-5);
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+}
+
+.panel__title {
+    margin: 0 0 10px;
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1.4;
+}
+
+// ---- Section head ----------------------------------------------------------
+.section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin: 0 0 18px;
+}
+
+.section-head__title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0;
+    color: var(--color-text);
+    @include type(section);
+
+    .deco-block {
+        margin-right: 10px;
+    }
+}
+
+.section-head__note {
+    margin-left: 10px;
+    color: var(--color-text-secondary);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: var(--tracking-body);
+}
+
+.section-head__more {
+    flex-shrink: 0;
+    color: var(--color-link);
+    font-size: 14px;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+// ---- Stat ------------------------------------------------------------------
+.stat {
+    padding: 14px 16px;
+    border-radius: var(--radius-note);
+    background: var(--color-bg);
+}
+
+.stat__value {
+    color: var(--color-text);
+    @include type(stat);
+}
+
+.stat__label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+    color: var(--color-text-secondary);
+    font-size: 12.5px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+// ---- Bar chart -------------------------------------------------------------
+.bar-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    height: 116px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.bar-chart__item {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    min-width: 0;
+}
+
+.bar-chart__value,
+.bar-chart__label {
+    color: var(--color-text-secondary);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1.5;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.bar-chart__bar {
+    display: block;
+    width: 100%;
+    max-width: 28px;
+    min-height: 4px;
+    border-radius: 6px 6px 2px 2px;
+    background: var(--color-border);
+}
+
+.bar-chart__item.is-max .bar-chart__bar {
+    background: var(--color-accent);
+}
+
+// ---- Post row --------------------------------------------------------------
+.post-rows {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.post-row {
+    border-top: 1px dashed var(--color-border);
+}
+
+.post-row__link {
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 18px;
+    padding: var(--space-4) 0;
+    color: inherit;
+    text-decoration: none;
+
+    &:hover .post-row__title {
+        color: var(--color-link);
+    }
+
+    @include mobile {
+        grid-template-columns: 1fr;
+        gap: var(--space-1);
+        min-height: 44px;
+    }
+}
+
+.post-row__date {
+    padding-top: 3px;
+    color: var(--color-link);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+}
+
+.post-row__title {
+    display: block;
+    color: var(--color-text);
+    @include type(row-title);
+    transition: color var(--dur) var(--ease);
+}
+
+.post-row__summary {
+    display: block;
+    margin-top: 2px;
+    color: var(--color-text-secondary);
+    @include type(summary);
+    line-height: 1.7;
+}
+
+.post-row__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin-top: var(--space-2);
+}
+
+.post-row__reading {
+    margin-left: var(--space-1);
+    color: var(--color-text-tertiary);
+    font-size: 12px;
+}
+
+// ---- Post card -------------------------------------------------------------
+.post-card {
+    height: 100%;
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-offset);
+    transition:
+        transform var(--dur) var(--ease),
+        box-shadow var(--dur) var(--ease);
+
+    &:hover,
+    &:focus-within {
+        transform: translate(-2px, -2px);
+        box-shadow: var(--shadow-offset-hover);
+    }
+
+    // §5: with reduced motion only the shadow color changes
+    @media (prefers-reduced-motion: reduce) {
+        &:hover,
+        &:focus-within {
+            transform: none;
+            box-shadow: 5px 5px 0 var(--tag-color, var(--color-accent));
+        }
+    }
+}
+
+.post-card__link {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 100%;
+    padding: var(--space-5);
+    border-radius: inherit;
+    color: inherit;
+    text-decoration: none;
+}
+
+.post-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-text-secondary);
+    font-size: 12.5px;
+
+    time {
+        font-family: var(--font-mono);
+        font-variant-numeric: tabular-nums;
+    }
+}
+
+.post-card__title {
+    margin: 0;
+    color: var(--color-text);
+    @include type(card-title);
+}
+
+.post-card--l .post-card__title {
+    @include type(card-title-l);
+}
+
+.post-card__summary {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 14px;
+    line-height: 1.75;
+}
+
+.post-card__tags {
+    margin-top: auto;
+    padding-top: 6px;
+}
+
+// ---- Author card -----------------------------------------------------------
+.author-card__head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.author-card__avatar {
+    width: 52px;
+    height: 52px;
+}
+
+.author-card__label {
+    color: var(--color-text-secondary);
+    font-size: 11.5px;
+    line-height: 1.45;
+}
+
+.author-card__name {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1.45;
+}
+
+.author-card__bio {
+    margin: var(--space-3) 0 14px;
+    color: var(--color-text-secondary);
+    font-size: 13.5px;
+    line-height: 1.8;
+}
+
+.author-card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+// Avatar ring used by brand, author card and profile card
+.avatar-ring {
+    display: block;
+    flex-shrink: 0;
+    border: 2px solid var(--color-purple);
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+// ---- Share -----------------------------------------------------------------
+.share {
+    display: flex;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+// Copying needs JS (§5-4)
+html:not(.js) [data-copy-link] {
+    display: none;
+}
+
+.share__hatena {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+// ---- Talks (PDF list) -------------------------------------------------------
+.talks {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.talks__link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: 10px 0;
+    color: inherit;
+    text-decoration: none;
+
+    &:hover .talks__title {
+        color: var(--color-link);
+    }
+}
+
+.talks__icon {
+    @include icon-button(var(--color-bg));
+    width: 40px;
+    height: 40px;
+    cursor: inherit;
+}
+
+.talks__body {
+    min-width: 0;
+    line-height: 1.45;
+}
+
+.talks__title {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.45;
+    transition: color var(--dur) var(--ease);
+}
+
+.talks__badge {
+    margin-left: 6px;
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.talks__meta {
+    color: var(--color-text-secondary);
+    font-size: 12.5px;
+}
+
+// ---- Social links ------------------------------------------------------------
+.social-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.social-links--grid {
+    display: grid;
+    grid-template-columns: repeat(2, 44px);
+}

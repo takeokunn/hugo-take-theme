@@ -1,0 +1,6 @@
+{{- /* The N most used tags (site.Taxonomies.tags.ByCount), each with .Page and .Count.
+     Usage: {{ range partial "top-tags.html" 6 }}{{ partial "tag-chip.html" (dict "tag" .Page "count" .Count) }}{{ end }} */ -}}
+{{- $n := . -}}
+{{- $tags := slice -}}
+{{- with site.Taxonomies.tags }}{{ $tags = first $n .ByCount }}{{ end -}}
+{{- return $tags -}}

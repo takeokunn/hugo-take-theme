@@ -1,0 +1,3 @@
+{{- /* Plain-text summary for rows and cards: .Description, else .Summary trimmed to 80.
+     Usage: {{ with partial "summary.html" $page }}…{{ end }} */ -}}
+{{- return or .Description (.Summary | plainify | htmlUnescape | truncate 80) -}}
