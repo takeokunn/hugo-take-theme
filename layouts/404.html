@@ -1,9 +1,30 @@
 {{ define "main" }}
-<div class="wrapper">
-    <main id="main-content" tabindex="-1" class="main-404 not-found">
-        <h1 class="title">{{ i18n "notFoundTitle" }}</h1>
-        <p class="phrase">{{ i18n "notFoundMessage" }}</p>
-        <p><a class="solution" href="{{ site.Home.RelPermalink }}">{{ i18n "backToHome" }}</a></p>
-    </main>
-</div>
+{{ $section := index (site.MainSections | default (slice "posts")) 0 }}
+{{ $postsURL := printf "%s/" $section | relURL }}
+{{ with site.GetPage (printf "/%s" $section) }}{{ $postsURL = .RelPermalink }}{{ end }}
+{{ $posts := where site.RegularPages "Section" "in" site.MainSections }}
+{{ $tags := partial "top-tags.html" 5 }}
+<main id="main-content" tabindex="-1" class="container not-found">
+    <p class="not-found__number" aria-hidden="true"><span>4</span><span>0</span><span>4</span></p>
+    <h1 class="not-found__title">{{ i18n "notFoundTitle" }}</h1>
+    <p class="not-found__message">{{ i18n "notFoundMessage" }}</p>
+    <div class="not-found__actions">
+        <a class="button button--primary" href="{{ site.Home.RelPermalink }}">{{ partial "icon.html" (dict "name" "home" "size" 16) }}{{ i18n "backToHome" }}</a>
+        <a class="button" href="{{ $postsURL }}">{{ i18n "allPosts" }}</a>
+    </div>
+    {{ with $tags }}
+    <div class="not-found__tags">
+        <span>{{ i18n "searchByTag" }}</span>
+        {{ range . }}{{ partial "tag-chip.html" (dict "tag" .Page "count" .Count) }}{{ end }}
+    </div>
+    {{ end }}
+    {{ with $posts }}
+    <section class="not-found__latest" aria-labelledby="not-found-latest">
+        {{ partial "section-head.html" (dict "title" (i18n "latestPosts") "id" "not-found-latest" "link" $postsURL "label" (i18n "allPosts")) }}
+        <div class="not-found__cards">
+            {{ range first 3 .ByDate.Reverse }}{{ partial "post-card.html" (dict "page" .) }}{{ end }}
+        </div>
+    </section>
+    {{ end }}
+</main>
 {{ end }}
