@@ -1,0 +1,16 @@
+@use "variables" as *;
+
+.list-page__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 40px;
+    align-items: start;
+
+    @include below-sidebar {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+.list-page__layout--full {
+    grid-template-columns: minmax(0, 1fr);
+}

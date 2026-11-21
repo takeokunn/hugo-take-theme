@@ -1,17 +1,70 @@
 {{- define "main" -}}
-<div class="wrapper list-page">
-    <header class="header">
-        <h1 class="header-title center">{{ .Title }}</h1>
+{{- $pages := .Pages.ByDate.Reverse -}}
+{{- $years := $pages.GroupByDate "2006" -}}
+<div class="container list-page">
+    <header class="list-page__header">
+        <h1 class="list-page__title">{{ .Title }}</h1>
+        <p class="list-page__subtitle">
+            {{- i18n "totalCount" (dict "Count" (len $pages)) -}}
+            {{- with $years }}
+                {{- $newest := (index . 0).Key -}}
+                {{- $oldest := (index . (sub (len .) 1)).Key }}
+                · {{ $oldest }}{{ if ne $oldest $newest }}〜{{ $newest }}{{ end }}
+            {{- end }} · {{ i18n "sortNew" -}}
+        </p>
     </header>
-    <main id="main-content" tabindex="-1">
-        {{ range .Pages.GroupByDate "2006" }}
-            <section aria-labelledby="year-{{ .Key }}">
-                <h2 class="post-year" id="year-{{ .Key }}">{{ .Key }}</h2>
-                {{ range .Pages }}
-                    {{ partial "postCard" . }}
-                {{ end }}
+    {{- if eq .Section "posts" }}
+    <nav class="list-page__filters" aria-label="{{ i18n "filterByTag" }}">
+        <a class="chip chip--l is-active" href="{{ .RelPermalink }}" aria-current="page">{{ i18n "all" }}<span class="chip__count">{{ len $pages }}</span></a>
+        {{- range partial "top-tags.html" 6 }}
+            {{- partial "tag-chip.html" (dict "tag" .Page "count" .Count "size" "l") }}
+        {{- end }}
+    </nav>
+    {{- end }}
+    <div class="list-page__layout{{ if ne .Section "posts" }} list-page__layout--full{{ end }}">
+        <main id="main-content" tabindex="-1">
+            {{- range $years }}
+            <section class="list-page__year" aria-labelledby="year-{{ .Key }}">
+                <div class="list-page__year-heading">
+                    <h2 id="year-{{ .Key }}">{{ .Key }}</h2>
+                    <span class="list-page__year-count">{{ i18n "postCountShort" (dict "Count" (len .Pages)) }}</span>
+                </div>
+                <ul class="post-rows">
+                    {{- range .Pages }}{{ partial "post-row.html" (dict "page" . "dateFormat" "01.02") }}{{ end }}
+                </ul>
             </section>
-        {{ end }}
-    </main>
+            {{- end }}
+        </main>
+        {{- if eq .Section "posts" }}
+        <aside class="list-page__sidebar">
+            {{- with $years }}
+            <section class="panel">
+                {{ partial "section-head.html" (dict "title" (i18n "byYear")) }}
+                <ul class="list-page__year-links">
+                    {{- range . }}
+                    <li><a href="#year-{{ .Key }}"><span>{{ .Key }}</span><span>{{ i18n "postCountShort" (dict "Count" (len .Pages)) }}</span></a></li>
+                    {{- end }}
+                </ul>
+            </section>
+            <section class="panel">
+                {{ partial "section-head.html" (dict "title" (i18n "postsPerMonth") "note" (i18n "byYear")) }}
+                {{- $items := slice -}}
+                {{- range collections.Reverse . }}{{ $items = $items | append (dict "label" .Key "value" (len .Pages)) }}{{ end -}}
+                {{ partial "bar-chart.html" (dict "items" $items "label" (i18n "postsPerMonth")) }}
+            </section>
+            {{- end }}
+            {{- $popular := slice -}}
+            {{- range site.Params.popularPosts }}{{ with site.GetPage . }}{{ $popular = $popular | append . }}{{ end }}{{ end -}}
+            {{- with $popular }}
+            <section class="panel">
+                {{ partial "section-head.html" (dict "title" (i18n "popular")) }}
+                <ol class="list-page__popular">
+                    {{- range . }}<li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>{{ end }}
+                </ol>
+            </section>
+            {{- end }}
+        </aside>
+        {{- end }}
+    </div>
 </div>
 {{- end -}}
