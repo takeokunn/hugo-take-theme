@@ -10,6 +10,40 @@ https://www.takeokunn.org/
   $ cd exampleSite
   $ hugo server --themesDir ../..
 #+end_src
+** OGP images
+
+Post images are generated in =static/ogp/=. For =content/posts/example.md= the filename is =example.png=; for =content/posts/example/index.md= it is also =example.png=, based on the bundle directory name. Names must be unique because identical names overwrite the same PNG. Other pages use =assets/ogp/site.png=.
+
+To override an image, set =images= to a list of URLs in front matter; the first URL is used. If =images= is absent or empty, the legacy =image= string is used. Otherwise the generated post image or site image is used. Relative URLs are resolved against the site base URL, and absolute URLs are used as given.
+
+To generate article images, install [[https://github.com/Ladicle/tcardgen][tcardgen]] 0.10.0 and make it available on =PATH=. Run the following from the Hugo site root, replacing =themes/hugo-take-theme= with the theme location and =content/posts= with the posts directory if needed.
+
+#+begin_src sh
+  python3 -m pip install Pillow
+  themes/hugo-take-theme/scripts/ogp/fetch_fonts.sh
+  python3 themes/hugo-take-theme/scripts/ogp/build_assets.py \
+    --name Author --topics Hugo Emacs Nix Design \
+    --avatar themes/hugo-take-theme/assets/icons/avatar.png --out assets/ogp
+  themes/hugo-take-theme/scripts/ogp/generate.sh content/posts
+#+end_src
+
+The font script downloads M PLUS Rounded 1c Regular, Medium, Bold, and ExtraBold into =fonts/ogp/=. Keep their filenames unchanged. Replace =Author=, the topics, and the avatar path to customize the generated template and site image. The site’s =assets/ogp/= overrides the theme assets.
+
+Each post needs front matter like this YAML example. Both =author= and =categories= must be nonempty for tcardgen.
+
+#+begin_src yaml
+  title: Example post
+  author: Author
+  categories: [blog]
+  tags: [Hugo]
+  date: 2023-02-01
+  images: ["https://example.com/custom.png"] # Optional override
+#+end_src
+
+Run the generation command before each Hugo build in the deployment pipeline so the generated =static/ogp/= PNG files are included in the published site. The generated files do not need to be committed.
+
+Titles longer than three lines can overlap the tags. Around 45 full-width characters is a guide, though English words may wrap earlier. Check titles with =python3 themes/hugo-take-theme/scripts/ogp/preview.py --check content/posts=. The check warns about long titles without failing the build. Shorten the title or specify a custom image in =images= when needed.
+
 ** LICENSE
 
 MIT
