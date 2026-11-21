@@ -27,7 +27,7 @@ To generate article images, install [[https://github.com/Ladicle/tcardgen][tcard
   themes/hugo-take-theme/scripts/ogp/generate.sh content/posts
 #+end_src
 
-The font script downloads M PLUS Rounded 1c Regular, Medium, Bold, and ExtraBold into =fonts/ogp/=. Keep their filenames unchanged. Replace =Author=, the topics, and the avatar path to customize the generated template and site image. The site’s =assets/ogp/= overrides the theme assets.
+The font script downloads M PLUS Rounded 1c Regular, Medium, Bold, and ExtraBold into =fonts/ogp/=. Keep their filenames unchanged. To use another font directory, set =FONTS= when running =generate.sh=; the default is =fonts/ogp/=. The site root must contain =assets/ogp/tcard-template.png=: tcardgen resolves the template path from the current directory. The =build_assets.py= command above creates it along with =assets/ogp/site.png=. Replace =Author=, the topics, and the avatar path to customize them. The site’s =assets/ogp/= overrides the theme assets.
 
 Each post needs front matter like this YAML example. Both =author= and =categories= must be nonempty for tcardgen.
 
@@ -36,7 +36,7 @@ Each post needs front matter like this YAML example. Both =author= and =categori
   author: Author
   categories: [blog]
   tags: [Hugo]
-  date: 2023-02-01
+  date: 2023-02-01T00:00:00Z
   images: ["https://example.com/custom.png"] # Optional override
 #+end_src
 
