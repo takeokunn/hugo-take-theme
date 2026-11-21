@@ -110,6 +110,11 @@
         display: block;
         overflow-x: auto;
     }
+
+    th,
+    td {
+        min-width: 12ch;
+    }
 }
 
 .about__section {
