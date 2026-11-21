@@ -60,7 +60,7 @@
     gap: 12px;
 
     .stat {
-        background: var(--color-surface);
+        background: transparent;
     }
 
     @include mobile {
