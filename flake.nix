@@ -21,6 +21,7 @@
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
             hugo
+            dart-sass
             nodejs_24
           ];
         };
@@ -41,7 +42,10 @@
           example-site = pkgs.stdenvNoCC.mkDerivation {
             name = "hugo-take-theme-example-site";
             src = self;
-            nativeBuildInputs = [ pkgs.hugo ];
+            nativeBuildInputs = [
+              pkgs.hugo
+              pkgs.dart-sass
+            ];
             buildPhase = ''
               export HUGO_CACHEDIR="$TMPDIR/hugo-cache"
               mkdir -p "$TMPDIR/themes"
