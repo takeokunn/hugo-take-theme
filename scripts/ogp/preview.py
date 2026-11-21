@@ -15,7 +15,6 @@ import argparse
 import glob
 import os
 import re
-import sys
 
 from PIL import Image, ImageDraw, ImageFont
 
@@ -23,7 +22,6 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 # tcardgen.config.yaml と同じ値
 CONF = dict(
     title=dict(px=116, py=158, size=60, style="ExtraBold", color="#F8F8F2", maxWidth=956, lineSpacing=25, maxLines=3),
-    category=dict(enabled=False, color="#343746"),
     info=dict(px=116, py=108, size=22, style="Medium", color="#C3C6D4", separator=" · "),
     tags=dict(px=116, py=464, size=20, style="Bold", fg="#F8F8F2", bg="#44475A", spacing=10, pad=(8, 14, 8, 14), limit=3),
 )
@@ -111,7 +109,7 @@ def check(a):
     tc = CONF["title"]
     ft = fnt(a.fonts, tc["style"], tc["size"])
     bad = 0
-    files = [p for root in a.check for p in glob.glob(os.path.join(root, "**", "*.md"), recursive=True) if not os.path.basename(p).startswith("_")]
+    files = [p for root in a.check for p in glob.glob(os.path.join(root, "**", "*.md"), recursive=True) if os.path.basename(p) != "_index.md"]
     for p in sorted(files):
         title = front_matter(p).get("title", "")
         if not title:
@@ -121,7 +119,6 @@ def check(a):
             bad += 1
             print(f"::warning file={p}::OGP のタイトルが {n} 行になります (上限 {tc['maxLines']} 行): {title}")
     print(f"checked {len(files)} files, {bad} over the limit")
-    return 0
 
 
 def main():
@@ -136,7 +133,8 @@ def main():
     p.add_argument("--out", default="ogp-preview.png")
     a = p.parse_args()
     if a.check:
-        sys.exit(check(a))
+        check(a)
+        return
     if a.render:
         render(a)
 
