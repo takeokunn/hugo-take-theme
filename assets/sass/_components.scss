@@ -287,7 +287,10 @@ $dot-roles: (
 }
 
 .section-head__more {
+    display: inline-flex;
     flex-shrink: 0;
+    align-items: center;
+    min-height: 44px;
     color: var(--color-link);
     font-size: 14px;
     text-decoration: none;
