@@ -94,7 +94,7 @@
             {{- $head := dict "title" (i18n "relatedPosts") "id" "post-related-title" }}
             {{- with $tags }}
             {{- $names := slice }}
-            {{- range first 2 . }}{{ $names = $names | append (printf "#%s" .LinkTitle) }}{{ end }}
+            {{- range first 2 . }}{{ $names = $names | append (printf "#%s" (partial "tag-name.html" .)) }}{{ end }}
             {{- $head = merge $head (dict "note" (i18n "relatedFrom" (dict "Tags" (delimit $names " "))) "link" (index . 0).RelPermalink "label" (i18n "seeMore")) }}
             {{- end }}
             <section class="post-related" aria-labelledby="post-related-title">
