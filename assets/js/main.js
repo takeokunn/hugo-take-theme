@@ -242,6 +242,32 @@
             return Math.ceil(Math.max(fixedHeader, margin)) + 1;
         };
 
+        // The sidebar TOC scrolls inside itself (max-height). Fade its bottom
+        // edge while entries remain below, and keep the current entry in view
+        // by moving only the list's scrollTop (scrollIntoView would also
+        // scroll the page).
+        const scrollers = tocs.map((toc) => toc.querySelector('.toc__scroll')).filter(Boolean);
+        const updateFade = (box) => {
+            box.classList.toggle('has-more', box.scrollTop + box.clientHeight < box.scrollHeight - 1);
+        };
+        const REVEAL_MARGIN = 24;
+        const revealCurrent = () => {
+            scrollers.forEach((box) => {
+                const link = box.querySelector('[aria-current="location"]');
+                if (link && box.clientHeight > 0 && box.scrollHeight > box.clientHeight) {
+                    const top = link.getBoundingClientRect().top - box.getBoundingClientRect().top + box.scrollTop;
+                    const bottom = top + link.offsetHeight;
+                    if (top < box.scrollTop) {
+                        box.scrollTop = Math.max(0, top - REVEAL_MARGIN);
+                    } else if (bottom > box.scrollTop + box.clientHeight) {
+                        box.scrollTop = bottom - box.clientHeight + REVEAL_MARGIN;
+                    }
+                }
+                updateFade(box);
+            });
+        };
+        scrollers.forEach((box) => box.addEventListener('scroll', () => updateFade(box), { passive: true }));
+
         let currentIndex = -2; // -1 = above the first heading; -2 = not yet applied
         const updateCurrent = () => {
             const line = readLine();
@@ -249,7 +275,7 @@
             headings.forEach((heading, i) => {
                 if (heading.getBoundingClientRect().top <= line) index = i;
             });
-            if (index === currentIndex) return;
+            if (index === currentIndex) return false;
             currentIndex = index;
             links.forEach(({ link, index: linkIndex }) => {
                 const isCurrent = linkIndex === index;
@@ -261,6 +287,7 @@
                     link.removeAttribute('aria-current');
                 }
             });
+            return true;
         };
 
         let progress = -1;
@@ -288,7 +315,11 @@
             ticking = true;
             requestAnimationFrame(() => {
                 ticking = false;
-                updateCurrent();
+                if (updateCurrent()) {
+                    revealCurrent();
+                } else {
+                    scrollers.forEach(updateFade); // the list height follows the viewport
+                }
                 updateProgress();
             });
         };
@@ -298,6 +329,7 @@
         if ('ResizeObserver' in window) new ResizeObserver(update).observe(article);
 
         updateCurrent();
+        revealCurrent();
         updateProgress();
     };
 
