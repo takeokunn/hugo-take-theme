@@ -22,12 +22,14 @@
             {{- $name := partial "tag-name.html" $term -}}
             {{- $latest := index $term.Pages.ByDate.Reverse 0 -}}
             {{- $width := math.Round (mul 100 (div (float .Count) $max)) -}}
-            {{- $share := math.Round (mul 100 (div (float .Count) $postCount)) -}}
             <a class="tag-card {{ replace (partial "tag-color.html" $name) "--tag-" "tagc-" }}" href="{{ $term.RelPermalink }}" data-tag-card data-date="{{ $latest.Date.Format "2006-01-02T15:04:05Z07:00" }}" data-name="{{ $name }}">
                 <span class="tag-card__heading"><span class="dot" aria-hidden="true"></span>{{ $name }}</span>
                 <span class="tag-card__count">{{ .Count }}</span>
                 <span class="tag-card__track" aria-hidden="true"><span class="tag-card__bar" style="width: {{ $width }}%"></span></span>
+                {{- if gt $postCount 0 }}
+                {{- $share := math.Round (mul 100 (div (float .Count) $postCount)) }}
                 <span class="tag-card__share">{{ i18n "shareOfTotal" (dict "Count" $share) }}</span>
+                {{- end }}
                 <span class="tag-card__latest-label">{{ i18n "latest" }}</span>
                 <span class="tag-card__latest">{{ $latest.LinkTitle }}</span>
             </a>
