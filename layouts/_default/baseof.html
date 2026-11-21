@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ or site.Language.LanguageCode site.Language.Lang }}" dir="{{ or site.Language.LanguageDirection "ltr" }}" prefix="og: https://ogp.me/ns#">
+<html lang="{{ or site.Language.Locale site.Language.Lang }}" dir="{{ or site.Language.Direction "ltr" }}" prefix="og: https://ogp.me/ns#">
     {{- partial "head.html" . -}}
     <body>
         <a class="skip-link" href="#main-content">{{ i18n "skipToContent" }}</a>
