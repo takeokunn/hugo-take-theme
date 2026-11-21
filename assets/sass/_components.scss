@@ -496,6 +496,11 @@ $dot-roles: (
 
 .post-card--l .post-card__title {
     @include type(card-title-l);
+
+    // One column below 769px: the large card reads like the others
+    @include mobile {
+        @include type(card-title);
+    }
 }
 
 .post-card__summary {
