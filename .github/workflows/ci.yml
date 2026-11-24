@@ -39,7 +39,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
       - name: Setup nix
-        uses: cachix/install-nix-action@v31
+        uses: cachix/install-nix-action@v32
       - name: Flake check (builds exampleSite)
         run: nix flake check --print-build-logs
   dependabot:
