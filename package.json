@@ -16,7 +16,7 @@
     "postcss-scss": "^4.0.9",
     "prettier": "^3.10.1",
     "sass": "^1.108.2",
-    "secretlint": "^14.0.1",
+    "secretlint": "^14.1.0",
     "stylelint": "^18.1.0",
     "stylelint-prettier": "^5.1.0",
     "stylelint-scss": "^7.5.0"
